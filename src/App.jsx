@@ -39,6 +39,10 @@ const T = {
 };
 
 const GOLD = ["#FFD24D","#FFE89A","#FFC53D","#FFFFFF","#FFB13D"];
+const BIG_MSG = {
+  es: ["¡IMPARABLE!","¡NO PARES!","¡ERES UNA MÁQUINA!","¡A TODO GAS!","¡LEYENDA!","¡SIGUE ASÍ!","¡VAS VOLANDO!","¡QUÉ NIVEL!","¡FUEGO PURO!","¡ROMPISTE LA PANTALLA!","¡NADIE TE PARA!","¡MODO BESTIA!"],
+  en: ["UNSTOPPABLE!","DON'T STOP!","YOU'RE A MACHINE!","FULL SPEED!","LEGEND!","KEEP GOING!","YOU'RE FLYING!","WHAT A LEVEL!","PURE FIRE!","YOU BROKE THE SCREEN!","NOBODY STOPS YOU!","BEAST MODE!"],
+};
 const PID_KEY = "elboton_pid", NAME_KEY = "elboton_name";
 let pid = 0;
 
@@ -113,6 +117,9 @@ export default function App() {
   const [lb, setLb] = useState([]);
   const [showLB, setShowLB] = useState(false);
   const [lbOk, setLbOk] = useState(true);
+  const [entered, setEntered] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [bigMsg, setBigMsg] = useState(null);
 
   const lastTap = useRef(0), comboTimer = useRef(null), audioCtx = useRef(null), reduce = useRef(false);
   const tapsRef = useRef(0), comboRef = useRef(0), challengeRef = useRef(null), frenzyRef = useRef(false);
@@ -120,6 +127,7 @@ export default function App() {
   const goldenRef = useRef({ visible: false }), goldenNextAt = useRef(Infinity);
   const playerId = useRef(null), nameRef = useRef(""), dirty = useRef(false), lbSaveAt = useRef(0), prevMult = useRef(1);
   const fxRef = useRef(null), boxRef = useRef({ w: 0, h: 0 }), sizeRef = useRef(200), jumpyRef = useRef(true), btnPosRef = useRef({ x: 0, y: 0 }), movedRef = useRef(false);
+  const enteredRef = useRef(false), pausedRef = useRef(false), pausedAt = useRef(0), nextBigAt = useRef(28);
   const actions = useRef({});
 
   useEffect(() => {
@@ -128,6 +136,7 @@ export default function App() {
   }, []);
   useEffect(() => { tapsRef.current = taps; }, [taps]);
   useEffect(() => { comboRef.current = combo; }, [combo]);
+  useEffect(() => { enteredRef.current = entered; }, [entered]);
 
   useLayoutEffect(() => {
     const el = fxRef.current; if (!el) return;
@@ -200,6 +209,16 @@ export default function App() {
   const sadTone = () => { tone(330, 0, 0.18, "sine", 0.14); tone(247, 0.1, 0.22, "sine", 0.14); };
   const chimeUp = () => [440, 660].forEach((f, i) => tone(f, i * 0.09, 0.14, "square", 0.12));
   const sparkle = () => [880, 1175, 1568].forEach((f, i) => tone(f, i * 0.06, 0.16, "triangle", 0.16));
+  const swoop = (f1, f2, dur = 0.2, vol = 0.12) => {
+    if (muted) return;
+    try { const ctx = ac(), o = ctx.createOscillator(), g = ctx.createGain(); o.type = "sine";
+      const s2 = ctx.currentTime; o.frequency.setValueAtTime(f1, s2); o.frequency.exponentialRampToValueAtTime(f2, s2 + dur);
+      g.gain.setValueAtTime(0.0001, s2); g.gain.exponentialRampToValueAtTime(vol, s2 + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, s2 + dur + 0.04);
+      o.connect(g); g.connect(ctx.destination); o.start(s2); o.stop(s2 + dur + 0.06); } catch (e) {}
+  };
+  const missTone = () => swoop(300, 175, 0.18, 0.09);
+  const anticip = (c) => { tone(560 + c * 300, 0, 0.12, "triangle", 0.13); tone(840 + c * 300, 0.05, 0.12, "sine", 0.10); };
+  const nextRound = () => [659, 880, 1175].forEach((f, i) => tone(f, i * 0.07, 0.16, "triangle", 0.16));
   const buzz = (p) => { if (!haptics) return; try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
 
   const launchConfetti = (palette, n, ox, oy) => {
@@ -216,6 +235,17 @@ export default function App() {
   const setChallenge = (o) => { challengeRef.current = o; setChallengeState(o); };
   const setFrenzy = (v) => { frenzyRef.current = v; setFrenzyState(v); };
   const setGolden = (o) => { goldenRef.current = o; setGoldenState(o); };
+  const togglePause = () => {
+    if (pausedRef.current) {
+      const delta = Date.now() - pausedAt.current;
+      if (challengeRef.current) challengeRef.current.deadline += delta;
+      if (frenzyRef.current) frenzyDeadline.current += delta;
+      if (goldenRef.current.visible) { goldenRef.current.deadline += delta; goldenRef.current.moveAt += delta; }
+      nextChAt.current += delta; goldenNextAt.current += delta; lbSaveAt.current += delta;
+      pausedRef.current = false; setPaused(false);
+    } else { pausedAt.current = Date.now(); pausedRef.current = true; setPaused(true); }
+  };
+  const handleMiss = () => { if (pausedRef.current || !enteredRef.current) return; missTone(); buzz(4); };
 
   /* ── acciones ── */
   actions.current.startChallenge = () => {
@@ -225,7 +255,7 @@ export default function App() {
     if (roll === "speed") { const target = 12 + Math.floor(Math.random() * 8), d = Math.max(6, Math.round(target * 0.5)); o = { type: "speed", target, duration: d, timeLeft: d, deadline: Date.now() + d * 1000, base: tapsRef.current }; }
     else if (roll === "combo") { o = { type: "combo", target: 5, duration: 10, timeLeft: 10, deadline: Date.now() + 10000 }; }
     else { const d = 6 + Math.floor(Math.random() * 3); o = { type: "hold", duration: d, timeLeft: d, deadline: Date.now() + d * 1000, start: Date.now(), armed: false }; }
-    setChallenge(o); chimeUp(); buzz(15);
+    setChallenge(o); if (cStreak > 0) nextRound(); else chimeUp(); buzz(15);
   };
   actions.current.winChallenge = () => {
     const c = challengeRef.current; if (!c) return; setChallenge(null);
@@ -267,6 +297,7 @@ export default function App() {
   /* ── reloj maestro ── */
   useEffect(() => {
     const iv = setInterval(() => {
+      if (!enteredRef.current || pausedRef.current) return;
       const now = Date.now();
       if (frenzyRef.current) { const l = (frenzyDeadline.current - now) / 1000; if (l <= 0) actions.current.endFrenzy(); else setFrenzyLeft(l); }
       const c = challengeRef.current;
@@ -289,7 +320,9 @@ export default function App() {
     return () => clearInterval(iv);
   }, [vibe, lang]);
 
-  const tap = useCallback(() => {
+  const tap = useCallback((e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    if (pausedRef.current || !enteredRef.current) return;
     const now = Date.now(); const fast = now - lastTap.current < 700; lastTap.current = now;
     const newCombo = fast ? comboRef.current + 1 : 0; comboRef.current = newCombo; setCombo(newCombo);
     setMaxCombo((m) => Math.max(m, newCombo));
@@ -313,12 +346,21 @@ export default function App() {
 
     const c = challengeRef.current;
     if (c) {
-      if (c.type === "speed" && newTaps - c.base >= c.target) actions.current.winChallenge();
-      else if (c.type === "combo" && Math.min(5, 1 + Math.floor(newCombo / 4)) >= c.target) actions.current.winChallenge();
+      if (c.type === "speed") { const prog = newTaps - c.base;
+        if (prog >= c.target) actions.current.winChallenge();
+        else if (c.target - prog <= 3) anticip(prog / c.target);
+      } else if (c.type === "combo") { const cm = Math.min(5, 1 + Math.floor(newCombo / 4));
+        if (cm >= c.target) actions.current.winChallenge();
+        else if (cm >= 3) anticip(cm / c.target);
+      }
     }
 
     const hit = ACHIEVEMENTS.find((a) => a.at === newTaps);
     if (hit) { setToast(hit[lang]); setTimeout(() => setToast(null), 2200); buzz(25); }
+    if (newTaps >= nextBigAt.current) {
+      const pool = BIG_MSG[lang]; setBigMsg(pool[Math.floor(Math.random() * pool.length)]);
+      setTimeout(() => setBigMsg(null), 1500); nextBigAt.current = newTaps + 18 + Math.floor(Math.random() * 22);
+    }
     const m = Math.min(5, 1 + Math.floor(newCombo / 4));
     if (m > prevMult.current && m >= 2) buzz(18); prevMult.current = m;
     buzz(frenzyRef.current ? 12 : 7);
@@ -344,6 +386,7 @@ export default function App() {
   }, [vibe, bestComboMult, cStreak, lang, myRank]);
 
   const urgent = challenge && challenge.timeLeft <= 3;
+  const dimTitle = !!flash || !!toast || frenzy || !!bigMsg;
   const goldUrgent = golden.visible && golden.timeLeft <= 1.5;
   const btnFont = Math.max(15, Math.round(SIZE * 0.16));
   const faceExpr = frenzy ? "frenzy" : taunt ? "taunt" : pressed ? "tap" : combo >= 4 ? "wild" : combo >= 2 ? "happy" : "idle";
@@ -364,6 +407,7 @@ export default function App() {
     @keyframes eb-blink {0%,90%,100%{transform:scaleY(1)}94%{transform:scaleY(.12)}}
     @keyframes eb-spin {0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
     @keyframes eb-twinkle {0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+    @keyframes eb-bigMsg {0%{transform:translateX(-50%) scale(.4);opacity:0}20%{transform:translateX(-50%) scale(1.12);opacity:1}80%{transform:translateX(-50%) scale(1);opacity:1}100%{transform:translateX(-50%) scale(.9);opacity:0}}
   `;
 
   return (
@@ -387,19 +431,20 @@ export default function App() {
           ))}
         </div>
         <div style={{ display: "flex", gap: 5 }}>
-          {[["🎯", () => { movedRef.current = false; setJumpy((j) => !j); }, !jumpy],
+          {[[paused ? "▶️" : "⏸️", togglePause, false],
+            ["🎯", () => { movedRef.current = false; setJumpy((j) => !j); }, !jumpy],
             ["🏆", () => { loadLeaderboard(); setShowLB(true); }, false],
             ["📳", () => setHaptics((h) => !h), !haptics],
             [muted ? "🔇" : "🔊", () => setMuted((m) => !m), false]].map(([ic, fn, dim], i) => (
-            <button key={i} onClick={fn} style={{ border: "none", cursor: "pointer", width: 36, height: 36, borderRadius: 999,
-              background: "rgba(255,255,255,.1)", color: "#fff", fontSize: 16, opacity: dim ? 0.4 : 1 }}>{ic}</button>
+            <button key={i} onClick={fn} style={{ border: "none", cursor: "pointer", width: 34, height: 34, borderRadius: 999,
+              background: "rgba(255,255,255,.1)", color: "#fff", fontSize: 15, opacity: dim ? 0.4 : 1 }}>{ic}</button>
           ))}
         </div>
       </div>
 
       {/* title + sub / challenge */}
       <div style={{ textAlign: "center", zIndex: 5, marginTop: 4, width: "100%", maxWidth: 460 }}>
-        <h1 style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, margin: 0, fontSize: "clamp(28px, 9vw, 46px)", letterSpacing: 1, textShadow: `0 0 28px ${accent}88` }}>
+        <h1 style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, margin: 0, fontSize: "clamp(28px, 9vw, 46px)", letterSpacing: 1, textShadow: `0 0 28px ${accent}88`, opacity: dimTitle ? 0.12 : 1, transition: "opacity .3s ease" }}>
           {lang === "es" ? "EL BOTÓN" : "THE BUTTON"}
         </h1>
         {challenge ? (
@@ -422,7 +467,7 @@ export default function App() {
       </div>
 
       {/* fx + button + golden */}
-      <div ref={fxRef} style={{ position: "relative", flex: 1, width: "100%", maxWidth: 460 }}>
+      <div ref={fxRef} onClick={handleMiss} style={{ position: "relative", flex: 1, width: "100%", maxWidth: 460 }}>
         {particles.map((p) => (
           <div key={p.id} style={{ position: "absolute", left: p.ox, top: p.oy, "--dx": `${p.dx}px`, animation: "eb-floatUp 1.5s ease-out forwards",
             pointerEvents: "none", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 15, color: "#fff", textShadow: "0 2px 12px rgba(0,0,0,.5)", whiteSpace: "nowrap", zIndex: 8 }}>{p.text}</div>
@@ -439,7 +484,7 @@ export default function App() {
         )}
 
         {golden.visible && (
-          <button key={golden.moveId} onClick={actions.current.catchGolden} aria-label="golden"
+          <button key={golden.moveId} onClick={(e) => { e.stopPropagation(); actions.current.catchGolden(); }} aria-label="golden"
             style={{ position: "absolute", left: `${golden.x}%`, top: `${golden.y}%`, transform: "translate(-50%,-50%)", animation: "eb-pop .25s ease",
               width: 60, height: 60, borderRadius: "50%", border: "none", cursor: "pointer", zIndex: 14,
               background: "radial-gradient(circle at 35% 30%, #FFF6C8, #FFC107)",
@@ -506,6 +551,38 @@ export default function App() {
       {toast && (
         <div style={{ position: "fixed", left: "50%", bottom: 88, zIndex: 20, animation: "eb-toast 2.2s ease forwards", pointerEvents: "none",
           background: "rgba(255,255,255,.97)", color: level.bg[0], padding: "12px 22px", borderRadius: 999, fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 16, boxShadow: `0 10px 30px ${accent}66`, whiteSpace: "nowrap" }}>{toast}</div>
+      )}
+
+      {bigMsg && (
+        <div style={{ position: "fixed", left: "50%", top: "21%", zIndex: 22, transform: "translateX(-50%)", animation: "eb-bigMsg 1.5s ease forwards", pointerEvents: "none", textAlign: "center", width: "92%" }}>
+          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: "clamp(30px, 11vw, 56px)", color: accent, textShadow: `0 0 30px ${accent}, 0 4px 14px rgba(0,0,0,.5)`, lineHeight: 1 }}>{bigMsg}</div>
+        </div>
+      )}
+
+      {paused && entered && (
+        <div onClick={togglePause} style={{ position: "fixed", inset: 0, zIndex: 45, background: "rgba(10,8,26,.78)", backdropFilter: "blur(6px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 22, cursor: "pointer" }}>
+          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 40, color: "#fff" }}>⏸️ {lang === "es" ? "En pausa" : "Paused"}</div>
+          <button onClick={(e) => { e.stopPropagation(); togglePause(); }} style={{ border: "none", cursor: "pointer", borderRadius: 16, padding: "15px 40px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 20 }}>▶️ {lang === "es" ? "Reanudar" : "Resume"}</button>
+          <div style={{ fontSize: 13, color: "rgba(255,255,255,.6)", fontWeight: 600 }}>{lang === "es" ? "Toca donde sea para seguir" : "Tap anywhere to continue"}</div>
+        </div>
+      )}
+
+      {!entered && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 50, background: `radial-gradient(120% 120% at 50% 0%, ${level.bg[1]} 0%, ${level.bg[0]} 75%)`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
+          <h1 style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, margin: 0, fontSize: "clamp(40px, 14vw, 64px)", letterSpacing: 1, color: "#fff", textShadow: `0 0 34px ${accent}` }}>{lang === "es" ? "EL BOTÓN" : "THE BUTTON"}</h1>
+          <p style={{ margin: "8px 0 28px", fontSize: 15, color: "rgba(255,255,255,.75)", fontWeight: 600 }}>{lang === "es" ? "Pícale. No vas a poder parar." : "Tap it. You won't be able to stop."}</p>
+          <div style={{ width: "100%", maxWidth: 340, display: "flex", flexDirection: "column", gap: 12 }}>
+            <input value={nameDraft} onChange={(e) => setNameDraft(e.target.value)} placeholder={lang === "es" ? "Tu nombre" : "Your name"} maxLength={16}
+              style={{ border: "none", borderRadius: 14, padding: "15px 18px", fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: 16, background: "rgba(255,255,255,.12)", color: "#fff", outline: "none", textAlign: "center" }} />
+            <button onClick={() => { if (nameDraft.trim()) saveName(); setEntered(true); }} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "16px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18 }}>{lang === "es" ? "🎮 Jugar" : "🎮 Play"}</button>
+            <button onClick={() => setEntered(true)} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "13px", background: "rgba(255,255,255,.1)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 15 }}>{lang === "es" ? "Jugar como invitado" : "Play as guest"}</button>
+          </div>
+          <div style={{ marginTop: 24, display: "flex", gap: 6, background: "rgba(255,255,255,.1)", borderRadius: 999, padding: 4 }}>
+            {["es", "en"].map((l) => (
+              <button key={l} onClick={() => setLang(l)} style={{ border: "none", cursor: "pointer", borderRadius: 999, padding: "6px 14px", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 13, background: lang === l ? "#fff" : "transparent", color: lang === l ? level.bg[0] : "rgba(255,255,255,.7)" }}>{l.toUpperCase()}</button>
+            ))}
+          </div>
+        </div>
       )}
 
       {showLB && (
