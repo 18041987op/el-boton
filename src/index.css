@@ -1,0 +1,8 @@
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; height: 100%; }
+body {
+  touch-action: manipulation;       /* quita el delay de doble-tap en móvil */
+  overscroll-behavior: none;        /* evita el "pull to refresh" mientras juegas */
+  background: #16183a;
+  -webkit-tap-highlight-color: transparent;
+}
