@@ -377,12 +377,21 @@ export default function App() {
 
   const share = useCallback(async () => {
     saveScore();
+    const url = (typeof window !== "undefined" && window.location)
+      ? window.location.origin + window.location.pathname
+      : "";
     const r = myRank > 0 ? (lang === "es" ? ` Voy #${myRank} del mundo.` : ` I'm #${myRank} worldwide.`) : "";
     const msg = lang === "es"
       ? `Llevo ${vibe} de buena vibra en EL BOTÓN 🎉${r} ${cStreak ? `racha de ${cStreak} retos, ` : ""}mejor combo x${bestComboMult}. ¿Cuánto aguantas tú? 👀`
       : `I've got ${vibe} good vibes on THE BUTTON 🎉${r} ${cStreak ? `${cStreak}-challenge streak, ` : ""}best combo x${bestComboMult}. How long can you last? 👀`;
-    try { if (navigator.share) { await navigator.share({ title: "EL BOTÓN", text: msg }); return; } } catch (e) {}
-    try { await navigator.clipboard.writeText(msg); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch (e) {}
+    try {
+      if (navigator.share) {
+        await navigator.share(url ? { title: "EL BOTÓN", text: msg, url } : { title: "EL BOTÓN", text: msg });
+        return;
+      }
+    } catch (e) { if (e && e.name === "AbortError") return; }
+    const clip = url ? `${msg}\n${url}` : msg;
+    try { await navigator.clipboard.writeText(clip); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch (e) {}
   }, [vibe, bestComboMult, cStreak, lang, myRank]);
 
   const urgent = challenge && challenge.timeLeft <= 3;
