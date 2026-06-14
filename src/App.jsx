@@ -48,9 +48,9 @@ function gameLevel(kind, L) {
   if (kind === "notes") return {
     level: L,
     time: Math.max(20, 32 - (L - 1) * 2),
-    spawnMin: Math.max(280, 580 - (L - 1) * 40),
-    spawnRand: Math.max(200, 360 - (L - 1) * 20),
-    riseBase: Math.max(2.4, 4.6 - (L - 1) * 0.22),
+    spawnMin: Math.max(300, 620 - (L - 1) * 40),
+    spawnRand: Math.max(220, 380 - (L - 1) * 20),
+    riseBase: Math.max(3.0, 5.4 - (L - 1) * 0.22),
     riseRand: Math.max(0.9, 1.6 - (L - 1) * 0.12),
   };
   return {
@@ -142,13 +142,14 @@ function Balloon({ c }) {
   );
 }
 
-function Note({ c, glyph }) {
+function Note({ c, glyph, size }) {
   const [light, dark] = c;
   return (
-    <div style={{ width: "100%", height: "100%", borderRadius: "30% 30% 34% 34%", display: "flex", alignItems: "center", justifyContent: "center",
-      background: `radial-gradient(circle at 34% 26%, ${light}, ${dark})`,
-      boxShadow: `inset -3px -5px 9px rgba(0,0,0,.22), 0 5px 14px ${dark}99, 0 0 18px ${dark}66`, pointerEvents: "none" }}>
-      <span style={{ fontSize: "56%", color: "#fff", textShadow: "0 1px 3px rgba(0,0,0,.5)", lineHeight: 1 }}>{glyph}</span>
+    <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", pointerEvents: "none" }}>
+      {/* halo circular: pista visual de la zona tocable (generosa) */}
+      <div style={{ position: "absolute", width: "92%", height: "92%", borderRadius: "50%", background: `radial-gradient(circle, ${light}55, ${dark}22 55%, transparent 72%)` }} />
+      <span style={{ position: "relative", fontSize: size * 0.92, lineHeight: 1, fontWeight: 700, color: light,
+        textShadow: `0 0 8px ${light}, 0 0 16px ${dark}, 0 2px 5px rgba(0,0,0,.55)` }}>{glyph}</span>
     </div>
   );
 }
@@ -424,8 +425,8 @@ export default function App() {
     const h = boxRef.current.h; if (!h) { nextBalloonAt.current = now + 400; return; }
     let item;
     if (bg.kind === "notes") {
-      const size = 44 + Math.floor(Math.random() * 20);
-      item = { id: ++pid, kind: "notes", x: 8 + Math.random() * 84, w: size, h: size,
+      const size = 66 + Math.floor(Math.random() * 22);
+      item = { id: ++pid, kind: "notes", x: 6 + Math.random() * 88, w: size, h: size,
         color: NOTE_COLORS[Math.floor(Math.random() * NOTE_COLORS.length)], glyph: NOTE_GLYPHS[Math.floor(Math.random() * NOTE_GLYPHS.length)],
         dur: bg.riseBase + Math.random() * bg.riseRand, rise: -(h + size + 60), swayDur: 1.3 + Math.random() * 1.2 };
     } else {
@@ -721,7 +722,7 @@ export default function App() {
               padding: 0, cursor: "pointer", zIndex: 13, "--rise": `${b.rise}px`, animation: `eb-rise ${b.dur}s linear forwards`,
               animationPlayState: paused ? "paused" : "running", WebkitTapHighlightColor: "transparent" }}>
             <div style={{ width: "100%", height: "100%", animation: `eb-sway ${b.swayDur}s ease-in-out infinite alternate`, animationPlayState: paused ? "paused" : "running" }}>
-              {b.kind === "notes" ? <Note c={b.color} glyph={b.glyph} /> : <Balloon c={b.color} />}
+              {b.kind === "notes" ? <Note c={b.color} glyph={b.glyph} size={b.w} /> : <Balloon c={b.color} />}
             </div>
           </button>
         ))}
