@@ -82,7 +82,6 @@ const MELODIES = [
 ];
 // Catálogo de juegos (fácil de extender: agrega una entrada aquí)
 const GAMES = [
-  { kind: "classic",  emoji: "👆", es: "Botón",    en: "Button",   grad: null },
   { kind: "balloons", emoji: "🎈", es: "Globos",   en: "Balloons", grad: "linear-gradient(135deg, #FF6B81, #7C5CFF)" },
   { kind: "notes",    emoji: "🎹", es: "Melodías", en: "Melodies", grad: "linear-gradient(135deg, #34E89E, #1E9BFF)" },
 ];
@@ -368,7 +367,7 @@ export default function App() {
       pausedRef.current = false; setPaused(false);
     } else { pausedAt.current = Date.now(); pausedRef.current = true; setPaused(true); }
   };
-  const handleMiss = () => { if (pausedRef.current || !enteredRef.current || balloonGameRef.current.active) return; missTone(); buzz(4); };
+  const handleMiss = () => {};
 
   /* ── acciones ── */
   actions.current.startChallenge = () => {
@@ -620,7 +619,7 @@ export default function App() {
   const urgent = challenge && challenge.timeLeft <= 3;
   const bUrgent = balloonGame.active && balloonGame.status === "playing" && balloonGame.timeLeft <= 5;
   const enterGame = (kind) => { if (nameDraft.trim()) saveName(); setEntered(true); if (kind !== "classic") actions.current.startBalloonGame(kind); };
-  const pickGame = (kind) => { setShowGames(false); if (kind === "classic") actions.current.exitBalloonGame(); else actions.current.startBalloonGame(kind); };
+  const pickGame = (kind) => { setShowGames(false); actions.current.startBalloonGame(kind); };
   const gameEmoji = balloonGame.kind === "notes" ? "🎹" : "🎈";
   const dimTitle = !!flash || !!toast || frenzy || !!bigMsg;
   const goldUrgent = golden.visible && golden.timeLeft <= 1.5;
@@ -671,7 +670,6 @@ export default function App() {
         <div style={{ display: "flex", gap: 5 }}>
           {[[paused ? "▶️" : "⏸️", togglePause, false],
             ["🎮", () => setShowGames(true), false],
-            ["🎯", () => { movedRef.current = false; setJumpy((j) => !j); }, !jumpy],
             ["🏆", () => { loadLeaderboard(); setShowLB(true); }, false],
             ["📳", () => setHaptics((h) => !h), !haptics],
             [muted ? "🔇" : "🔊", () => setMuted((m) => !m), false]].map(([ic, fn, dim], i) => (
@@ -711,7 +709,7 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <p style={{ margin: "4px 0 0", fontSize: 14, color: "rgba(255,255,255,.75)", fontWeight: 600 }}>{frenzy ? "" : jumpy ? t.subJump : t.sub}</p>
+          <p style={{ margin: "4px 0 0", fontSize: 14, color: "rgba(255,255,255,.75)", fontWeight: 600 }}>{lang === "es" ? "Mini-juegos de buena vibra" : "Good-vibe mini games"}</p>
         )}
       </div>
 
@@ -754,18 +752,19 @@ export default function App() {
               fontSize: 25, display: "flex", alignItems: "center", justifyContent: "center", WebkitTapHighlightColor: "transparent" }}><Face expr="happy" /></button>
         )}
 
-        {box.w > 0 && !balloonGame.active && (
-          <button key={jumpy && movedRef.current ? `${Math.round(pos.x)},${Math.round(pos.y)}` : "center"} onClick={tap}
-            aria-label={lang === "es" ? "Presiona para buena vibra" : "Tap for good vibes"}
-            style={{ position: "absolute", left: pos.x, top: pos.y, width: SIZE, height: SIZE, borderRadius: "50%", border: "none", cursor: "pointer", zIndex: 6,
-              background: frenzy ? "radial-gradient(circle at 35% 30%, #FFE89A, #FFC53D)" : `radial-gradient(circle at 35% 30%, ${level.btn[1]}, ${level.btn[0]})`,
-              boxShadow: `0 16px 40px ${accent}66, 0 0 0 8px rgba(255,255,255,.06), inset 0 -10px 24px rgba(0,0,0,.25), inset 0 8px 18px rgba(255,255,255,.4)`,
-              color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: btnFont, display: "flex", alignItems: "center", justifyContent: "center",
-              transform: pressed ? "scale(.92)" : "scale(1)", transition: "transform .1s ease, background .9s ease, box-shadow .9s ease",
-              animation: jumpy && movedRef.current ? "eb-land .22s ease" : (urgent ? "eb-pulse 1s infinite" : combo < 1 ? "eb-breathe 3s ease-in-out infinite" : "none"),
-              textShadow: "0 2px 8px rgba(0,0,0,.3)", WebkitTapHighlightColor: "transparent", userSelect: "none" }}>
-            <Face expr={faceExpr} />
-          </button>
+        {entered && !balloonGame.active && (
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 18, zIndex: 6, padding: "0 8px" }}>
+            <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18, color: "rgba(255,255,255,.85)" }}>{lang === "es" ? "Elige tu juego" : "Choose your game"}</div>
+            <div style={{ display: "flex", gap: 14, width: "100%", maxWidth: 360 }}>
+              {GAMES.map((g) => (
+                <button key={g.kind} onClick={(e) => { e.stopPropagation(); actions.current.startBalloonGame(g.kind); }} style={{ flex: 1, border: "none", cursor: "pointer", borderRadius: 22, padding: "30px 8px",
+                  background: g.grad, color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18, display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
+                  boxShadow: "0 12px 30px rgba(0,0,0,.35)" }}>
+                  <span style={{ fontSize: 44 }}>{g.emoji}</span>{g[lang]}
+                </button>
+              ))}
+            </div>
+          </div>
         )}
       </div>
 
@@ -776,17 +775,9 @@ export default function App() {
           <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: "clamp(38px, 12vw, 56px)", lineHeight: 1, textShadow: `0 0 30px ${accent}66` }}>{vibe.toLocaleString()}</div>
         </div>
         <div style={{ marginBottom: 12 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, fontWeight: 700, marginBottom: 6 }}>
-            <span style={{ color: level.glow }}>● {level[lang]}</span>
-            <span style={{ color: "rgba(255,255,255,.6)" }}>{nextLevel ? `${t.next}: ${nextLevel.at - taps}` : t.max}</span>
-          </div>
-          <div style={{ height: 12, borderRadius: 999, background: "rgba(255,255,255,.12)", overflow: "hidden" }}>
-            <div style={{ height: "100%", width: `${progress * 100}%`, background: `linear-gradient(90deg, ${level.btn[0]}, ${level.glow})`, borderRadius: 999, transition: "width .3s ease", boxShadow: `0 0 12px ${level.glow}` }} />
-          </div>
-          <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 8, fontSize: 12, color: "rgba(255,255,255,.6)", fontWeight: 700, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: 16, fontSize: 12, color: "rgba(255,255,255,.6)", fontWeight: 700, flexWrap: "wrap" }}>
             {myRank > 0 && <span style={{ color: accent }}>🏆 #{myRank}</span>}
-            {cStreak > 0 && <span style={{ color: accent }}>{t.streak} {cStreak}</span>}
-            {maxCombo >= 3 && <span>{t.best}: x{bestComboMult}</span>}
+            {playerName && <span>{playerName}</span>}
           </div>
         </div>
         {entered && !playerName && lbOk && (
@@ -848,7 +839,7 @@ export default function App() {
           {playerName && <div style={{ fontSize: 13, color: "rgba(255,255,255,.6)", fontWeight: 700 }}>{playerName}{myRank > 0 ? ` · 🏆 #${myRank}` : ""}</div>}
           <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap", justifyContent: "center" }}>
             <button onClick={() => actions.current.startBalloonGame(balloonGame.kind)} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18 }}>{gameEmoji} {t.bAgain}</button>
-            <button onClick={() => { actions.current.exitBalloonGame(); setShowGames(true); }} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: "rgba(255,255,255,.12)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 16 }}>{t.gMenu}</button>
+            <button onClick={() => actions.current.exitBalloonGame()} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: "rgba(255,255,255,.12)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 16 }}>{t.gMenu}</button>
           </div>
         </div>
       )}
