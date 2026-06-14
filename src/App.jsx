@@ -34,8 +34,8 @@ const ACHIEVEMENTS = [
 const FAIL_MSG = { es: ["¡Casi! 😅","Uff, por poquito","Ya casi","La próxima es tuya 💪"], en: ["So close! 😅","Almost!","Nearly had it","Next one's yours 💪"] };
 
 const T = {
-  es: { sub:"Pícale. No vas a poder parar.", subJump:"¡Atrápalo si puedes!", vibe:"Buena Vibra", next:"Siguiente nivel", max:"NIVEL MÁXIMO", combo:"COMBO", share:"Presumir mi buena vibra", copied:"¡Copiado! Pégalo donde quieras ✨", best:"Mejor combo", streak:"Retos ✓", frenzy:"¡FRENESÍ!", win:"¡LO LOGRASTE!", caught:"¡ATRAPADO!", escaped:"Se escapó 💨", challenge:"RETO", cSpeed:(n)=>`¡Toca ${n} veces!`, cCombo:(k)=>`¡Llega a combo x${k}!`, cHold:"¡No sueltes el combo!", rank:"Ranking mundial", you:"TÚ", yourPos:"Tu posición", name:"Tu nombre", save:"Guardar", noRank:"Ranking no disponible aquí", anon:"Anónimo", empty:"¡Sé el primero del ranking!", bMode:"Globos", bSub:"¡Explota todos los que puedas!", bGoalLbl:(n)=>`Meta: ${n} globos`, bWin:"¡GANASTE! 🎉", bLose:"¡Se acabó el tiempo! 😅", bPopped:"Reventados", bAgain:"Otra vez", bExit:"Salir", bMsgWin:"¡Reventón total!", bMsgLose:"¡Casi! Inténtalo de nuevo", bLevel:"Nivel", bReached:"Llegaste al nivel", bLevelUp:(n)=>`¡NIVEL ${n}!`, nNotes:"Notas", gMenu:"Juegos", gChoose:"Elige un juego" },
-  en: { sub:"Tap it. You won't be able to stop.", subJump:"Catch it if you can!", vibe:"Good Vibes", next:"Next level", max:"MAX LEVEL", combo:"COMBO", share:"Brag about my good vibes", copied:"Copied! Paste it anywhere ✨", best:"Best combo", streak:"Challenges ✓", frenzy:"FRENZY!", win:"YOU DID IT!", caught:"CAUGHT!", escaped:"It escaped 💨", challenge:"CHALLENGE", cSpeed:(n)=>`Tap ${n} times!`, cCombo:(k)=>`Reach combo x${k}!`, cHold:"Don't drop the combo!", rank:"World ranking", you:"YOU", yourPos:"Your spot", name:"Your name", save:"Save", noRank:"Ranking unavailable here", anon:"Anonymous", empty:"Be the first on the board!", bMode:"Balloons", bSub:"Pop as many as you can!", bGoalLbl:(n)=>`Goal: ${n} balloons`, bWin:"YOU WON! 🎉", bLose:"Time's up! 😅", bPopped:"Popped", bAgain:"Again", bExit:"Exit", bMsgWin:"Total pop fest!", bMsgLose:"So close! Try again", bLevel:"Level", bReached:"You reached level", bLevelUp:(n)=>`LEVEL ${n}!`, nNotes:"Notes", gMenu:"Games", gChoose:"Choose a game" },
+  es: { sub:"Pícale. No vas a poder parar.", subJump:"¡Atrápalo si puedes!", vibe:"Buena Vibra", next:"Siguiente nivel", max:"NIVEL MÁXIMO", combo:"COMBO", share:"Presumir mi buena vibra", copied:"¡Copiado! Pégalo donde quieras ✨", best:"Mejor combo", streak:"Retos ✓", frenzy:"¡FRENESÍ!", win:"¡LO LOGRASTE!", caught:"¡ATRAPADO!", escaped:"Se escapó 💨", challenge:"RETO", cSpeed:(n)=>`¡Toca ${n} veces!`, cCombo:(k)=>`¡Llega a combo x${k}!`, cHold:"¡No sueltes el combo!", rank:"Ranking mundial", you:"TÚ", yourPos:"Tu posición", name:"Tu nombre", save:"Guardar", noRank:"Ranking no disponible aquí", anon:"Anónimo", empty:"¡Sé el primero del ranking!", bMode:"Globos", bSub:"¡Explota todos los que puedas!", bGoalLbl:(n)=>`Meta: ${n} globos`, bWin:"¡GANASTE! 🎉", bLose:"¡Se acabó el tiempo! 😅", bPopped:"Reventados", bAgain:"Otra vez", bExit:"Salir", bMsgWin:"¡Reventón total!", bMsgLose:"¡Casi! Inténtalo de nuevo", bLevel:"Nivel", bReached:"Llegaste al nivel", bLevelUp:(n)=>`¡NIVEL ${n}!`, nNotes:"Notas", gMenu:"Juegos", gChoose:"Elige un juego", nameNudge:"Ponte un nombre y compite en el ranking", nameCta:"Guardar y competir", namePh:"Tu nombre o alias", nameSaved:(n)=>`¡Listo, ${n}! Ya apareces en el ranking 🏆`, claimScore:"¡Guarda tu nombre para este puntaje!" },
+  en: { sub:"Tap it. You won't be able to stop.", subJump:"Catch it if you can!", vibe:"Good Vibes", next:"Next level", max:"MAX LEVEL", combo:"COMBO", share:"Brag about my good vibes", copied:"Copied! Paste it anywhere ✨", best:"Best combo", streak:"Challenges ✓", frenzy:"FRENZY!", win:"YOU DID IT!", caught:"CAUGHT!", escaped:"It escaped 💨", challenge:"CHALLENGE", cSpeed:(n)=>`Tap ${n} times!`, cCombo:(k)=>`Reach combo x${k}!`, cHold:"Don't drop the combo!", rank:"World ranking", you:"YOU", yourPos:"Your spot", name:"Your name", save:"Save", noRank:"Ranking unavailable here", anon:"Anonymous", empty:"Be the first on the board!", bMode:"Balloons", bSub:"Pop as many as you can!", bGoalLbl:(n)=>`Goal: ${n} balloons`, bWin:"YOU WON! 🎉", bLose:"Time's up! 😅", bPopped:"Popped", bAgain:"Again", bExit:"Exit", bMsgWin:"Total pop fest!", bMsgLose:"So close! Try again", bLevel:"Level", bReached:"You reached level", bLevelUp:(n)=>`LEVEL ${n}!`, nNotes:"Notes", gMenu:"Games", gChoose:"Choose a game", nameNudge:"Add a name and join the ranking", nameCta:"Save & compete", namePh:"Your name or alias", nameSaved:(n)=>`Done, ${n}! You're on the ranking now 🏆`, claimScore:"Save your name for this score!" },
 };
 
 const GOLD = ["#FFD24D","#FFE89A","#FFC53D","#FFFFFF","#FFB13D"];
@@ -48,9 +48,9 @@ function gameLevel(kind, L) {
   if (kind === "notes") return {
     level: L,
     time: Math.max(20, 32 - (L - 1) * 2),
-    spawnMin: Math.max(280, 580 - (L - 1) * 40),
-    spawnRand: Math.max(200, 360 - (L - 1) * 20),
-    riseBase: Math.max(2.4, 4.6 - (L - 1) * 0.22),
+    spawnMin: Math.max(300, 620 - (L - 1) * 40),
+    spawnRand: Math.max(220, 380 - (L - 1) * 20),
+    riseBase: Math.max(3.0, 5.4 - (L - 1) * 0.22),
     riseRand: Math.max(0.9, 1.6 - (L - 1) * 0.12),
   };
   return {
@@ -142,13 +142,14 @@ function Balloon({ c }) {
   );
 }
 
-function Note({ c, glyph }) {
+function Note({ c, glyph, size }) {
   const [light, dark] = c;
   return (
-    <div style={{ width: "100%", height: "100%", borderRadius: "30% 30% 34% 34%", display: "flex", alignItems: "center", justifyContent: "center",
-      background: `radial-gradient(circle at 34% 26%, ${light}, ${dark})`,
-      boxShadow: `inset -3px -5px 9px rgba(0,0,0,.22), 0 5px 14px ${dark}99, 0 0 18px ${dark}66`, pointerEvents: "none" }}>
-      <span style={{ fontSize: "56%", color: "#fff", textShadow: "0 1px 3px rgba(0,0,0,.5)", lineHeight: 1 }}>{glyph}</span>
+    <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", pointerEvents: "none" }}>
+      {/* halo circular: pista visual de la zona tocable (generosa) */}
+      <div style={{ position: "absolute", width: "92%", height: "92%", borderRadius: "50%", background: `radial-gradient(circle, ${light}55, ${dark}22 55%, transparent 72%)` }} />
+      <span style={{ position: "relative", fontSize: size * 0.92, lineHeight: 1, fontWeight: 700, color: light,
+        textShadow: `0 0 8px ${light}, 0 0 16px ${dark}, 0 2px 5px rgba(0,0,0,.55)` }}>{glyph}</span>
     </div>
   );
 }
@@ -424,8 +425,8 @@ export default function App() {
     const h = boxRef.current.h; if (!h) { nextBalloonAt.current = now + 400; return; }
     let item;
     if (bg.kind === "notes") {
-      const size = 44 + Math.floor(Math.random() * 20);
-      item = { id: ++pid, kind: "notes", x: 8 + Math.random() * 84, w: size, h: size,
+      const size = 66 + Math.floor(Math.random() * 22);
+      item = { id: ++pid, kind: "notes", x: 6 + Math.random() * 88, w: size, h: size,
         color: NOTE_COLORS[Math.floor(Math.random() * NOTE_COLORS.length)], glyph: NOTE_GLYPHS[Math.floor(Math.random() * NOTE_GLYPHS.length)],
         dur: bg.riseBase + Math.random() * bg.riseRand, rise: -(h + size + 60), swayDur: 1.3 + Math.random() * 1.2 };
     } else {
@@ -721,7 +722,7 @@ export default function App() {
               padding: 0, cursor: "pointer", zIndex: 13, "--rise": `${b.rise}px`, animation: `eb-rise ${b.dur}s linear forwards`,
               animationPlayState: paused ? "paused" : "running", WebkitTapHighlightColor: "transparent" }}>
             <div style={{ width: "100%", height: "100%", animation: `eb-sway ${b.swayDur}s ease-in-out infinite alternate`, animationPlayState: paused ? "paused" : "running" }}>
-              {b.kind === "notes" ? <Note c={b.color} glyph={b.glyph} /> : <Balloon c={b.color} />}
+              {b.kind === "notes" ? <Note c={b.color} glyph={b.glyph} size={b.w} /> : <Balloon c={b.color} />}
             </div>
           </button>
         ))}
@@ -770,6 +771,13 @@ export default function App() {
             {maxCombo >= 3 && <span>{t.best}: x{bestComboMult}</span>}
           </div>
         </div>
+        {entered && !playerName && lbOk && (
+          <button onClick={() => { loadLeaderboard(); setShowLB(true); }} style={{ width: "100%", border: "none", cursor: "pointer", borderRadius: 16, padding: "13px",
+            marginBottom: 10, background: `linear-gradient(135deg, ${accent}, ${level.glow})`, color: level.bg[0],
+            fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 15, boxShadow: `0 6px 20px ${accent}55`, animation: "eb-breathe 3s ease-in-out infinite" }}>
+            🏆 {t.nameNudge}
+          </button>
+        )}
         <button onClick={share} style={{ width: "100%", border: "none", cursor: "pointer", borderRadius: 16, padding: "15px",
           background: copied ? "rgba(255,255,255,.95)" : "rgba(255,255,255,.14)", color: copied ? level.bg[0] : "#fff",
           fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 16, transition: "all .2s", backdropFilter: "blur(6px)" }}>
@@ -809,6 +817,17 @@ export default function App() {
           </div>
           <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 22, color: "#FFD24D", textShadow: "0 0 24px #FFD24D" }}>{t.bReached} {balloonGame.level}</div>
           <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 20, color: accent }}>{gameEmoji} {balloonGame.kind === "notes" ? t.nNotes : t.bPopped}: {poppedTotal.current}</div>
+          {!playerName && lbOk && (
+            <div style={{ width: "100%", maxWidth: 320, marginTop: 4 }}>
+              <div style={{ fontSize: 14, color: "rgba(255,255,255,.8)", fontWeight: 700, marginBottom: 8 }}>🏆 {t.claimScore}</div>
+              <div style={{ display: "flex", gap: 8 }}>
+                <input value={nameDraft} onChange={(e) => setNameDraft(e.target.value)} placeholder={t.namePh} maxLength={16}
+                  style={{ flex: 1, border: "none", borderRadius: 12, padding: "12px 14px", fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: 15, background: "rgba(255,255,255,.14)", color: "#fff", outline: "none", textAlign: "center" }} />
+                <button onClick={() => { if (nameDraft.trim()) saveName(); }} style={{ border: "none", cursor: "pointer", borderRadius: 12, padding: "0 18px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 15 }}>{t.save}</button>
+              </div>
+            </div>
+          )}
+          {playerName && <div style={{ fontSize: 13, color: "rgba(255,255,255,.6)", fontWeight: 700 }}>{playerName}{myRank > 0 ? ` · 🏆 #${myRank}` : ""}</div>}
           <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap", justifyContent: "center" }}>
             <button onClick={() => actions.current.startBalloonGame(balloonGame.kind)} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18 }}>{gameEmoji} {t.bAgain}</button>
             <button onClick={() => { actions.current.exitBalloonGame(); setShowGames(true); }} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: "rgba(255,255,255,.12)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 16 }}>{t.gMenu}</button>
