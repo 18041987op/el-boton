@@ -516,6 +516,7 @@ export default function App() {
 
   const urgent = challenge && challenge.timeLeft <= 3;
   const bUrgent = balloonGame.active && balloonGame.status === "playing" && balloonGame.timeLeft <= 5;
+  const enterGame = (mode) => { if (nameDraft.trim()) saveName(); setEntered(true); if (mode === "balloons") actions.current.startBalloonGame(); };
   const dimTitle = !!flash || !!toast || frenzy || !!bigMsg;
   const goldUrgent = golden.visible && golden.timeLeft <= 1.5;
   const btnFont = Math.max(15, Math.round(SIZE * 0.16));
@@ -744,7 +745,15 @@ export default function App() {
           <div style={{ width: "100%", maxWidth: 340, display: "flex", flexDirection: "column", gap: 12 }}>
             <input value={nameDraft} onChange={(e) => setNameDraft(e.target.value)} placeholder={lang === "es" ? "Tu nombre" : "Your name"} maxLength={16}
               style={{ border: "none", borderRadius: 14, padding: "15px 18px", fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: 16, background: "rgba(255,255,255,.12)", color: "#fff", outline: "none", textAlign: "center" }} />
-            <button onClick={() => { if (nameDraft.trim()) saveName(); setEntered(true); }} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "16px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18 }}>{lang === "es" ? "🎮 Jugar" : "🎮 Play"}</button>
+            <div style={{ fontSize: 13, color: "rgba(255,255,255,.65)", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginTop: 2 }}>{lang === "es" ? "Elige tu modo" : "Choose your mode"}</div>
+            <div style={{ display: "flex", gap: 12 }}>
+              <button onClick={() => enterGame("classic")} style={{ flex: 1, border: "none", cursor: "pointer", borderRadius: 16, padding: "18px 8px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 17, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                <span style={{ fontSize: 26 }}>👆</span>{lang === "es" ? "Clásico" : "Classic"}
+              </button>
+              <button onClick={() => enterGame("balloons")} style={{ flex: 1, border: "none", cursor: "pointer", borderRadius: 16, padding: "18px 8px", background: "linear-gradient(135deg, #FF6B81, #7C5CFF)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 17, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                <span style={{ fontSize: 26 }}>🎈</span>{lang === "es" ? "Globos" : "Balloons"}
+              </button>
+            </div>
             <button onClick={() => setEntered(true)} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "13px", background: "rgba(255,255,255,.1)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 15 }}>{lang === "es" ? "Jugar como invitado" : "Play as guest"}</button>
           </div>
           <div style={{ marginTop: 24, display: "flex", gap: 6, background: "rgba(255,255,255,.1)", borderRadius: 999, padding: 4 }}>
