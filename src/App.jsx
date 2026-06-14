@@ -65,12 +65,20 @@ function gameLevel(kind, L) {
 }
 // Notas musicales: glifos, colores y melodías (en frecuencias Hz)
 const NOTE_GLYPHS = ["♪", "♫", "♩", "♬"];
-const NOTE_COLORS = [["#C9B6FF","#7C5CFF"], ["#9DEBA0","#1FB36B"], ["#7ED4FF","#1E9BFF"], ["#FFD78A","#FF8A1E"], ["#FF9CE6","#D43CC0"]];
+const NOTE_COLORS = [
+  ["#FF4D6D","#FF0040"], ["#FFB02E","#FF7A00"], ["#FFE94D","#FFC400"], ["#5CFF8F","#00E676"],
+  ["#4DD2FF","#00B0FF"], ["#B388FF","#7C4DFF"], ["#FF6EE6","#FF00C8"], ["#5CFFE4","#00E5C0"],
+];
 const NF = { C4:261.63, D4:293.66, E4:329.63, F4:349.23, G4:392.00, A4:440.00, B4:493.88, C5:523.25, D5:587.33 };
 const MELODIES = [
   [NF.E4,NF.E4,NF.F4,NF.G4,NF.G4,NF.F4,NF.E4,NF.D4,NF.C4,NF.C4,NF.D4,NF.E4,NF.E4,NF.D4,NF.D4], // Oda a la Alegría
   [NF.C4,NF.C4,NF.G4,NF.G4,NF.A4,NF.A4,NF.G4,NF.F4,NF.F4,NF.E4,NF.E4,NF.D4,NF.D4,NF.C4],        // Estrellita / Twinkle
   [NF.G4,NF.G4,NF.A4,NF.G4,NF.C5,NF.B4,NF.G4,NF.G4,NF.A4,NF.G4,NF.D5,NF.C5],                    // Cumpleaños feliz
+  [NF.E4,NF.D4,NF.C4,NF.D4,NF.E4,NF.E4,NF.E4,NF.D4,NF.D4,NF.D4,NF.E4,NF.G4,NF.G4],              // Mary Had a Little Lamb
+  [NF.C4,NF.D4,NF.E4,NF.C4,NF.C4,NF.D4,NF.E4,NF.C4,NF.E4,NF.F4,NF.G4,NF.E4,NF.F4,NF.G4],        // Frère Jacques
+  [NF.E4,NF.E4,NF.E4,NF.E4,NF.E4,NF.E4,NF.E4,NF.G4,NF.C4,NF.D4,NF.E4],                          // Jingle Bells
+  [NF.C4,NF.C4,NF.C4,NF.F4,NF.A4,NF.C4,NF.C4,NF.C4,NF.F4,NF.A4],                                // La Cucaracha
+  [NF.G4,NF.E4,NF.E4,NF.F4,NF.D4,NF.D4,NF.C4,NF.D4,NF.E4,NF.F4,NF.G4,NF.G4,NF.G4],              // London Bridge
 ];
 // Catálogo de juegos (fácil de extender: agrega una entrada aquí)
 const GAMES = [
@@ -146,10 +154,10 @@ function Note({ c, glyph, size }) {
   const [light, dark] = c;
   return (
     <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", pointerEvents: "none" }}>
-      {/* halo circular: pista visual de la zona tocable (generosa) */}
-      <div style={{ position: "absolute", width: "92%", height: "92%", borderRadius: "50%", background: `radial-gradient(circle, ${light}55, ${dark}22 55%, transparent 72%)` }} />
-      <span style={{ position: "relative", fontSize: size * 0.92, lineHeight: 1, fontWeight: 700, color: light,
-        textShadow: `0 0 8px ${light}, 0 0 16px ${dark}, 0 2px 5px rgba(0,0,0,.55)` }}>{glyph}</span>
+      {/* halo circular brillante: pista visual de la zona tocable (generosa) */}
+      <div style={{ position: "absolute", width: "100%", height: "100%", borderRadius: "50%", background: `radial-gradient(circle, ${light}cc, ${dark}77 45%, transparent 72%)`, filter: "blur(1px)" }} />
+      <span style={{ position: "relative", fontSize: size * 0.96, lineHeight: 1, fontWeight: 700, color: "#fff",
+        textShadow: `0 0 4px #fff, 0 0 10px ${light}, 0 0 20px ${light}, 0 0 34px ${dark}, 0 2px 4px rgba(0,0,0,.45)` }}>{glyph}</span>
     </div>
   );
 }
@@ -184,7 +192,7 @@ export default function App() {
   const [balloonGame, setBalloonGameState] = useState({ active: false, status: "idle", kind: "balloons", level: 1, timeLeft: 0, popped: 0, escaped: 0, progress: 0, goal: 0, duration: 0, deadline: 0 });
   const balloonGameRef = useRef({ active: false, status: "idle", kind: "balloons", level: 1, goal: 0, deadline: 0 });
   const nextBalloonAt = useRef(Infinity), poppedGuard = useRef(new Set());
-  const poppedCount = useRef(0), escapedCount = useRef(0), poppedTotal = useRef(0), melodyRef = useRef([]);
+  const poppedCount = useRef(0), escapedCount = useRef(0), poppedTotal = useRef(0), melodyRef = useRef([]), lastMelodyIdx = useRef(-1);
 
   const [playerName, setPlayerName] = useState("");
   const [nameDraft, setNameDraft] = useState("");
@@ -292,16 +300,16 @@ export default function App() {
       o.connect(g); g.connect(ctx.destination); o.start(s2); o.stop(s2 + dur + 0.06); } catch (e) {}
   };
   const missTone = () => swoop(300, 175, 0.18, 0.09);
-  // ráfaga de ruido con caída rápida → "pop" real de globo
-  const noiseBurst = (dur = 0.05, vol = 0.22, hp = 800) => {
+  // ráfaga de ruido con caída muy rápida → transitorio de "pop"
+  const noiseBurst = (dur = 0.05, vol = 0.22, freq = 800, ftype = "highpass", q = 0.8) => {
     if (muted) return;
     try {
       const ctx = ac(), n = Math.max(1, Math.floor(ctx.sampleRate * dur));
       const buf = ctx.createBuffer(1, n, ctx.sampleRate), data = buf.getChannelData(0);
-      for (let i = 0; i < n; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 2.4);
+      for (let i = 0; i < n; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 3);
       const src = ctx.createBufferSource(); src.buffer = buf;
       const g = ctx.createGain(); g.gain.value = vol;
-      const f = ctx.createBiquadFilter(); f.type = "highpass"; f.frequency.value = hp;
+      const f = ctx.createBiquadFilter(); f.type = ftype; f.frequency.value = freq; try { f.Q.value = q; } catch (e) {}
       src.connect(f); f.connect(g); g.connect(ctx.destination); src.start();
     } catch (e) {}
   };
@@ -327,8 +335,14 @@ export default function App() {
     const next = typeof updater === "function" ? updater(prev) : updater;
     balloonGameRef.current = next; return next;
   });
-  // sonido propio del globo: ráfaga de ruido + golpe grave que cae (distinto del tono musical del botón)
-  const popTone = () => { noiseBurst(0.05, 0.24, 700); swoop(820, 180, 0.09, 0.13); };
+  // sonido propio del globo: crack de ruido broadband + golpe grave seco (sin tono musical)
+  const popTone = () => {
+    if (muted) return;
+    noiseBurst(0.045, 0.6, 1100, "bandpass", 0.7); // cuerpo del estallido
+    noiseBurst(0.018, 0.5, 3800, "highpass", 0.5); // chasquido agudo
+    tone(125, 0, 0.05, "sine", 0.32);              // golpe grave
+    tone(72, 0.006, 0.07, "sine", 0.24);           // sub-golpe
+  };
   // nota de piano: fundamental + armónicos con envolvente de decaimiento
   const pianoNote = (freq, vol = 0.2) => {
     if (muted) return;
@@ -408,7 +422,11 @@ export default function App() {
     const cfg = gameLevel(kind, L);
     poppedCount.current = 0; escapedCount.current = 0; poppedGuard.current = new Set();
     let goal = cfg.goal;
-    if (kind === "notes") { melodyRef.current = MELODIES[(L - 1) % MELODIES.length]; goal = melodyRef.current.length; }
+    if (kind === "notes") {
+      let mi = Math.floor(Math.random() * MELODIES.length);
+      if (MELODIES.length > 1 && mi === lastMelodyIdx.current) mi = (mi + 1) % MELODIES.length;
+      lastMelodyIdx.current = mi; melodyRef.current = MELODIES[mi]; goal = melodyRef.current.length;
+    }
     setBalloons([]); nextBalloonAt.current = Date.now() + breather;
     setBG((p) => ({ ...p, active: true, status: "playing", kind, level: L, goal, popped: 0, escaped: 0, progress: 0,
       timeLeft: cfg.time, duration: cfg.time, deadline: Date.now() + cfg.time * 1000,
