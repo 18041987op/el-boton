@@ -533,6 +533,10 @@ export default function App() {
       return { id, name: (pres && pres.name) || pr.name || (id === playerId.current ? (nameRef.current || t.anon) : t.anon),
         score: pr.score || 0, finished: !!pr.finished, me: id === playerId.current };
     });
+    // el anfitrión re-difunde el juego elegido para los que se unen después
+    if (mpRef.current.role === "host" && mpRef.current.status === "lobby") {
+      try { channelRef.current && channelRef.current.send({ type: "broadcast", event: "kind", payload: { kind: mpRef.current.kind } }); } catch (e) {}
+    }
     setMp((p) => ({ ...p, players: arr }));
   };
   const mpLeave = () => {
@@ -553,6 +557,7 @@ export default function App() {
     ch.on("broadcast", { event: "progress" }, ({ payload }) => { playersRef.current[payload.id] = { ...(playersRef.current[payload.id] || {}), name: payload.name, score: payload.score }; mpSync(); });
     ch.on("broadcast", { event: "finish" }, ({ payload }) => { playersRef.current[payload.id] = { ...(playersRef.current[payload.id] || {}), name: payload.name, score: payload.score, finished: true }; mpSync(); });
     ch.on("broadcast", { event: "rematch" }, () => mpOnRematch());
+    ch.on("broadcast", { event: "kind" }, ({ payload }) => { mpRef.current.kind = payload.kind; setMp((p) => ({ ...p, kind: payload.kind })); });
     ch.subscribe((status) => { if (status === "SUBSCRIBED") { try { ch.track({ name: nameRef.current || t.anon }); } catch (e) {} mpSync(); } });
     mpRef.current = { ...mpRef.current, active: true, status: "lobby", code, role };
     setMp((p) => ({ ...p, open: true, status: "lobby", code, role, players: [] }));
@@ -577,7 +582,7 @@ export default function App() {
       actions.current.startBalloonGame(mpRef.current.kind, { mp: true, dur: mpRef.current.dur, melodyIdx: mpRef.current.melodyIdx });
     }, Math.max(0, payload.startAt - Date.now()));
   };
-  const mpSetKind = (kind) => { mpRef.current.kind = kind; setMp((p) => ({ ...p, kind })); };
+  const mpSetKind = (kind) => { mpRef.current.kind = kind; setMp((p) => ({ ...p, kind })); try { channelRef.current && channelRef.current.send({ type: "broadcast", event: "kind", payload: { kind } }); } catch (e) {} };
   // revancha: todos (anfitrión e invitados) vuelven al lobby con marcadores en cero
   const mpOnRematch = () => {
     Object.keys(playersRef.current).forEach((id) => { playersRef.current[id] = { ...playersRef.current[id], score: 0, finished: false }; });
@@ -1081,12 +1086,20 @@ export default function App() {
                 </div>
                 {mp.role === "host" ? (
                   <>
-                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                      <span style={{ fontSize: 13, color: "rgba(255,255,255,.7)", fontWeight: 700 }}>{t.mpPickGame}</span>
-                      {GAMES.map((g) => (
-                        <button key={g.kind} onClick={() => mpSetKind(g.kind)} style={{ border: "none", cursor: "pointer", borderRadius: 999, padding: "7px 12px", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 14,
-                          background: mp.kind === g.kind ? accent : "rgba(255,255,255,.12)", color: mp.kind === g.kind ? level.bg[0] : "#fff" }}>{g.emoji} {g[lang]}</button>
-                      ))}
+                    <div>
+                      <div style={{ fontSize: 13, color: "rgba(255,255,255,.7)", fontWeight: 700, marginBottom: 8, textAlign: "center" }}>🎮 {t.gChoose}</div>
+                      <div style={{ display: "flex", gap: 10 }}>
+                        {GAMES.map((g) => {
+                          const sel = mp.kind === g.kind;
+                          return (
+                            <button key={g.kind} onClick={() => mpSetKind(g.kind)} style={{ flex: 1, border: "none", cursor: "pointer", borderRadius: 16, padding: "14px 6px", background: g.grad, color: "#fff",
+                              fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 15, display: "flex", flexDirection: "column", alignItems: "center", gap: 5,
+                              opacity: sel ? 1 : 0.45, boxShadow: sel ? `0 0 0 3px ${accent}, 0 8px 20px rgba(0,0,0,.3)` : "none", transform: sel ? "scale(1)" : "scale(.95)", transition: "all .15s" }}>
+                              <span style={{ fontSize: 30 }}>{g.emoji}</span>{g[lang]}{sel && <span style={{ fontSize: 12 }}>✓</span>}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
                     <button onClick={() => mpStart()} disabled={mp.players.length < 2} style={{ border: "none", cursor: mp.players.length < 2 ? "default" : "pointer", borderRadius: 14, padding: "15px", background: mp.players.length < 2 ? "rgba(255,255,255,.1)" : accent, color: mp.players.length < 2 ? "rgba(255,255,255,.5)" : level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 17 }}>
                       {mp.players.length < 2 ? t.mpNeed : t.mpStartBtn}
@@ -1094,6 +1107,9 @@ export default function App() {
                   </>
                 ) : (
                   <div style={{ textAlign: "center", padding: "6px 0" }}>
+                    {(() => { const g = GAMES.find((x) => x.kind === mp.kind); return g ? (
+                      <div style={{ fontSize: 14, color: "#fff", fontWeight: 700, marginBottom: 8 }}>{t.mpPickGame} {g.emoji} {g[lang]}</div>
+                    ) : null; })()}
                     <div style={{ fontSize: 16, color: accent, fontWeight: 700, animation: "eb-breathe 2s ease-in-out infinite" }}>{t.mpWaitHost}</div>
                     <div style={{ fontSize: 12, color: "rgba(255,255,255,.55)", fontWeight: 700, marginTop: 4 }}>{t.mpHostStarts}</div>
                   </div>
