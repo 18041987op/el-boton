@@ -256,6 +256,19 @@ export default function App() {
       o.connect(g); g.connect(ctx.destination); o.start(s2); o.stop(s2 + dur + 0.06); } catch (e) {}
   };
   const missTone = () => swoop(300, 175, 0.18, 0.09);
+  // ráfaga de ruido con caída rápida → "pop" real de globo
+  const noiseBurst = (dur = 0.05, vol = 0.22, hp = 800) => {
+    if (muted) return;
+    try {
+      const ctx = ac(), n = Math.max(1, Math.floor(ctx.sampleRate * dur));
+      const buf = ctx.createBuffer(1, n, ctx.sampleRate), data = buf.getChannelData(0);
+      for (let i = 0; i < n; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 2.4);
+      const src = ctx.createBufferSource(); src.buffer = buf;
+      const g = ctx.createGain(); g.gain.value = vol;
+      const f = ctx.createBiquadFilter(); f.type = "highpass"; f.frequency.value = hp;
+      src.connect(f); f.connect(g); g.connect(ctx.destination); src.start();
+    } catch (e) {}
+  };
   const anticip = (c) => { tone(560 + c * 300, 0, 0.12, "triangle", 0.13); tone(840 + c * 300, 0.05, 0.12, "sine", 0.10); };
   const nextRound = () => [659, 880, 1175].forEach((f, i) => tone(f, i * 0.07, 0.16, "triangle", 0.16));
   const buzz = (p) => { if (!haptics) return; try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
@@ -278,7 +291,8 @@ export default function App() {
     const next = typeof updater === "function" ? updater(prev) : updater;
     balloonGameRef.current = next; return next;
   });
-  const popTone = () => { tone(720, 0, 0.05, "square", 0.18); tone(190 + Math.random() * 90, 0.02, 0.12, "triangle", 0.15); };
+  // sonido propio del globo: ráfaga de ruido + golpe grave que cae (distinto del tono musical del botón)
+  const popTone = () => { noiseBurst(0.05, 0.24, 700); swoop(820, 180, 0.09, 0.13); };
   const togglePause = () => {
     if (pausedRef.current) {
       const delta = Date.now() - pausedAt.current;
