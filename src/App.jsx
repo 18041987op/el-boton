@@ -34,8 +34,8 @@ const ACHIEVEMENTS = [
 const FAIL_MSG = { es: ["¡Casi! 😅","Uff, por poquito","Ya casi","La próxima es tuya 💪"], en: ["So close! 😅","Almost!","Nearly had it","Next one's yours 💪"] };
 
 const T = {
-  es: { sub:"Pícale. No vas a poder parar.", subJump:"¡Atrápalo si puedes!", vibe:"Buena Vibra", next:"Siguiente nivel", max:"NIVEL MÁXIMO", combo:"COMBO", share:"Presumir mi buena vibra", copied:"¡Copiado! Pégalo donde quieras ✨", best:"Mejor combo", streak:"Retos ✓", frenzy:"¡FRENESÍ!", win:"¡LO LOGRASTE!", caught:"¡ATRAPADO!", escaped:"Se escapó 💨", challenge:"RETO", cSpeed:(n)=>`¡Toca ${n} veces!`, cCombo:(k)=>`¡Llega a combo x${k}!`, cHold:"¡No sueltes el combo!", rank:"Ranking mundial", you:"TÚ", yourPos:"Tu posición", name:"Tu nombre", save:"Guardar", noRank:"Ranking no disponible aquí", anon:"Anónimo", empty:"¡Sé el primero del ranking!", bMode:"Globos", bSub:"¡Explota todos los que puedas!", bGoalLbl:(n)=>`Meta: ${n} globos`, bWin:"¡GANASTE! 🎉", bLose:"¡Se acabó el tiempo! 😅", bPopped:"Reventados", bAgain:"Otra vez", bExit:"Salir", bMsgWin:"¡Reventón total!", bMsgLose:"¡Casi! Inténtalo de nuevo", bLevel:"Nivel", bReached:"Llegaste al nivel", bLevelUp:(n)=>`¡NIVEL ${n}!`, nNotes:"Notas", gMenu:"Juegos", gChoose:"Elige un juego", nameNudge:"Ponte un nombre y compite en el ranking", nameCta:"Guardar y competir", namePh:"Tu nombre o alias", nameSaved:(n)=>`¡Listo, ${n}! Ya apareces en el ranking 🏆`, claimScore:"¡Guarda tu nombre para este puntaje!", mpPlay:"Multijugador", mpTitle:"Jugar con amigos", mpCreate:"Crear sala", mpJoin:"Unirse a sala", mpEnterCode:"Código de 4 letras", mpShareCode:"Comparte este código:", mpInRoom:"En la sala", mpWaiting:"Esperando jugadores…", mpNeed:"Se necesitan 2+ jugadores", mpStartBtn:"¡Empezar partida!", mpHostStarts:"El anfitrión inicia la partida", mpPickGame:"Juego:", mpReady:"¡Prepárate!", mpResults:"Resultados", mpWins:(n)=>`🏆 ${n} gana`, mpTie:"¡Empate!", mpScore:"pts", mpAgain:"Otra ronda", mpUnavail:"Multijugador no disponible aquí", mpLeave:"Salir de la sala", mpBadCode:"Código inválido" },
-  en: { sub:"Tap it. You won't be able to stop.", subJump:"Catch it if you can!", vibe:"Good Vibes", next:"Next level", max:"MAX LEVEL", combo:"COMBO", share:"Brag about my good vibes", copied:"Copied! Paste it anywhere ✨", best:"Best combo", streak:"Challenges ✓", frenzy:"FRENZY!", win:"YOU DID IT!", caught:"CAUGHT!", escaped:"It escaped 💨", challenge:"CHALLENGE", cSpeed:(n)=>`Tap ${n} times!`, cCombo:(k)=>`Reach combo x${k}!`, cHold:"Don't drop the combo!", rank:"World ranking", you:"YOU", yourPos:"Your spot", name:"Your name", save:"Save", noRank:"Ranking unavailable here", anon:"Anonymous", empty:"Be the first on the board!", bMode:"Balloons", bSub:"Pop as many as you can!", bGoalLbl:(n)=>`Goal: ${n} balloons`, bWin:"YOU WON! 🎉", bLose:"Time's up! 😅", bPopped:"Popped", bAgain:"Again", bExit:"Exit", bMsgWin:"Total pop fest!", bMsgLose:"So close! Try again", bLevel:"Level", bReached:"You reached level", bLevelUp:(n)=>`LEVEL ${n}!`, nNotes:"Notes", gMenu:"Games", gChoose:"Choose a game", nameNudge:"Add a name and join the ranking", nameCta:"Save & compete", namePh:"Your name or alias", nameSaved:(n)=>`Done, ${n}! You're on the ranking now 🏆`, claimScore:"Save your name for this score!", mpPlay:"Multiplayer", mpTitle:"Play with friends", mpCreate:"Create room", mpJoin:"Join room", mpEnterCode:"4-letter code", mpShareCode:"Share this code:", mpInRoom:"In the room", mpWaiting:"Waiting for players…", mpNeed:"Need 2+ players", mpStartBtn:"Start match!", mpHostStarts:"Host starts the match", mpPickGame:"Game:", mpReady:"Get ready!", mpResults:"Results", mpWins:(n)=>`🏆 ${n} wins`, mpTie:"It's a tie!", mpScore:"pts", mpAgain:"Another round", mpUnavail:"Multiplayer unavailable here", mpLeave:"Leave room", mpBadCode:"Invalid code" },
+  es: { sub:"Pícale. No vas a poder parar.", subJump:"¡Atrápalo si puedes!", vibe:"Buena Vibra", next:"Siguiente nivel", max:"NIVEL MÁXIMO", combo:"COMBO", share:"Presumir mi buena vibra", copied:"¡Copiado! Pégalo donde quieras ✨", best:"Mejor combo", streak:"Retos ✓", frenzy:"¡FRENESÍ!", win:"¡LO LOGRASTE!", caught:"¡ATRAPADO!", escaped:"Se escapó 💨", challenge:"RETO", cSpeed:(n)=>`¡Toca ${n} veces!`, cCombo:(k)=>`¡Llega a combo x${k}!`, cHold:"¡No sueltes el combo!", rank:"Ranking mundial", you:"TÚ", yourPos:"Tu posición", name:"Tu nombre", save:"Guardar", noRank:"Ranking no disponible aquí", anon:"Anónimo", empty:"¡Sé el primero del ranking!", bMode:"Globos", bSub:"¡Explota todos los que puedas!", bGoalLbl:(n)=>`Meta: ${n} globos`, bWin:"¡GANASTE! 🎉", bLose:"¡Se acabó el tiempo! 😅", bPopped:"Reventados", bAgain:"Otra vez", bExit:"Salir", bMsgWin:"¡Reventón total!", bMsgLose:"¡Casi! Inténtalo de nuevo", bLevel:"Nivel", bReached:"Llegaste al nivel", bLevelUp:(n)=>`¡NIVEL ${n}!`, nNotes:"Notas", gMenu:"Juegos", gChoose:"Elige un juego", nameNudge:"Ponte un nombre y compite en el ranking", nameCta:"Guardar y competir", namePh:"Tu nombre o alias", nameSaved:(n)=>`¡Listo, ${n}! Ya apareces en el ranking 🏆`, claimScore:"¡Guarda tu nombre para este puntaje!", mpPlay:"Multijugador", mpTitle:"Jugar con amigos", mpCreate:"Crear sala", mpJoin:"Unirse a sala", mpEnterCode:"Código de 4 letras", mpShareCode:"Comparte este código:", mpInRoom:"En la sala", mpWaiting:"Esperando jugadores…", mpNeed:"Se necesitan 2+ jugadores", mpStartBtn:"¡Empezar partida!", mpHostStarts:"El anfitrión inicia la partida", mpPickGame:"Juego:", mpReady:"¡Prepárate!", mpResults:"Resultados", mpWins:(n)=>`🏆 ${n} gana`, mpTie:"¡Empate!", mpScore:"pts", mpAgain:"Otra ronda", mpUnavail:"Multijugador no disponible aquí", mpLeave:"Salir de la sala", mpBadCode:"Código inválido", mpWaitHost:"⏳ Esperando a que el anfitrión empiece…", mpWaitRematch:"Esperando al anfitrión para otra ronda…" },
+  en: { sub:"Tap it. You won't be able to stop.", subJump:"Catch it if you can!", vibe:"Good Vibes", next:"Next level", max:"MAX LEVEL", combo:"COMBO", share:"Brag about my good vibes", copied:"Copied! Paste it anywhere ✨", best:"Best combo", streak:"Challenges ✓", frenzy:"FRENZY!", win:"YOU DID IT!", caught:"CAUGHT!", escaped:"It escaped 💨", challenge:"CHALLENGE", cSpeed:(n)=>`Tap ${n} times!`, cCombo:(k)=>`Reach combo x${k}!`, cHold:"Don't drop the combo!", rank:"World ranking", you:"YOU", yourPos:"Your spot", name:"Your name", save:"Save", noRank:"Ranking unavailable here", anon:"Anonymous", empty:"Be the first on the board!", bMode:"Balloons", bSub:"Pop as many as you can!", bGoalLbl:(n)=>`Goal: ${n} balloons`, bWin:"YOU WON! 🎉", bLose:"Time's up! 😅", bPopped:"Popped", bAgain:"Again", bExit:"Exit", bMsgWin:"Total pop fest!", bMsgLose:"So close! Try again", bLevel:"Level", bReached:"You reached level", bLevelUp:(n)=>`LEVEL ${n}!`, nNotes:"Notes", gMenu:"Games", gChoose:"Choose a game", nameNudge:"Add a name and join the ranking", nameCta:"Save & compete", namePh:"Your name or alias", nameSaved:(n)=>`Done, ${n}! You're on the ranking now 🏆`, claimScore:"Save your name for this score!", mpPlay:"Multiplayer", mpTitle:"Play with friends", mpCreate:"Create room", mpJoin:"Join room", mpEnterCode:"4-letter code", mpShareCode:"Share this code:", mpInRoom:"In the room", mpWaiting:"Waiting for players…", mpNeed:"Need 2+ players", mpStartBtn:"Start match!", mpHostStarts:"Host starts the match", mpPickGame:"Game:", mpReady:"Get ready!", mpResults:"Results", mpWins:(n)=>`🏆 ${n} wins`, mpTie:"It's a tie!", mpScore:"pts", mpAgain:"Another round", mpUnavail:"Multiplayer unavailable here", mpLeave:"Leave room", mpBadCode:"Invalid code", mpWaitHost:"⏳ Waiting for the host to start…", mpWaitRematch:"Waiting for the host for another round…" },
 };
 
 const GOLD = ["#FFD24D","#FFE89A","#FFC53D","#FFFFFF","#FFB13D"];
@@ -473,7 +473,8 @@ export default function App() {
     launchConfetti([item.color[0], item.color[1], "#FFFFFF"], item.kind === "notes" ? 12 : 16, ox, oy);
     if (balloonGameRef.current.kind === "notes") {
       const mel = melodyRef.current, idx = poppedCount.current;
-      if (idx < mel.length) pianoNote(mel[idx]); else sparkle();
+      // la melodía cicla: siempre suena como nota de piano (incluso en multijugador, meta infinita)
+      if (mel.length) pianoNote(mel[idx % mel.length]); else sparkle();
       buzz(8);
       poppedCount.current = idx + 1;
       setBG((p) => ({ ...p, popped: poppedCount.current, progress: poppedCount.current }));
@@ -551,6 +552,7 @@ export default function App() {
     ch.on("broadcast", { event: "start" }, ({ payload }) => mpOnStart(payload));
     ch.on("broadcast", { event: "progress" }, ({ payload }) => { playersRef.current[payload.id] = { ...(playersRef.current[payload.id] || {}), name: payload.name, score: payload.score }; mpSync(); });
     ch.on("broadcast", { event: "finish" }, ({ payload }) => { playersRef.current[payload.id] = { ...(playersRef.current[payload.id] || {}), name: payload.name, score: payload.score, finished: true }; mpSync(); });
+    ch.on("broadcast", { event: "rematch" }, () => mpOnRematch());
     ch.subscribe((status) => { if (status === "SUBSCRIBED") { try { ch.track({ name: nameRef.current || t.anon }); } catch (e) {} mpSync(); } });
     mpRef.current = { ...mpRef.current, active: true, status: "lobby", code, role };
     setMp((p) => ({ ...p, open: true, status: "lobby", code, role, players: [] }));
@@ -576,6 +578,17 @@ export default function App() {
     }, Math.max(0, payload.startAt - Date.now()));
   };
   const mpSetKind = (kind) => { mpRef.current.kind = kind; setMp((p) => ({ ...p, kind })); };
+  // revancha: todos (anfitrión e invitados) vuelven al lobby con marcadores en cero
+  const mpOnRematch = () => {
+    Object.keys(playersRef.current).forEach((id) => { playersRef.current[id] = { ...playersRef.current[id], score: 0, finished: false }; });
+    if (balloonGameRef.current.active) actions.current.exitBalloonGame();
+    mpRef.current = { ...mpRef.current, status: "lobby" };
+    setMp((p) => ({ ...p, open: true, status: "lobby" })); mpSync();
+  };
+  const mpRematch = () => {
+    try { channelRef.current && channelRef.current.send({ type: "broadcast", event: "rematch", payload: {} }); } catch (e) {}
+    mpOnRematch();
+  };
 
   /* ── reloj maestro ── */
   useEffect(() => {
@@ -980,6 +993,9 @@ export default function App() {
                 </button>
               ))}
             </div>
+            {supabase && (
+              <button onClick={() => { if (nameDraft.trim()) saveName(); setEntered(true); setMp((p) => ({ ...p, open: true, status: "menu", error: "" })); }} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px", background: "rgba(255,255,255,.16)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 15 }}>👥 {t.mpPlay}</button>
+            )}
             <button onClick={() => setEntered(true)} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "13px", background: "rgba(255,255,255,.1)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 15 }}>{lang === "es" ? "Jugar como invitado" : "Play as guest"}</button>
           </div>
           <div style={{ marginTop: 24, display: "flex", gap: 6, background: "rgba(255,255,255,.1)", borderRadius: 999, padding: 4 }}>
@@ -1014,9 +1030,10 @@ export default function App() {
               </div>
             ))}
           </div>
+          {mp.role !== "host" && <div style={{ fontSize: 13, color: "rgba(255,255,255,.7)", fontWeight: 700, marginTop: 6, animation: "eb-breathe 2s ease-in-out infinite" }}>{t.mpWaitRematch}</div>}
           <div style={{ display: "flex", gap: 12, marginTop: 10, flexWrap: "wrap", justifyContent: "center" }}>
             {mp.role === "host" && (
-              <button onClick={() => { actions.current.exitBalloonGame(); mpRef.current.status = "lobby"; setMp((p) => ({ ...p, open: true, status: "lobby" })); }} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 26px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 17 }}>🔁 {t.mpAgain}</button>
+              <button onClick={() => mpRematch()} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 26px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 17 }}>🔁 {t.mpAgain}</button>
             )}
             <button onClick={() => mpLeave()} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 26px", background: "rgba(255,255,255,.12)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 16 }}>{t.mpLeave}</button>
           </div>
@@ -1076,7 +1093,10 @@ export default function App() {
                     </button>
                   </>
                 ) : (
-                  <div style={{ fontSize: 14, color: "rgba(255,255,255,.7)", fontWeight: 700, textAlign: "center" }}>{t.mpHostStarts}</div>
+                  <div style={{ textAlign: "center", padding: "6px 0" }}>
+                    <div style={{ fontSize: 16, color: accent, fontWeight: 700, animation: "eb-breathe 2s ease-in-out infinite" }}>{t.mpWaitHost}</div>
+                    <div style={{ fontSize: 12, color: "rgba(255,255,255,.55)", fontWeight: 700, marginTop: 4 }}>{t.mpHostStarts}</div>
+                  </div>
                 )}
                 <button onClick={() => mpLeave()} style={{ border: "none", cursor: "pointer", borderRadius: 12, padding: "11px", background: "rgba(255,255,255,.08)", color: "rgba(255,255,255,.8)", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 14 }}>{t.mpLeave}</button>
               </div>
