@@ -34,8 +34,8 @@ const ACHIEVEMENTS = [
 const FAIL_MSG = { es: ["¡Casi! 😅","Uff, por poquito","Ya casi","La próxima es tuya 💪"], en: ["So close! 😅","Almost!","Nearly had it","Next one's yours 💪"] };
 
 const T = {
-  es: { sub:"Pícale. No vas a poder parar.", subJump:"¡Atrápalo si puedes!", vibe:"Buena Vibra", next:"Siguiente nivel", max:"NIVEL MÁXIMO", combo:"COMBO", share:"Presumir mi buena vibra", copied:"¡Copiado! Pégalo donde quieras ✨", best:"Mejor combo", streak:"Retos ✓", frenzy:"¡FRENESÍ!", win:"¡LO LOGRASTE!", caught:"¡ATRAPADO!", escaped:"Se escapó 💨", challenge:"RETO", cSpeed:(n)=>`¡Toca ${n} veces!`, cCombo:(k)=>`¡Llega a combo x${k}!`, cHold:"¡No sueltes el combo!", rank:"Ranking mundial", you:"TÚ", yourPos:"Tu posición", name:"Tu nombre", save:"Guardar", noRank:"Ranking no disponible aquí", anon:"Anónimo", empty:"¡Sé el primero del ranking!", bMode:"Globos", bSub:"¡Explota todos los que puedas!", bGoalLbl:(n)=>`Meta: ${n} globos`, bWin:"¡GANASTE! 🎉", bLose:"¡Se acabó el tiempo! 😅", bPopped:"Reventados", bAgain:"🎈 Otra vez", bExit:"Salir", bMsgWin:"¡Reventón total!", bMsgLose:"¡Casi! Inténtalo de nuevo", bLevel:"Nivel", bReached:"Llegaste al nivel", bLevelUp:(n)=>`¡NIVEL ${n}!` },
-  en: { sub:"Tap it. You won't be able to stop.", subJump:"Catch it if you can!", vibe:"Good Vibes", next:"Next level", max:"MAX LEVEL", combo:"COMBO", share:"Brag about my good vibes", copied:"Copied! Paste it anywhere ✨", best:"Best combo", streak:"Challenges ✓", frenzy:"FRENZY!", win:"YOU DID IT!", caught:"CAUGHT!", escaped:"It escaped 💨", challenge:"CHALLENGE", cSpeed:(n)=>`Tap ${n} times!`, cCombo:(k)=>`Reach combo x${k}!`, cHold:"Don't drop the combo!", rank:"World ranking", you:"YOU", yourPos:"Your spot", name:"Your name", save:"Save", noRank:"Ranking unavailable here", anon:"Anonymous", empty:"Be the first on the board!", bMode:"Balloons", bSub:"Pop as many as you can!", bGoalLbl:(n)=>`Goal: ${n} balloons`, bWin:"YOU WON! 🎉", bLose:"Time's up! 😅", bPopped:"Popped", bAgain:"🎈 Again", bExit:"Exit", bMsgWin:"Total pop fest!", bMsgLose:"So close! Try again", bLevel:"Level", bReached:"You reached level", bLevelUp:(n)=>`LEVEL ${n}!` },
+  es: { sub:"Pícale. No vas a poder parar.", subJump:"¡Atrápalo si puedes!", vibe:"Buena Vibra", next:"Siguiente nivel", max:"NIVEL MÁXIMO", combo:"COMBO", share:"Presumir mi buena vibra", copied:"¡Copiado! Pégalo donde quieras ✨", best:"Mejor combo", streak:"Retos ✓", frenzy:"¡FRENESÍ!", win:"¡LO LOGRASTE!", caught:"¡ATRAPADO!", escaped:"Se escapó 💨", challenge:"RETO", cSpeed:(n)=>`¡Toca ${n} veces!`, cCombo:(k)=>`¡Llega a combo x${k}!`, cHold:"¡No sueltes el combo!", rank:"Ranking mundial", you:"TÚ", yourPos:"Tu posición", name:"Tu nombre", save:"Guardar", noRank:"Ranking no disponible aquí", anon:"Anónimo", empty:"¡Sé el primero del ranking!", bMode:"Globos", bSub:"¡Explota todos los que puedas!", bGoalLbl:(n)=>`Meta: ${n} globos`, bWin:"¡GANASTE! 🎉", bLose:"¡Se acabó el tiempo! 😅", bPopped:"Reventados", bAgain:"Otra vez", bExit:"Salir", bMsgWin:"¡Reventón total!", bMsgLose:"¡Casi! Inténtalo de nuevo", bLevel:"Nivel", bReached:"Llegaste al nivel", bLevelUp:(n)=>`¡NIVEL ${n}!`, nNotes:"Notas", gMenu:"Juegos", gChoose:"Elige un juego" },
+  en: { sub:"Tap it. You won't be able to stop.", subJump:"Catch it if you can!", vibe:"Good Vibes", next:"Next level", max:"MAX LEVEL", combo:"COMBO", share:"Brag about my good vibes", copied:"Copied! Paste it anywhere ✨", best:"Best combo", streak:"Challenges ✓", frenzy:"FRENZY!", win:"YOU DID IT!", caught:"CAUGHT!", escaped:"It escaped 💨", challenge:"CHALLENGE", cSpeed:(n)=>`Tap ${n} times!`, cCombo:(k)=>`Reach combo x${k}!`, cHold:"Don't drop the combo!", rank:"World ranking", you:"YOU", yourPos:"Your spot", name:"Your name", save:"Save", noRank:"Ranking unavailable here", anon:"Anonymous", empty:"Be the first on the board!", bMode:"Balloons", bSub:"Pop as many as you can!", bGoalLbl:(n)=>`Goal: ${n} balloons`, bWin:"YOU WON! 🎉", bLose:"Time's up! 😅", bPopped:"Popped", bAgain:"Again", bExit:"Exit", bMsgWin:"Total pop fest!", bMsgLose:"So close! Try again", bLevel:"Level", bReached:"You reached level", bLevelUp:(n)=>`LEVEL ${n}!`, nNotes:"Notes", gMenu:"Games", gChoose:"Choose a game" },
 };
 
 const GOLD = ["#FFD24D","#FFE89A","#FFC53D","#FFFFFF","#FFB13D"];
@@ -43,8 +43,16 @@ const BALLOON_COLORS = [
   ["#FF8FA3","#FF3B5C"], ["#FFC36B","#FF8A1E"], ["#FFE27A","#FFC107"], ["#9DEBA0","#34C759"],
   ["#7ED4FF","#1E9BFF"], ["#B79CFF","#7C5CFF"], ["#FF9CE6","#FF4DC4"], ["#86F0E0","#19C7B0"],
 ];
-// Dificultad por nivel: más meta, menos tiempo, aparición y subida más rápidas
-function balloonLevel(L) {
+// Dificultad por nivel y por juego: más meta, menos tiempo, aparición y subida más rápidas
+function gameLevel(kind, L) {
+  if (kind === "notes") return {
+    level: L,
+    time: Math.max(20, 32 - (L - 1) * 2),
+    spawnMin: Math.max(280, 580 - (L - 1) * 40),
+    spawnRand: Math.max(200, 360 - (L - 1) * 20),
+    riseBase: Math.max(2.4, 4.6 - (L - 1) * 0.22),
+    riseRand: Math.max(0.9, 1.6 - (L - 1) * 0.12),
+  };
   return {
     level: L,
     goal: 10 + (L - 1) * 3,
@@ -55,6 +63,21 @@ function balloonLevel(L) {
     riseRand: Math.max(0.8, 1.6 - (L - 1) * 0.12),
   };
 }
+// Notas musicales: glifos, colores y melodías (en frecuencias Hz)
+const NOTE_GLYPHS = ["♪", "♫", "♩", "♬"];
+const NOTE_COLORS = [["#C9B6FF","#7C5CFF"], ["#9DEBA0","#1FB36B"], ["#7ED4FF","#1E9BFF"], ["#FFD78A","#FF8A1E"], ["#FF9CE6","#D43CC0"]];
+const NF = { C4:261.63, D4:293.66, E4:329.63, F4:349.23, G4:392.00, A4:440.00, B4:493.88, C5:523.25, D5:587.33 };
+const MELODIES = [
+  [NF.E4,NF.E4,NF.F4,NF.G4,NF.G4,NF.F4,NF.E4,NF.D4,NF.C4,NF.C4,NF.D4,NF.E4,NF.E4,NF.D4,NF.D4], // Oda a la Alegría
+  [NF.C4,NF.C4,NF.G4,NF.G4,NF.A4,NF.A4,NF.G4,NF.F4,NF.F4,NF.E4,NF.E4,NF.D4,NF.D4,NF.C4],        // Estrellita / Twinkle
+  [NF.G4,NF.G4,NF.A4,NF.G4,NF.C5,NF.B4,NF.G4,NF.G4,NF.A4,NF.G4,NF.D5,NF.C5],                    // Cumpleaños feliz
+];
+// Catálogo de juegos (fácil de extender: agrega una entrada aquí)
+const GAMES = [
+  { kind: "classic",  emoji: "👆", es: "Botón",    en: "Button",   grad: null },
+  { kind: "balloons", emoji: "🎈", es: "Globos",   en: "Balloons", grad: "linear-gradient(135deg, #FF6B81, #7C5CFF)" },
+  { kind: "notes",    emoji: "🎹", es: "Melodías", en: "Melodies", grad: "linear-gradient(135deg, #34E89E, #1E9BFF)" },
+];
 const BIG_MSG = {
   es: ["¡IMPARABLE!","¡NO PARES!","¡ERES UNA MÁQUINA!","¡A TODO GAS!","¡LEYENDA!","¡SIGUE ASÍ!","¡VAS VOLANDO!","¡QUÉ NIVEL!","¡FUEGO PURO!","¡ROMPISTE LA PANTALLA!","¡NADIE TE PARA!","¡MODO BESTIA!"],
   en: ["UNSTOPPABLE!","DON'T STOP!","YOU'RE A MACHINE!","FULL SPEED!","LEGEND!","KEEP GOING!","YOU'RE FLYING!","WHAT A LEVEL!","PURE FIRE!","YOU BROKE THE SCREEN!","NOBODY STOPS YOU!","BEAST MODE!"],
@@ -119,6 +142,17 @@ function Balloon({ c }) {
   );
 }
 
+function Note({ c, glyph }) {
+  const [light, dark] = c;
+  return (
+    <div style={{ width: "100%", height: "100%", borderRadius: "30% 30% 34% 34%", display: "flex", alignItems: "center", justifyContent: "center",
+      background: `radial-gradient(circle at 34% 26%, ${light}, ${dark})`,
+      boxShadow: `inset -3px -5px 9px rgba(0,0,0,.22), 0 5px 14px ${dark}99, 0 0 18px ${dark}66`, pointerEvents: "none" }}>
+      <span style={{ fontSize: "56%", color: "#fff", textShadow: "0 1px 3px rgba(0,0,0,.5)", lineHeight: 1 }}>{glyph}</span>
+    </div>
+  );
+}
+
 export default function App() {
   const [lang, setLang] = useState("es");
   const [vibe, setVibe] = useState(0);
@@ -146,15 +180,16 @@ export default function App() {
   const [btnPos, setBtnPos] = useState({ x: 0, y: 0 });
 
   const [balloons, setBalloons] = useState([]);
-  const [balloonGame, setBalloonGameState] = useState({ active: false, status: "idle", level: 1, timeLeft: 0, popped: 0, escaped: 0, progress: 0, goal: 0, duration: 0, deadline: 0 });
-  const balloonGameRef = useRef({ active: false, status: "idle", level: 1, goal: 0, deadline: 0 });
+  const [balloonGame, setBalloonGameState] = useState({ active: false, status: "idle", kind: "balloons", level: 1, timeLeft: 0, popped: 0, escaped: 0, progress: 0, goal: 0, duration: 0, deadline: 0 });
+  const balloonGameRef = useRef({ active: false, status: "idle", kind: "balloons", level: 1, goal: 0, deadline: 0 });
   const nextBalloonAt = useRef(Infinity), poppedGuard = useRef(new Set());
-  const poppedCount = useRef(0), escapedCount = useRef(0), poppedTotal = useRef(0);
+  const poppedCount = useRef(0), escapedCount = useRef(0), poppedTotal = useRef(0), melodyRef = useRef([]);
 
   const [playerName, setPlayerName] = useState("");
   const [nameDraft, setNameDraft] = useState("");
   const [lb, setLb] = useState([]);
   const [showLB, setShowLB] = useState(false);
+  const [showGames, setShowGames] = useState(false);
   const [lbOk, setLbOk] = useState(true);
   const [entered, setEntered] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -293,6 +328,20 @@ export default function App() {
   });
   // sonido propio del globo: ráfaga de ruido + golpe grave que cae (distinto del tono musical del botón)
   const popTone = () => { noiseBurst(0.05, 0.24, 700); swoop(820, 180, 0.09, 0.13); };
+  // nota de piano: fundamental + armónicos con envolvente de decaimiento
+  const pianoNote = (freq, vol = 0.2) => {
+    if (muted) return;
+    try {
+      const ctx = ac(), s = ctx.currentTime;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, s); g.gain.exponentialRampToValueAtTime(vol, s + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, s + 0.6);
+      g.connect(ctx.destination);
+      [[1, 1], [2, 0.5], [3, 0.22], [4, 0.1]].forEach(([m, amp]) => {
+        const o = ctx.createOscillator(); o.type = m === 1 ? "triangle" : "sine"; o.frequency.value = freq * m;
+        const og = ctx.createGain(); og.gain.value = amp; o.connect(og); og.connect(g); o.start(s); o.stop(s + 0.66);
+      });
+    } catch (e) {}
+  };
   const togglePause = () => {
     if (pausedRef.current) {
       const delta = Date.now() - pausedAt.current;
@@ -353,44 +402,65 @@ export default function App() {
     setTaunt(true); setTimeout(() => setTaunt(false), 1500);
   };
 
-  /* ── modo globos (niveles progresivos) ── */
-  const loadBalloonLevel = (L, breather) => {
-    const cfg = balloonLevel(L);
+  /* ── mini-juegos: globos / melodías (niveles progresivos) ── */
+  const loadGameLevel = (kind, L, breather) => {
+    const cfg = gameLevel(kind, L);
     poppedCount.current = 0; escapedCount.current = 0; poppedGuard.current = new Set();
+    let goal = cfg.goal;
+    if (kind === "notes") { melodyRef.current = MELODIES[(L - 1) % MELODIES.length]; goal = melodyRef.current.length; }
     setBalloons([]); nextBalloonAt.current = Date.now() + breather;
-    setBG((p) => ({ ...p, active: true, status: "playing", level: L, goal: cfg.goal, popped: 0, escaped: 0, progress: 0,
+    setBG((p) => ({ ...p, active: true, status: "playing", kind, level: L, goal, popped: 0, escaped: 0, progress: 0,
       timeLeft: cfg.time, duration: cfg.time, deadline: Date.now() + cfg.time * 1000,
       spawnMin: cfg.spawnMin, spawnRand: cfg.spawnRand, riseBase: cfg.riseBase, riseRand: cfg.riseRand }));
   };
-  actions.current.startBalloonGame = () => {
+  actions.current.startBalloonGame = (kind = "balloons") => {
     setChallenge(null); setFrenzy(false); setGolden({ visible: false });
     poppedTotal.current = 0;
-    loadBalloonLevel(1, 350);
+    loadGameLevel(kind, 1, 350);
     chimeUp(); buzz(15);
   };
   actions.current.spawnBalloon = () => {
     const now = Date.now(); const bg = balloonGameRef.current;
     const h = boxRef.current.h; if (!h) { nextBalloonAt.current = now + 400; return; }
-    const size = 46 + Math.floor(Math.random() * 28);
-    const b = { id: ++pid, x: 8 + Math.random() * 84, color: BALLOON_COLORS[Math.floor(Math.random() * BALLOON_COLORS.length)],
-      size, dur: bg.riseBase + Math.random() * bg.riseRand, rise: -(h + size * 1.4 + 60), swayDur: 1.3 + Math.random() * 1.2 };
-    setBalloons((arr) => [...arr.slice(-22), b]);
+    let item;
+    if (bg.kind === "notes") {
+      const size = 44 + Math.floor(Math.random() * 20);
+      item = { id: ++pid, kind: "notes", x: 8 + Math.random() * 84, w: size, h: size,
+        color: NOTE_COLORS[Math.floor(Math.random() * NOTE_COLORS.length)], glyph: NOTE_GLYPHS[Math.floor(Math.random() * NOTE_GLYPHS.length)],
+        dur: bg.riseBase + Math.random() * bg.riseRand, rise: -(h + size + 60), swayDur: 1.3 + Math.random() * 1.2 };
+    } else {
+      const size = 46 + Math.floor(Math.random() * 28);
+      item = { id: ++pid, kind: "balloons", x: 8 + Math.random() * 84, w: size, h: size * 1.4,
+        color: BALLOON_COLORS[Math.floor(Math.random() * BALLOON_COLORS.length)],
+        dur: bg.riseBase + Math.random() * bg.riseRand, rise: -(h + size * 1.4 + 60), swayDur: 1.3 + Math.random() * 1.2 };
+    }
+    setBalloons((arr) => [...arr.slice(-22), item]);
     nextBalloonAt.current = now + bg.spawnMin + Math.random() * bg.spawnRand;
   };
-  actions.current.popBalloon = (id, ox, oy, color) => {
+  actions.current.popBalloon = (id, ox, oy, item) => {
     if (poppedGuard.current.has(id)) return; poppedGuard.current.add(id);
     setBalloons((arr) => arr.filter((b) => b.id !== id));
-    popTone(); buzz(10);
-    launchConfetti([color[0], color[1], "#FFFFFF"], 16, ox, oy);
-    setVibe((v) => v + 3); dirty.current = true;
-    poppedCount.current++; poppedTotal.current++;
-    const prog = Math.max(0, poppedCount.current - escapedCount.current);
-    setBG((p) => ({ ...p, popped: poppedCount.current, progress: prog }));
-    if (prog >= balloonGameRef.current.goal) actions.current.advanceLevel();
+    setVibe((v) => v + 3); dirty.current = true; poppedTotal.current++;
+    launchConfetti([item.color[0], item.color[1], "#FFFFFF"], item.kind === "notes" ? 12 : 16, ox, oy);
+    if (balloonGameRef.current.kind === "notes") {
+      const mel = melodyRef.current, idx = poppedCount.current;
+      if (idx < mel.length) pianoNote(mel[idx]); else sparkle();
+      buzz(8);
+      poppedCount.current = idx + 1;
+      setBG((p) => ({ ...p, popped: poppedCount.current, progress: poppedCount.current }));
+      if (poppedCount.current >= balloonGameRef.current.goal) actions.current.advanceLevel();
+    } else {
+      popTone(); buzz(10);
+      poppedCount.current++;
+      const prog = Math.max(0, poppedCount.current - escapedCount.current);
+      setBG((p) => ({ ...p, popped: poppedCount.current, progress: prog }));
+      if (prog >= balloonGameRef.current.goal) actions.current.advanceLevel();
+    }
   };
   actions.current.escapeBalloon = (id) => {
     setBalloons((arr) => arr.filter((b) => b.id !== id));
     if (balloonGameRef.current.status !== "playing" || poppedGuard.current.has(id)) return;
+    if (balloonGameRef.current.kind === "notes") return; // las notas que se van no penalizan
     escapedCount.current++;
     const prog = Math.max(0, poppedCount.current - escapedCount.current);
     setBG((p) => ({ ...p, escaped: escapedCount.current, progress: prog }));
@@ -398,11 +468,11 @@ export default function App() {
   };
   actions.current.advanceLevel = () => {
     if (balloonGameRef.current.status !== "playing") return;
-    const L = balloonGameRef.current.level + 1;
+    const kind = balloonGameRef.current.kind, L = balloonGameRef.current.level + 1;
     setVibe((v) => v + 40 + L * 25); dirty.current = true;
     fanfare(); buzz([0, 30, 40, 30]); launchConfetti(GOLD, 32, boxRef.current.w / 2, boxRef.current.h / 2);
     setFlash({ kind: "win", text: t.bLevelUp(L) }); setTimeout(() => setFlash(null), 1300);
-    loadBalloonLevel(L, 750);
+    loadGameLevel(kind, L, 750);
   };
   actions.current.endBalloonGame = () => {
     if (balloonGameRef.current.status !== "playing") return;
@@ -412,7 +482,7 @@ export default function App() {
   };
   actions.current.exitBalloonGame = () => {
     setBalloons([]); nextBalloonAt.current = Infinity;
-    setBG({ active: false, status: "idle", level: 1, timeLeft: 0, popped: 0, escaped: 0, progress: 0, goal: 0, duration: 0, deadline: 0 });
+    setBG({ active: false, status: "idle", kind: "balloons", level: 1, timeLeft: 0, popped: 0, escaped: 0, progress: 0, goal: 0, duration: 0, deadline: 0 });
     nextChAt.current = Date.now() + 6000; goldenNextAt.current = Date.now() + 14000;
   };
 
@@ -530,7 +600,9 @@ export default function App() {
 
   const urgent = challenge && challenge.timeLeft <= 3;
   const bUrgent = balloonGame.active && balloonGame.status === "playing" && balloonGame.timeLeft <= 5;
-  const enterGame = (mode) => { if (nameDraft.trim()) saveName(); setEntered(true); if (mode === "balloons") actions.current.startBalloonGame(); };
+  const enterGame = (kind) => { if (nameDraft.trim()) saveName(); setEntered(true); if (kind !== "classic") actions.current.startBalloonGame(kind); };
+  const pickGame = (kind) => { setShowGames(false); if (kind === "classic") actions.current.exitBalloonGame(); else actions.current.startBalloonGame(kind); };
+  const gameEmoji = balloonGame.kind === "notes" ? "🎹" : "🎈";
   const dimTitle = !!flash || !!toast || frenzy || !!bigMsg;
   const goldUrgent = golden.visible && golden.timeLeft <= 1.5;
   const btnFont = Math.max(15, Math.round(SIZE * 0.16));
@@ -579,7 +651,7 @@ export default function App() {
         </div>
         <div style={{ display: "flex", gap: 5 }}>
           {[[paused ? "▶️" : "⏸️", togglePause, false],
-            ["🎈", () => { if (balloonGame.active) actions.current.exitBalloonGame(); else actions.current.startBalloonGame(); }, balloonGame.active],
+            ["🎮", () => setShowGames(true), false],
             ["🎯", () => { movedRef.current = false; setJumpy((j) => !j); }, !jumpy],
             ["🏆", () => { loadLeaderboard(); setShowLB(true); }, false],
             ["📳", () => setHaptics((h) => !h), !haptics],
@@ -598,7 +670,7 @@ export default function App() {
         {balloonGame.active && balloonGame.status === "playing" ? (
           <div style={{ marginTop: 9, animation: "eb-slideDown .3s ease", background: "rgba(0,0,0,.28)", border: `2px solid ${bUrgent ? "#FF5A5A" : accent}`, borderRadius: 16, padding: "9px 13px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-              <span style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 15, color: "#fff" }}>{t.bLevel} {balloonGame.level} · 🎈 {balloonGame.progress}/{balloonGame.goal}</span>
+              <span style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 15, color: "#fff" }}>{t.bLevel} {balloonGame.level} · {gameEmoji} {balloonGame.progress}/{balloonGame.goal}</span>
               <span style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 16, color: bUrgent ? "#FF6A6A" : accent }}>⏱️ {Math.ceil(balloonGame.timeLeft)}s</span>
             </div>
             <div style={{ height: 8, borderRadius: 999, background: "rgba(255,255,255,.14)", overflow: "hidden" }}>
@@ -642,14 +714,14 @@ export default function App() {
         )}
 
         {balloons.map((b) => (
-          <button key={b.id} aria-label="balloon"
-            onClick={(e) => { e.stopPropagation(); const r = fxRef.current.getBoundingClientRect(); actions.current.popBalloon(b.id, e.clientX - r.left, e.clientY - r.top, b.color); }}
+          <button key={b.id} aria-label={b.kind === "notes" ? "note" : "balloon"}
+            onClick={(e) => { e.stopPropagation(); const r = fxRef.current.getBoundingClientRect(); actions.current.popBalloon(b.id, e.clientX - r.left, e.clientY - r.top, b); }}
             onAnimationEnd={(ev) => { if (ev.animationName === "eb-rise") actions.current.escapeBalloon(b.id); }}
-            style={{ position: "absolute", left: `${b.x}%`, bottom: -(b.size * 1.4), width: b.size, height: b.size * 1.4, border: "none", background: "transparent",
+            style={{ position: "absolute", left: `${b.x}%`, bottom: -b.h, width: b.w, height: b.h, border: "none", background: "transparent",
               padding: 0, cursor: "pointer", zIndex: 13, "--rise": `${b.rise}px`, animation: `eb-rise ${b.dur}s linear forwards`,
               animationPlayState: paused ? "paused" : "running", WebkitTapHighlightColor: "transparent" }}>
             <div style={{ width: "100%", height: "100%", animation: `eb-sway ${b.swayDur}s ease-in-out infinite alternate`, animationPlayState: paused ? "paused" : "running" }}>
-              <Balloon c={b.color} />
+              {b.kind === "notes" ? <Note c={b.color} glyph={b.glyph} /> : <Balloon c={b.color} />}
             </div>
           </button>
         ))}
@@ -736,10 +808,10 @@ export default function App() {
             {t.bLose}
           </div>
           <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 22, color: "#FFD24D", textShadow: "0 0 24px #FFD24D" }}>{t.bReached} {balloonGame.level}</div>
-          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 20, color: accent }}>🎈 {t.bPopped}: {poppedTotal.current}</div>
+          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 20, color: accent }}>{gameEmoji} {balloonGame.kind === "notes" ? t.nNotes : t.bPopped}: {poppedTotal.current}</div>
           <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap", justifyContent: "center" }}>
-            <button onClick={() => actions.current.startBalloonGame()} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18 }}>{t.bAgain}</button>
-            <button onClick={() => actions.current.exitBalloonGame()} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: "rgba(255,255,255,.12)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 16 }}>{t.bExit}</button>
+            <button onClick={() => actions.current.startBalloonGame(balloonGame.kind)} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18 }}>{gameEmoji} {t.bAgain}</button>
+            <button onClick={() => { actions.current.exitBalloonGame(); setShowGames(true); }} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: "rgba(255,255,255,.12)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 16 }}>{t.gMenu}</button>
           </div>
         </div>
       )}
@@ -759,14 +831,15 @@ export default function App() {
           <div style={{ width: "100%", maxWidth: 340, display: "flex", flexDirection: "column", gap: 12 }}>
             <input value={nameDraft} onChange={(e) => setNameDraft(e.target.value)} placeholder={lang === "es" ? "Tu nombre" : "Your name"} maxLength={16}
               style={{ border: "none", borderRadius: 14, padding: "15px 18px", fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: 16, background: "rgba(255,255,255,.12)", color: "#fff", outline: "none", textAlign: "center" }} />
-            <div style={{ fontSize: 13, color: "rgba(255,255,255,.65)", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginTop: 2 }}>{lang === "es" ? "Elige tu modo" : "Choose your mode"}</div>
-            <div style={{ display: "flex", gap: 12 }}>
-              <button onClick={() => enterGame("classic")} style={{ flex: 1, border: "none", cursor: "pointer", borderRadius: 16, padding: "18px 8px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 17, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                <span style={{ fontSize: 26 }}>👆</span>{lang === "es" ? "Clásico" : "Classic"}
-              </button>
-              <button onClick={() => enterGame("balloons")} style={{ flex: 1, border: "none", cursor: "pointer", borderRadius: 16, padding: "18px 8px", background: "linear-gradient(135deg, #FF6B81, #7C5CFF)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 17, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                <span style={{ fontSize: 26 }}>🎈</span>{lang === "es" ? "Globos" : "Balloons"}
-              </button>
+            <div style={{ fontSize: 13, color: "rgba(255,255,255,.65)", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginTop: 2 }}>{lang === "es" ? "Elige tu juego" : "Choose your game"}</div>
+            <div style={{ display: "flex", gap: 10 }}>
+              {GAMES.map((g) => (
+                <button key={g.kind} onClick={() => enterGame(g.kind)} style={{ flex: 1, border: "none", cursor: "pointer", borderRadius: 16, padding: "16px 4px",
+                  background: g.grad || accent, color: g.grad ? "#fff" : level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 15,
+                  display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                  <span style={{ fontSize: 24 }}>{g.emoji}</span>{g[lang]}
+                </button>
+              ))}
             </div>
             <button onClick={() => setEntered(true)} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "13px", background: "rgba(255,255,255,.1)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 15 }}>{lang === "es" ? "Jugar como invitado" : "Play as guest"}</button>
           </div>
@@ -774,6 +847,31 @@ export default function App() {
             {["es", "en"].map((l) => (
               <button key={l} onClick={() => setLang(l)} style={{ border: "none", cursor: "pointer", borderRadius: 999, padding: "6px 14px", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 13, background: lang === l ? "#fff" : "transparent", color: lang === l ? level.bg[0] : "rgba(255,255,255,.7)" }}>{l.toUpperCase()}</button>
             ))}
+          </div>
+        </div>
+      )}
+
+      {showGames && (
+        <div onClick={() => setShowGames(false)} style={{ position: "fixed", inset: 0, zIndex: 47, background: "rgba(0,0,0,.6)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 18 }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", maxWidth: 380, background: level.bg[0], borderRadius: 22, padding: 20, boxShadow: `0 20px 60px rgba(0,0,0,.5), 0 0 0 1px ${accent}44` }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+              <h2 style={{ margin: 0, fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 20, color: "#fff" }}>🎮 {t.gChoose}</h2>
+              <button onClick={() => setShowGames(false)} style={{ border: "none", background: "rgba(255,255,255,.12)", color: "#fff", width: 32, height: 32, borderRadius: 999, cursor: "pointer", fontSize: 16 }}>✕</button>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {GAMES.map((g) => {
+                const cur = g.kind === "classic" ? !balloonGame.active : balloonGame.active && balloonGame.kind === g.kind;
+                return (
+                  <button key={g.kind} onClick={() => pickGame(g.kind)} style={{ display: "flex", alignItems: "center", gap: 14, border: "none", cursor: "pointer", borderRadius: 16, padding: "14px 16px",
+                    background: g.grad || "rgba(255,255,255,.1)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18, textAlign: "left",
+                    boxShadow: cur ? `0 0 0 2px ${accent}` : "none" }}>
+                    <span style={{ fontSize: 28 }}>{g.emoji}</span>
+                    <span style={{ flex: 1 }}>{g[lang]}</span>
+                    {cur && <span style={{ fontSize: 13, color: g.grad ? "rgba(255,255,255,.9)" : accent }}>● {lang === "es" ? "actual" : "current"}</span>}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}
