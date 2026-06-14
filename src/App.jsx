@@ -34,8 +34,8 @@ const ACHIEVEMENTS = [
 const FAIL_MSG = { es: ["¡Casi! 😅","Uff, por poquito","Ya casi","La próxima es tuya 💪"], en: ["So close! 😅","Almost!","Nearly had it","Next one's yours 💪"] };
 
 const T = {
-  es: { sub:"Pícale. No vas a poder parar.", subJump:"¡Atrápalo si puedes!", vibe:"Buena Vibra", next:"Siguiente nivel", max:"NIVEL MÁXIMO", combo:"COMBO", share:"Presumir mi buena vibra", copied:"¡Copiado! Pégalo donde quieras ✨", best:"Mejor combo", streak:"Retos ✓", frenzy:"¡FRENESÍ!", win:"¡LO LOGRASTE!", caught:"¡ATRAPADO!", escaped:"Se escapó 💨", challenge:"RETO", cSpeed:(n)=>`¡Toca ${n} veces!`, cCombo:(k)=>`¡Llega a combo x${k}!`, cHold:"¡No sueltes el combo!", rank:"Ranking mundial", you:"TÚ", yourPos:"Tu posición", name:"Tu nombre", save:"Guardar", noRank:"Ranking no disponible aquí", anon:"Anónimo", empty:"¡Sé el primero del ranking!", bMode:"Globos", bSub:"¡Explota todos los que puedas!", bGoalLbl:(n)=>`Meta: ${n} globos`, bWin:"¡GANASTE! 🎉", bLose:"¡Se acabó el tiempo! 😅", bPopped:"Reventados", bAgain:"Otra vez", bExit:"Salir", bMsgWin:"¡Reventón total!", bMsgLose:"¡Casi! Inténtalo de nuevo", bLevel:"Nivel", bReached:"Llegaste al nivel", bLevelUp:(n)=>`¡NIVEL ${n}!`, nNotes:"Notas", gMenu:"Juegos", gChoose:"Elige un juego", nameNudge:"Ponte un nombre y compite en el ranking", nameCta:"Guardar y competir", namePh:"Tu nombre o alias", nameSaved:(n)=>`¡Listo, ${n}! Ya apareces en el ranking 🏆`, claimScore:"¡Guarda tu nombre para este puntaje!" },
-  en: { sub:"Tap it. You won't be able to stop.", subJump:"Catch it if you can!", vibe:"Good Vibes", next:"Next level", max:"MAX LEVEL", combo:"COMBO", share:"Brag about my good vibes", copied:"Copied! Paste it anywhere ✨", best:"Best combo", streak:"Challenges ✓", frenzy:"FRENZY!", win:"YOU DID IT!", caught:"CAUGHT!", escaped:"It escaped 💨", challenge:"CHALLENGE", cSpeed:(n)=>`Tap ${n} times!`, cCombo:(k)=>`Reach combo x${k}!`, cHold:"Don't drop the combo!", rank:"World ranking", you:"YOU", yourPos:"Your spot", name:"Your name", save:"Save", noRank:"Ranking unavailable here", anon:"Anonymous", empty:"Be the first on the board!", bMode:"Balloons", bSub:"Pop as many as you can!", bGoalLbl:(n)=>`Goal: ${n} balloons`, bWin:"YOU WON! 🎉", bLose:"Time's up! 😅", bPopped:"Popped", bAgain:"Again", bExit:"Exit", bMsgWin:"Total pop fest!", bMsgLose:"So close! Try again", bLevel:"Level", bReached:"You reached level", bLevelUp:(n)=>`LEVEL ${n}!`, nNotes:"Notes", gMenu:"Games", gChoose:"Choose a game", nameNudge:"Add a name and join the ranking", nameCta:"Save & compete", namePh:"Your name or alias", nameSaved:(n)=>`Done, ${n}! You're on the ranking now 🏆`, claimScore:"Save your name for this score!" },
+  es: { sub:"Pícale. No vas a poder parar.", subJump:"¡Atrápalo si puedes!", vibe:"Buena Vibra", next:"Siguiente nivel", max:"NIVEL MÁXIMO", combo:"COMBO", share:"Presumir mi buena vibra", copied:"¡Copiado! Pégalo donde quieras ✨", best:"Mejor combo", streak:"Retos ✓", frenzy:"¡FRENESÍ!", win:"¡LO LOGRASTE!", caught:"¡ATRAPADO!", escaped:"Se escapó 💨", challenge:"RETO", cSpeed:(n)=>`¡Toca ${n} veces!`, cCombo:(k)=>`¡Llega a combo x${k}!`, cHold:"¡No sueltes el combo!", rank:"Ranking mundial", you:"TÚ", yourPos:"Tu posición", name:"Tu nombre", save:"Guardar", noRank:"Ranking no disponible aquí", anon:"Anónimo", empty:"¡Sé el primero del ranking!", bMode:"Globos", bSub:"¡Explota todos los que puedas!", bGoalLbl:(n)=>`Meta: ${n} globos`, bWin:"¡GANASTE! 🎉", bLose:"¡Se acabó el tiempo! 😅", bPopped:"Reventados", bAgain:"Otra vez", bExit:"Salir", bMsgWin:"¡Reventón total!", bMsgLose:"¡Casi! Inténtalo de nuevo", bLevel:"Nivel", bReached:"Llegaste al nivel", bLevelUp:(n)=>`¡NIVEL ${n}!`, nNotes:"Notas", gMenu:"Juegos", gChoose:"Elige un juego", nameNudge:"Ponte un nombre y compite en el ranking", nameCta:"Guardar y competir", namePh:"Tu nombre o alias", nameSaved:(n)=>`¡Listo, ${n}! Ya apareces en el ranking 🏆`, claimScore:"¡Guarda tu nombre para este puntaje!", mpPlay:"Multijugador", mpTitle:"Jugar con amigos", mpCreate:"Crear sala", mpJoin:"Unirse a sala", mpEnterCode:"Código de 4 letras", mpShareCode:"Comparte este código:", mpInRoom:"En la sala", mpWaiting:"Esperando jugadores…", mpNeed:"Se necesitan 2+ jugadores", mpStartBtn:"¡Empezar partida!", mpHostStarts:"El anfitrión inicia la partida", mpPickGame:"Juego:", mpReady:"¡Prepárate!", mpResults:"Resultados", mpWins:(n)=>`🏆 ${n} gana`, mpTie:"¡Empate!", mpScore:"pts", mpAgain:"Otra ronda", mpUnavail:"Multijugador no disponible aquí", mpLeave:"Salir de la sala", mpBadCode:"Código inválido" },
+  en: { sub:"Tap it. You won't be able to stop.", subJump:"Catch it if you can!", vibe:"Good Vibes", next:"Next level", max:"MAX LEVEL", combo:"COMBO", share:"Brag about my good vibes", copied:"Copied! Paste it anywhere ✨", best:"Best combo", streak:"Challenges ✓", frenzy:"FRENZY!", win:"YOU DID IT!", caught:"CAUGHT!", escaped:"It escaped 💨", challenge:"CHALLENGE", cSpeed:(n)=>`Tap ${n} times!`, cCombo:(k)=>`Reach combo x${k}!`, cHold:"Don't drop the combo!", rank:"World ranking", you:"YOU", yourPos:"Your spot", name:"Your name", save:"Save", noRank:"Ranking unavailable here", anon:"Anonymous", empty:"Be the first on the board!", bMode:"Balloons", bSub:"Pop as many as you can!", bGoalLbl:(n)=>`Goal: ${n} balloons`, bWin:"YOU WON! 🎉", bLose:"Time's up! 😅", bPopped:"Popped", bAgain:"Again", bExit:"Exit", bMsgWin:"Total pop fest!", bMsgLose:"So close! Try again", bLevel:"Level", bReached:"You reached level", bLevelUp:(n)=>`LEVEL ${n}!`, nNotes:"Notes", gMenu:"Games", gChoose:"Choose a game", nameNudge:"Add a name and join the ranking", nameCta:"Save & compete", namePh:"Your name or alias", nameSaved:(n)=>`Done, ${n}! You're on the ranking now 🏆`, claimScore:"Save your name for this score!", mpPlay:"Multiplayer", mpTitle:"Play with friends", mpCreate:"Create room", mpJoin:"Join room", mpEnterCode:"4-letter code", mpShareCode:"Share this code:", mpInRoom:"In the room", mpWaiting:"Waiting for players…", mpNeed:"Need 2+ players", mpStartBtn:"Start match!", mpHostStarts:"Host starts the match", mpPickGame:"Game:", mpReady:"Get ready!", mpResults:"Results", mpWins:(n)=>`🏆 ${n} wins`, mpTie:"It's a tie!", mpScore:"pts", mpAgain:"Another round", mpUnavail:"Multiplayer unavailable here", mpLeave:"Leave room", mpBadCode:"Invalid code" },
 };
 
 const GOLD = ["#FFD24D","#FFE89A","#FFC53D","#FFFFFF","#FFB13D"];
@@ -82,10 +82,12 @@ const MELODIES = [
 ];
 // Catálogo de juegos (fácil de extender: agrega una entrada aquí)
 const GAMES = [
-  { kind: "classic",  emoji: "👆", es: "Botón",    en: "Button",   grad: null },
   { kind: "balloons", emoji: "🎈", es: "Globos",   en: "Balloons", grad: "linear-gradient(135deg, #FF6B81, #7C5CFF)" },
   { kind: "notes",    emoji: "🎹", es: "Melodías", en: "Melodies", grad: "linear-gradient(135deg, #34E89E, #1E9BFF)" },
 ];
+// Multijugador en vivo (Supabase Realtime)
+const MP_DUR = 30, MP_COUNTDOWN = 3;
+const roomCode = () => { const a = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; return Array.from({ length: 4 }, () => a[Math.floor(Math.random() * a.length)]).join(""); };
 const BIG_MSG = {
   es: ["¡IMPARABLE!","¡NO PARES!","¡ERES UNA MÁQUINA!","¡A TODO GAS!","¡LEYENDA!","¡SIGUE ASÍ!","¡VAS VOLANDO!","¡QUÉ NIVEL!","¡FUEGO PURO!","¡ROMPISTE LA PANTALLA!","¡NADIE TE PARA!","¡MODO BESTIA!"],
   en: ["UNSTOPPABLE!","DON'T STOP!","YOU'RE A MACHINE!","FULL SPEED!","LEGEND!","KEEP GOING!","YOU'RE FLYING!","WHAT A LEVEL!","PURE FIRE!","YOU BROKE THE SCREEN!","NOBODY STOPS YOU!","BEAST MODE!"],
@@ -194,6 +196,12 @@ export default function App() {
   const nextBalloonAt = useRef(Infinity), poppedGuard = useRef(new Set());
   const poppedCount = useRef(0), escapedCount = useRef(0), poppedTotal = useRef(0), melodyRef = useRef([]), lastMelodyIdx = useRef(-1);
 
+  // multijugador en vivo
+  const [mp, setMpState] = useState({ open: false, status: "idle", code: "", role: "", kind: "balloons", players: [], countdown: 0 });
+  const mpRef = useRef({ active: false, status: "idle", code: "", kind: "balloons", role: "", startAt: 0, dur: MP_DUR, melodyIdx: 0 });
+  const channelRef = useRef(null), playersRef = useRef({}), nextProgressAt = useRef(0);
+  const setMp = (u) => setMpState((prev) => (typeof u === "function" ? u(prev) : u));
+
   const [playerName, setPlayerName] = useState("");
   const [nameDraft, setNameDraft] = useState("");
   const [lb, setLb] = useState([]);
@@ -217,6 +225,7 @@ export default function App() {
     reduce.current = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     loadMe();
   }, []);
+  useEffect(() => () => { try { channelRef.current && supabase && supabase.removeChannel(channelRef.current); } catch (e) {} }, []);
   useEffect(() => { tapsRef.current = taps; }, [taps]);
   useEffect(() => { comboRef.current = combo; }, [combo]);
   useEffect(() => { enteredRef.current = entered; }, [entered]);
@@ -368,7 +377,7 @@ export default function App() {
       pausedRef.current = false; setPaused(false);
     } else { pausedAt.current = Date.now(); pausedRef.current = true; setPaused(true); }
   };
-  const handleMiss = () => { if (pausedRef.current || !enteredRef.current || balloonGameRef.current.active) return; missTone(); buzz(4); };
+  const handleMiss = () => {};
 
   /* ── acciones ── */
   actions.current.startChallenge = () => {
@@ -418,24 +427,25 @@ export default function App() {
   };
 
   /* ── mini-juegos: globos / melodías (niveles progresivos) ── */
-  const loadGameLevel = (kind, L, breather) => {
+  const loadGameLevel = (kind, L, breather, opts) => {
     const cfg = gameLevel(kind, L);
     poppedCount.current = 0; escapedCount.current = 0; poppedGuard.current = new Set();
-    let goal = cfg.goal;
+    let goal = cfg.goal, time = cfg.time;
     if (kind === "notes") {
-      let mi = Math.floor(Math.random() * MELODIES.length);
-      if (MELODIES.length > 1 && mi === lastMelodyIdx.current) mi = (mi + 1) % MELODIES.length;
+      let mi = opts && opts.melodyIdx != null ? opts.melodyIdx : Math.floor(Math.random() * MELODIES.length);
+      if (!(opts && opts.melodyIdx != null) && MELODIES.length > 1 && mi === lastMelodyIdx.current) mi = (mi + 1) % MELODIES.length;
       lastMelodyIdx.current = mi; melodyRef.current = MELODIES[mi]; goal = melodyRef.current.length;
     }
+    if (opts && opts.mp) { goal = Infinity; time = opts.dur || MP_DUR; } // multijugador: ronda fija por puntaje
     setBalloons([]); nextBalloonAt.current = Date.now() + breather;
     setBG((p) => ({ ...p, active: true, status: "playing", kind, level: L, goal, popped: 0, escaped: 0, progress: 0,
-      timeLeft: cfg.time, duration: cfg.time, deadline: Date.now() + cfg.time * 1000,
+      timeLeft: time, duration: time, deadline: Date.now() + time * 1000,
       spawnMin: cfg.spawnMin, spawnRand: cfg.spawnRand, riseBase: cfg.riseBase, riseRand: cfg.riseRand }));
   };
-  actions.current.startBalloonGame = (kind = "balloons") => {
+  actions.current.startBalloonGame = (kind = "balloons", opts) => {
     setChallenge(null); setFrenzy(false); setGolden({ visible: false });
     poppedTotal.current = 0;
-    loadGameLevel(kind, 1, 350);
+    loadGameLevel(kind, 1, opts && opts.mp ? 150 : 350, opts);
     chimeUp(); buzz(15);
   };
   actions.current.spawnBalloon = () => {
@@ -497,7 +507,14 @@ export default function App() {
     if (balloonGameRef.current.status !== "playing") return;
     setBalloons([]);
     setBG((p) => ({ ...p, status: "over", timeLeft: 0 }));
-    sadTone(); buzz([0, 15, 30, 15]); saveScore();
+    if (mpRef.current.active && mpRef.current.status === "playing") {
+      mpRef.current.status = "over";
+      const sc = poppedTotal.current;
+      playersRef.current[playerId.current] = { name: nameRef.current || t.anon, score: sc, finished: true };
+      try { channelRef.current && channelRef.current.send({ type: "broadcast", event: "finish", payload: { id: playerId.current, name: nameRef.current || t.anon, score: sc } }); } catch (e) {}
+      fanfare(); buzz([0, 30, 40, 30]); saveScore();
+      setMp((p) => ({ ...p, status: "over" })); mpSync();
+    } else { sadTone(); buzz([0, 15, 30, 15]); saveScore(); }
   };
   actions.current.exitBalloonGame = () => {
     setBalloons([]); nextBalloonAt.current = Infinity;
@@ -505,16 +522,82 @@ export default function App() {
     nextChAt.current = Date.now() + 6000; goldenNextAt.current = Date.now() + 14000;
   };
 
+  /* ── multijugador en vivo (Supabase Realtime) ── */
+  const mpSync = () => {
+    const st = channelRef.current ? channelRef.current.presenceState() : {};
+    const ids = new Set([...Object.keys(st), ...Object.keys(playersRef.current)]);
+    if (playerId.current) ids.add(playerId.current);
+    const arr = [...ids].map((id) => {
+      const pres = st[id] && st[id][0], pr = playersRef.current[id] || {};
+      return { id, name: (pres && pres.name) || pr.name || (id === playerId.current ? (nameRef.current || t.anon) : t.anon),
+        score: pr.score || 0, finished: !!pr.finished, me: id === playerId.current };
+    });
+    setMp((p) => ({ ...p, players: arr }));
+  };
+  const mpLeave = () => {
+    try { channelRef.current && supabase && supabase.removeChannel(channelRef.current); } catch (e) {}
+    channelRef.current = null; playersRef.current = {};
+    mpRef.current = { active: false, status: "idle", code: "", kind: "balloons", role: "", startAt: 0, dur: MP_DUR, melodyIdx: 0 };
+    if (balloonGameRef.current.active) actions.current.exitBalloonGame();
+    setMp({ open: false, status: "idle", code: "", role: "", kind: "balloons", players: [], countdown: 0 });
+  };
+  const mpConnect = (code, role) => {
+    if (!supabase) { setMp((p) => ({ ...p, open: true, status: "unavail" })); return; }
+    try { channelRef.current && supabase.removeChannel(channelRef.current); } catch (e) {}
+    playersRef.current = {};
+    const ch = supabase.channel("eb-room-" + code, { config: { presence: { key: playerId.current }, broadcast: { self: false } } });
+    channelRef.current = ch;
+    ch.on("presence", { event: "sync" }, mpSync);
+    ch.on("broadcast", { event: "start" }, ({ payload }) => mpOnStart(payload));
+    ch.on("broadcast", { event: "progress" }, ({ payload }) => { playersRef.current[payload.id] = { ...(playersRef.current[payload.id] || {}), name: payload.name, score: payload.score }; mpSync(); });
+    ch.on("broadcast", { event: "finish" }, ({ payload }) => { playersRef.current[payload.id] = { ...(playersRef.current[payload.id] || {}), name: payload.name, score: payload.score, finished: true }; mpSync(); });
+    ch.subscribe((status) => { if (status === "SUBSCRIBED") { try { ch.track({ name: nameRef.current || t.anon }); } catch (e) {} mpSync(); } });
+    mpRef.current = { ...mpRef.current, active: true, status: "lobby", code, role };
+    setMp((p) => ({ ...p, open: true, status: "lobby", code, role, players: [] }));
+  };
+  const mpCreate = () => { if (nameDraft.trim() && !playerName) saveName(); mpConnect(roomCode(), "host"); };
+  const mpJoinCode = (raw) => { const c = (raw || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 4); if (c.length !== 4) { setMp((p) => ({ ...p, error: t.mpBadCode })); return; } if (nameDraft.trim() && !playerName) saveName(); mpConnect(c, "guest"); };
+  const mpStart = () => {
+    const startAt = Date.now() + (MP_COUNTDOWN + 0.4) * 1000;
+    const melodyIdx = Math.floor(Math.random() * MELODIES.length);
+    const payload = { kind: mpRef.current.kind, startAt, melodyIdx, dur: MP_DUR };
+    try { channelRef.current && channelRef.current.send({ type: "broadcast", event: "start", payload }); } catch (e) {}
+    mpOnStart(payload);
+  };
+  const mpOnStart = (payload) => {
+    Object.keys(playersRef.current).forEach((id) => { playersRef.current[id] = { ...playersRef.current[id], score: 0, finished: false }; });
+    mpRef.current = { ...mpRef.current, status: "countdown", kind: payload.kind, dur: payload.dur, melodyIdx: payload.melodyIdx, startAt: payload.startAt };
+    setMp((p) => ({ ...p, open: false, status: "countdown", kind: payload.kind, countdown: MP_COUNTDOWN })); mpSync();
+    setTimeout(() => {
+      if (mpRef.current.status !== "countdown") return;
+      mpRef.current.status = "playing"; nextProgressAt.current = Date.now() + 400;
+      setMp((p) => ({ ...p, status: "playing" }));
+      actions.current.startBalloonGame(mpRef.current.kind, { mp: true, dur: mpRef.current.dur, melodyIdx: mpRef.current.melodyIdx });
+    }, Math.max(0, payload.startAt - Date.now()));
+  };
+  const mpSetKind = (kind) => { mpRef.current.kind = kind; setMp((p) => ({ ...p, kind })); };
+
   /* ── reloj maestro ── */
   useEffect(() => {
     const iv = setInterval(() => {
       if (!enteredRef.current || pausedRef.current) return;
       const now = Date.now();
 
+      if (mpRef.current.active && mpRef.current.status === "countdown") {
+        const cd = Math.max(0, Math.ceil((mpRef.current.startAt - now) / 1000));
+        setMp((p) => (p.countdown !== cd ? { ...p, countdown: cd } : p));
+      }
+
       const bg = balloonGameRef.current;
       if (bg.active) {
         if (bg.status === "playing") {
           if (now >= nextBalloonAt.current) actions.current.spawnBalloon();
+          if (mpRef.current.active && mpRef.current.status === "playing" && now >= nextProgressAt.current) {
+            nextProgressAt.current = now + 450;
+            playersRef.current[playerId.current] = { name: nameRef.current || t.anon, score: poppedTotal.current, finished: false };
+            try { channelRef.current && channelRef.current.send({ type: "broadcast", event: "progress", payload: { id: playerId.current, name: nameRef.current || t.anon, score: poppedTotal.current } }); } catch (e) {}
+            mpSync();
+          }
           if (now >= bg.deadline) actions.current.endBalloonGame();
           else setBalloonGameState((p) => (p.active ? { ...p, timeLeft: Math.max(0, (bg.deadline - now) / 1000) } : p));
         }
@@ -620,8 +703,11 @@ export default function App() {
   const urgent = challenge && challenge.timeLeft <= 3;
   const bUrgent = balloonGame.active && balloonGame.status === "playing" && balloonGame.timeLeft <= 5;
   const enterGame = (kind) => { if (nameDraft.trim()) saveName(); setEntered(true); if (kind !== "classic") actions.current.startBalloonGame(kind); };
-  const pickGame = (kind) => { setShowGames(false); if (kind === "classic") actions.current.exitBalloonGame(); else actions.current.startBalloonGame(kind); };
+  const pickGame = (kind) => { setShowGames(false); actions.current.startBalloonGame(kind); };
   const gameEmoji = balloonGame.kind === "notes" ? "🎹" : "🎈";
+  const inMp = mp.status === "playing" || mp.status === "over" || mp.status === "countdown";
+  const mpRanking = [...mp.players].sort((a, b) => b.score - a.score);
+  const mpTop = mpRanking[0];
   const dimTitle = !!flash || !!toast || frenzy || !!bigMsg;
   const goldUrgent = golden.visible && golden.timeLeft <= 1.5;
   const btnFont = Math.max(15, Math.round(SIZE * 0.16));
@@ -671,7 +757,6 @@ export default function App() {
         <div style={{ display: "flex", gap: 5 }}>
           {[[paused ? "▶️" : "⏸️", togglePause, false],
             ["🎮", () => setShowGames(true), false],
-            ["🎯", () => { movedRef.current = false; setJumpy((j) => !j); }, !jumpy],
             ["🏆", () => { loadLeaderboard(); setShowLB(true); }, false],
             ["📳", () => setHaptics((h) => !h), !haptics],
             [muted ? "🔇" : "🔊", () => setMuted((m) => !m), false]].map(([ic, fn, dim], i) => (
@@ -689,7 +774,7 @@ export default function App() {
         {balloonGame.active && balloonGame.status === "playing" ? (
           <div style={{ marginTop: 9, animation: "eb-slideDown .3s ease", background: "rgba(0,0,0,.28)", border: `2px solid ${bUrgent ? "#FF5A5A" : accent}`, borderRadius: 16, padding: "9px 13px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-              <span style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 15, color: "#fff" }}>{t.bLevel} {balloonGame.level} · {gameEmoji} {balloonGame.progress}/{balloonGame.goal}</span>
+              <span style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 15, color: "#fff" }}>{inMp ? "👥" : `${t.bLevel} ${balloonGame.level}`} · {gameEmoji} {balloonGame.progress}{Number.isFinite(balloonGame.goal) ? `/${balloonGame.goal}` : ""}</span>
               <span style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 16, color: bUrgent ? "#FF6A6A" : accent }}>⏱️ {Math.ceil(balloonGame.timeLeft)}s</span>
             </div>
             <div style={{ height: 8, borderRadius: 999, background: "rgba(255,255,255,.14)", overflow: "hidden" }}>
@@ -711,7 +796,7 @@ export default function App() {
             </div>
           </div>
         ) : (
-          <p style={{ margin: "4px 0 0", fontSize: 14, color: "rgba(255,255,255,.75)", fontWeight: 600 }}>{frenzy ? "" : jumpy ? t.subJump : t.sub}</p>
+          <p style={{ margin: "4px 0 0", fontSize: 14, color: "rgba(255,255,255,.75)", fontWeight: 600 }}>{lang === "es" ? "Mini-juegos de buena vibra" : "Good-vibe mini games"}</p>
         )}
       </div>
 
@@ -754,18 +839,43 @@ export default function App() {
               fontSize: 25, display: "flex", alignItems: "center", justifyContent: "center", WebkitTapHighlightColor: "transparent" }}><Face expr="happy" /></button>
         )}
 
-        {box.w > 0 && !balloonGame.active && (
-          <button key={jumpy && movedRef.current ? `${Math.round(pos.x)},${Math.round(pos.y)}` : "center"} onClick={tap}
-            aria-label={lang === "es" ? "Presiona para buena vibra" : "Tap for good vibes"}
-            style={{ position: "absolute", left: pos.x, top: pos.y, width: SIZE, height: SIZE, borderRadius: "50%", border: "none", cursor: "pointer", zIndex: 6,
-              background: frenzy ? "radial-gradient(circle at 35% 30%, #FFE89A, #FFC53D)" : `radial-gradient(circle at 35% 30%, ${level.btn[1]}, ${level.btn[0]})`,
-              boxShadow: `0 16px 40px ${accent}66, 0 0 0 8px rgba(255,255,255,.06), inset 0 -10px 24px rgba(0,0,0,.25), inset 0 8px 18px rgba(255,255,255,.4)`,
-              color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: btnFont, display: "flex", alignItems: "center", justifyContent: "center",
-              transform: pressed ? "scale(.92)" : "scale(1)", transition: "transform .1s ease, background .9s ease, box-shadow .9s ease",
-              animation: jumpy && movedRef.current ? "eb-land .22s ease" : (urgent ? "eb-pulse 1s infinite" : combo < 1 ? "eb-breathe 3s ease-in-out infinite" : "none"),
-              textShadow: "0 2px 8px rgba(0,0,0,.3)", WebkitTapHighlightColor: "transparent", userSelect: "none" }}>
-            <Face expr={faceExpr} />
-          </button>
+        {entered && !balloonGame.active && (
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 18, zIndex: 6, padding: "0 8px" }}>
+            <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18, color: "rgba(255,255,255,.85)" }}>{lang === "es" ? "Elige tu juego" : "Choose your game"}</div>
+            <div style={{ display: "flex", gap: 14, width: "100%", maxWidth: 360 }}>
+              {GAMES.map((g) => (
+                <button key={g.kind} onClick={(e) => { e.stopPropagation(); actions.current.startBalloonGame(g.kind); }} style={{ flex: 1, border: "none", cursor: "pointer", borderRadius: 22, padding: "30px 8px",
+                  background: g.grad, color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18, display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
+                  boxShadow: "0 12px 30px rgba(0,0,0,.35)" }}>
+                  <span style={{ fontSize: 44 }}>{g.emoji}</span>{g[lang]}
+                </button>
+              ))}
+            </div>
+            {supabase && (
+              <button onClick={(e) => { e.stopPropagation(); setMp((p) => ({ ...p, open: true, status: "menu", error: "" })); }} style={{ border: "none", cursor: "pointer", borderRadius: 16, padding: "13px 22px",
+                background: "rgba(255,255,255,.14)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 16, marginTop: 4 }}>
+                👥 {t.mpPlay}
+              </button>
+            )}
+          </div>
+        )}
+
+        {mp.status === "playing" && mp.players.length > 0 && (
+          <div style={{ position: "absolute", top: 6, left: 0, right: 0, display: "flex", flexDirection: "column", gap: 5, padding: "0 6px", zIndex: 12, pointerEvents: "none" }}>
+            {[...mp.players].sort((a, b) => b.score - a.score).slice(0, 5).map((pl) => {
+              const mx = Math.max(1, ...mp.players.map((x) => x.score));
+              return (
+                <div key={pl.id} style={{ background: "rgba(0,0,0,.32)", borderRadius: 10, padding: "4px 8px", border: pl.me ? `1px solid ${accent}` : "1px solid transparent" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, fontWeight: 700, color: pl.me ? accent : "#fff", marginBottom: 2 }}>
+                    <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "70%" }}>{pl.me ? t.you : pl.name} {pl.finished ? "🏁" : ""}</span><span>{pl.score}</span>
+                  </div>
+                  <div style={{ height: 5, borderRadius: 999, background: "rgba(255,255,255,.14)", overflow: "hidden" }}>
+                    <div style={{ height: "100%", width: `${(pl.score / mx) * 100}%`, background: pl.me ? accent : "#fff", borderRadius: 999, transition: "width .25s ease" }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         )}
       </div>
 
@@ -776,17 +886,9 @@ export default function App() {
           <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: "clamp(38px, 12vw, 56px)", lineHeight: 1, textShadow: `0 0 30px ${accent}66` }}>{vibe.toLocaleString()}</div>
         </div>
         <div style={{ marginBottom: 12 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, fontWeight: 700, marginBottom: 6 }}>
-            <span style={{ color: level.glow }}>● {level[lang]}</span>
-            <span style={{ color: "rgba(255,255,255,.6)" }}>{nextLevel ? `${t.next}: ${nextLevel.at - taps}` : t.max}</span>
-          </div>
-          <div style={{ height: 12, borderRadius: 999, background: "rgba(255,255,255,.12)", overflow: "hidden" }}>
-            <div style={{ height: "100%", width: `${progress * 100}%`, background: `linear-gradient(90deg, ${level.btn[0]}, ${level.glow})`, borderRadius: 999, transition: "width .3s ease", boxShadow: `0 0 12px ${level.glow}` }} />
-          </div>
-          <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 8, fontSize: 12, color: "rgba(255,255,255,.6)", fontWeight: 700, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: 16, fontSize: 12, color: "rgba(255,255,255,.6)", fontWeight: 700, flexWrap: "wrap" }}>
             {myRank > 0 && <span style={{ color: accent }}>🏆 #{myRank}</span>}
-            {cStreak > 0 && <span style={{ color: accent }}>{t.streak} {cStreak}</span>}
-            {maxCombo >= 3 && <span>{t.best}: x{bestComboMult}</span>}
+            {playerName && <span>{playerName}</span>}
           </div>
         </div>
         {entered && !playerName && lbOk && (
@@ -828,7 +930,7 @@ export default function App() {
         </div>
       )}
 
-      {balloonGame.active && balloonGame.status === "over" && (
+      {balloonGame.active && balloonGame.status === "over" && !inMp && (
         <div style={{ position: "fixed", inset: 0, zIndex: 46, background: "rgba(10,8,26,.82)", backdropFilter: "blur(6px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: 24, textAlign: "center" }}>
           <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: "clamp(34px, 11vw, 52px)", color: "#fff", textShadow: "0 0 30px rgba(0,0,0,.5)" }}>
             {t.bLose}
@@ -848,7 +950,7 @@ export default function App() {
           {playerName && <div style={{ fontSize: 13, color: "rgba(255,255,255,.6)", fontWeight: 700 }}>{playerName}{myRank > 0 ? ` · 🏆 #${myRank}` : ""}</div>}
           <div style={{ display: "flex", gap: 12, marginTop: 8, flexWrap: "wrap", justifyContent: "center" }}>
             <button onClick={() => actions.current.startBalloonGame(balloonGame.kind)} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18 }}>{gameEmoji} {t.bAgain}</button>
-            <button onClick={() => { actions.current.exitBalloonGame(); setShowGames(true); }} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: "rgba(255,255,255,.12)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 16 }}>{t.gMenu}</button>
+            <button onClick={() => actions.current.exitBalloonGame()} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: "rgba(255,255,255,.12)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 16 }}>{t.gMenu}</button>
           </div>
         </div>
       )}
@@ -884,6 +986,101 @@ export default function App() {
             {["es", "en"].map((l) => (
               <button key={l} onClick={() => setLang(l)} style={{ border: "none", cursor: "pointer", borderRadius: 999, padding: "6px 14px", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 13, background: lang === l ? "#fff" : "transparent", color: lang === l ? level.bg[0] : "rgba(255,255,255,.7)" }}>{l.toUpperCase()}</button>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* multijugador: cuenta regresiva 3·2·1 */}
+      {mp.status === "countdown" && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 48, background: "rgba(10,8,26,.85)", backdropFilter: "blur(6px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10 }}>
+          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 20, color: "rgba(255,255,255,.85)" }}>{t.mpReady}</div>
+          <div key={mp.countdown} style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: "clamp(70px, 26vw, 140px)", color: accent, textShadow: `0 0 40px ${accent}`, animation: "eb-pop .3s ease", lineHeight: 1 }}>{mp.countdown > 0 ? mp.countdown : "¡GO!"}</div>
+          <div style={{ fontSize: 14, color: "rgba(255,255,255,.7)", fontWeight: 700 }}>{(mp.kind === "notes" ? "🎹 " : "🎈 ") + (GAMES.find((g) => g.kind === mp.kind) || {})[lang]}</div>
+        </div>
+      )}
+
+      {/* multijugador: resultados */}
+      {mp.status === "over" && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 49, background: "rgba(10,8,26,.86)", backdropFilter: "blur(6px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, padding: 24, textAlign: "center" }}>
+          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: "clamp(30px, 9vw, 44px)", color: "#FFD24D", textShadow: "0 0 28px #FFD24D" }}>🏆 {t.mpResults}</div>
+          {mpTop && <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 20, color: "#fff" }}>{mpRanking.length > 1 && mpRanking[0].score === mpRanking[1].score ? t.mpTie : t.mpWins(mpTop.me ? t.you : mpTop.name)}</div>}
+          <div style={{ width: "100%", maxWidth: 340, display: "flex", flexDirection: "column", gap: 8, marginTop: 4 }}>
+            {mpRanking.map((pl, i) => (
+              <div key={pl.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", borderRadius: 14,
+                background: pl.me ? `${accent}26` : "rgba(255,255,255,.06)", border: pl.me ? `1px solid ${accent}88` : "1px solid transparent" }}>
+                <span style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 16, width: 26, color: i === 0 ? "#FFD24D" : "rgba(255,255,255,.6)" }}>{i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : i + 1}</span>
+                <span style={{ flex: 1, textAlign: "left", fontWeight: 700, fontSize: 15, color: "#fff", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{pl.me ? t.you : pl.name} {pl.finished ? "🏁" : "…"}</span>
+                <span style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 16, color: accent }}>{pl.score} {t.mpScore}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "flex", gap: 12, marginTop: 10, flexWrap: "wrap", justifyContent: "center" }}>
+            {mp.role === "host" && (
+              <button onClick={() => { actions.current.exitBalloonGame(); mpRef.current.status = "lobby"; setMp((p) => ({ ...p, open: true, status: "lobby" })); }} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 26px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 17 }}>🔁 {t.mpAgain}</button>
+            )}
+            <button onClick={() => mpLeave()} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 26px", background: "rgba(255,255,255,.12)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 16 }}>{t.mpLeave}</button>
+          </div>
+        </div>
+      )}
+
+      {/* multijugador: lobby / menú de sala */}
+      {mp.open && (mp.status === "menu" || mp.status === "lobby" || mp.status === "unavail") && (
+        <div onClick={() => mpLeave()} style={{ position: "fixed", inset: 0, zIndex: 47, background: "rgba(0,0,0,.6)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 18 }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ width: "100%", maxWidth: 380, background: level.bg[0], borderRadius: 22, padding: 22, boxShadow: `0 20px 60px rgba(0,0,0,.5), 0 0 0 1px ${accent}44` }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+              <h2 style={{ margin: 0, fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 20, color: "#fff" }}>👥 {t.mpTitle}</h2>
+              <button onClick={() => mpLeave()} style={{ border: "none", background: "rgba(255,255,255,.12)", color: "#fff", width: 32, height: 32, borderRadius: 999, cursor: "pointer", fontSize: 16 }}>✕</button>
+            </div>
+
+            {mp.status === "unavail" && <p style={{ color: "rgba(255,255,255,.7)", fontSize: 14, textAlign: "center", padding: "16px 0" }}>{t.mpUnavail}</p>}
+
+            {mp.status === "menu" && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <button onClick={() => mpCreate()} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "15px", background: accent, color: level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 17 }}>➕ {t.mpCreate}</button>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <input value={mp.joinCode || ""} onChange={(e) => setMp((p) => ({ ...p, joinCode: e.target.value.toUpperCase().slice(0, 4), error: "" }))} placeholder={t.mpEnterCode} maxLength={4}
+                    style={{ flex: 1, border: "none", borderRadius: 12, padding: "13px 14px", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18, letterSpacing: 3, textAlign: "center", background: "rgba(255,255,255,.12)", color: "#fff", outline: "none" }} />
+                  <button onClick={() => mpJoinCode(mp.joinCode)} style={{ border: "none", borderRadius: 12, padding: "0 18px", cursor: "pointer", background: "rgba(255,255,255,.16)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 15 }}>{t.mpJoin}</button>
+                </div>
+                {mp.error && <div style={{ color: "#FF8A8A", fontSize: 13, fontWeight: 700, textAlign: "center" }}>{mp.error}</div>}
+              </div>
+            )}
+
+            {mp.status === "lobby" && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontSize: 12, color: "rgba(255,255,255,.6)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{t.mpShareCode}</div>
+                  <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 44, letterSpacing: 8, color: accent, textShadow: `0 0 24px ${accent}88` }}>{mp.code}</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 12, color: "rgba(255,255,255,.6)", fontWeight: 700, marginBottom: 6 }}>{t.mpInRoom} ({mp.players.length})</div>
+                  {mp.players.map((pl) => (
+                    <div key={pl.id} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", borderRadius: 10, marginBottom: 5, background: pl.me ? `${accent}22` : "rgba(255,255,255,.05)" }}>
+                      <span style={{ fontSize: 15 }}>🙂</span>
+                      <span style={{ flex: 1, fontWeight: 700, fontSize: 14, color: "#fff" }}>{pl.me ? `${pl.name} (${t.you})` : pl.name}</span>
+                    </div>
+                  ))}
+                  {mp.players.length < 2 && <div style={{ fontSize: 13, color: "rgba(255,255,255,.55)", fontWeight: 700, textAlign: "center", padding: "4px 0" }}>{t.mpWaiting}</div>}
+                </div>
+                {mp.role === "host" ? (
+                  <>
+                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                      <span style={{ fontSize: 13, color: "rgba(255,255,255,.7)", fontWeight: 700 }}>{t.mpPickGame}</span>
+                      {GAMES.map((g) => (
+                        <button key={g.kind} onClick={() => mpSetKind(g.kind)} style={{ border: "none", cursor: "pointer", borderRadius: 999, padding: "7px 12px", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 14,
+                          background: mp.kind === g.kind ? accent : "rgba(255,255,255,.12)", color: mp.kind === g.kind ? level.bg[0] : "#fff" }}>{g.emoji} {g[lang]}</button>
+                      ))}
+                    </div>
+                    <button onClick={() => mpStart()} disabled={mp.players.length < 2} style={{ border: "none", cursor: mp.players.length < 2 ? "default" : "pointer", borderRadius: 14, padding: "15px", background: mp.players.length < 2 ? "rgba(255,255,255,.1)" : accent, color: mp.players.length < 2 ? "rgba(255,255,255,.5)" : level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 17 }}>
+                      {mp.players.length < 2 ? t.mpNeed : t.mpStartBtn}
+                    </button>
+                  </>
+                ) : (
+                  <div style={{ fontSize: 14, color: "rgba(255,255,255,.7)", fontWeight: 700, textAlign: "center" }}>{t.mpHostStarts}</div>
+                )}
+                <button onClick={() => mpLeave()} style={{ border: "none", cursor: "pointer", borderRadius: 12, padding: "11px", background: "rgba(255,255,255,.08)", color: "rgba(255,255,255,.8)", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 14 }}>{t.mpLeave}</button>
+              </div>
+            )}
           </div>
         </div>
       )}
