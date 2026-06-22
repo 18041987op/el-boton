@@ -1,6 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { AUDIENCES, GAME_CATALOG } from "../data/gameCatalog";
 import { levelFromXp, xpForNextLevel } from "../services/playerProgress";
+import RetentionPanel from "./RetentionPanel";
 
 const COPY = {
   es: {
@@ -23,12 +24,15 @@ const COPY = {
 
 export default function PlatformHome({ lang, setLang, onPlay, onMultiplayer, supabaseReady, progress, onClaimDaily }) {
   const [audience, setAudience] = useState("all");
+  const [displayProgress, setDisplayProgress] = useState(progress);
+  useEffect(() => setDisplayProgress(progress), [progress]);
+
   const copy = COPY[lang];
-  const level = levelFromXp(progress.xp);
+  const level = levelFromXp(displayProgress.xp);
   const currentFloor = level === 1 ? 0 : xpForNextLevel(level - 1);
   const nextTarget = xpForNextLevel(level);
-  const xpPct = Math.min(100, Math.max(0, ((progress.xp - currentFloor) / Math.max(1, nextTarget - currentFloor)) * 100));
-  const claimedToday = progress.lastDailyReward === new Date().toISOString().slice(0, 10);
+  const xpPct = Math.min(100, Math.max(0, ((displayProgress.xp - currentFloor) / Math.max(1, nextTarget - currentFloor)) * 100));
+  const claimedToday = displayProgress.lastDailyReward === new Date().toISOString().slice(0, 10);
   const filtered = useMemo(() => audience === "all" ? GAME_CATALOG : GAME_CATALOG.filter((g) => g.audience.includes(audience)), [audience]);
 
   return <div className="platform-shell">
@@ -49,14 +53,16 @@ export default function PlatformHome({ lang, setLang, onPlay, onMultiplayer, sup
       <section className="player-dashboard" aria-label="Player progress">
         <div className="player-level-ring"><strong>{level}</strong><span>{copy.level}</span></div>
         <div className="player-progress-main">
-          <div className="player-progress-title"><strong>{progress.xp} XP</strong><span>{nextTarget} XP</span></div>
+          <div className="player-progress-title"><strong>{displayProgress.xp} XP</strong><span>{nextTarget} XP</span></div>
           <div className="player-progress-track"><span style={{ width: `${xpPct}%` }}/></div>
-          <div className="player-stats"><span>🪙 {progress.coins} {copy.coins}</span><span>🔥 {progress.streak} {copy.streak}</span><span>🎮 {progress.totalPlays} {copy.plays}</span></div>
+          <div className="player-stats"><span>🪙 {displayProgress.coins} {copy.coins}</span><span>🔥 {displayProgress.streak} {copy.streak}</span><span>🎮 {displayProgress.totalPlays} {copy.plays}</span></div>
         </div>
         <button className="daily-reward" disabled={claimedToday} onClick={onClaimDaily}>
           <span>🎁 {copy.daily}</span><strong>{claimedToday ? copy.claimed : copy.claim}</strong>
         </button>
       </section>
+
+      <RetentionPanel lang={lang} progress={displayProgress} onProgressChange={setDisplayProgress}/>
 
       <section className="platform-library">
         <div className="platform-section-head"><div><small>{copy.featured}</small><h2>{copy.choose}</h2></div>
@@ -64,7 +70,7 @@ export default function PlatformHome({ lang, setLang, onPlay, onMultiplayer, sup
         </div>
         <div className="platform-grid">{filtered.map((g) => <article key={g.kind} className="platform-card" style={{"--card-gradient":g.grad}}>
           <div className="platform-card-art"><span>{g.emoji}</span><div className="platform-difficulty" title={copy.difficulty}>{Array.from({length:5},(_,i)=><i key={i} className={i<g.difficulty?"on":""}>●</i>)}</div></div>
-          <div className="platform-card-body"><h3>{g[lang]}</h3><p>{lang === "es" ? g.descEs : g.descEn}</p><div className="platform-card-meta"><span>+{g.reward} 🪙</span><span>{progress.games[g.kind]?.plays || 0} 🎮</span></div><button onClick={() => onPlay(g)}>{copy.play} <span>→</span></button></div>
+          <div className="platform-card-body"><h3>{g[lang]}</h3><p>{lang === "es" ? g.descEs : g.descEn}</p><div className="platform-card-meta"><span>+{g.reward} 🪙</span><span>{displayProgress.games[g.kind]?.plays || 0} 🎮</span></div><button onClick={() => onPlay(g)}>{copy.play} <span>→</span></button></div>
         </article>)}</div>
         {supabaseReady && <button className="platform-multiplayer" onClick={onMultiplayer}>👥 {copy.multiplayer}</button>}
       </section>
