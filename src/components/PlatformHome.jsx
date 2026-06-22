@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { AUDIENCES, GAME_CATALOG } from "../data/gameCatalog";
 import { levelFromXp, recordGameStart, xpForNextLevel } from "../services/playerProgress";
+import { markLegacyPlatformLaunch } from "../services/platformLaunchBridge";
 import RetentionPanel from "./RetentionPanel";
 import ArcadeGames from "../games/ArcadeGames";
 
@@ -39,6 +40,7 @@ export default function PlatformHome({ lang, setLang, onPlay, onMultiplayer, sup
 
   const launchGame = (game) => {
     if (!game.standalone) {
+      markLegacyPlatformLaunch(game.kind);
       onPlay(game);
       return;
     }
