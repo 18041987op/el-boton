@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { AUDIENCES, GAME_CATALOG } from "../data/gameCatalog";
-import { levelFromXp, xpForNextLevel } from "../services/playerProgress";
+import { levelFromXp, recordGameStart, xpForNextLevel } from "../services/playerProgress";
 import RetentionPanel from "./RetentionPanel";
+import ArcadeGames from "../games/ArcadeGames";
 
 const COPY = {
   es: {
@@ -25,6 +26,7 @@ const COPY = {
 export default function PlatformHome({ lang, setLang, onPlay, onMultiplayer, supabaseReady, progress, onClaimDaily }) {
   const [audience, setAudience] = useState("all");
   const [displayProgress, setDisplayProgress] = useState(progress);
+  const [activeStandalone, setActiveStandalone] = useState(null);
   useEffect(() => setDisplayProgress(progress), [progress]);
 
   const copy = COPY[lang];
@@ -34,6 +36,16 @@ export default function PlatformHome({ lang, setLang, onPlay, onMultiplayer, sup
   const xpPct = Math.min(100, Math.max(0, ((displayProgress.xp - currentFloor) / Math.max(1, nextTarget - currentFloor)) * 100));
   const claimedToday = displayProgress.lastDailyReward === new Date().toISOString().slice(0, 10);
   const filtered = useMemo(() => audience === "all" ? GAME_CATALOG : GAME_CATALOG.filter((g) => g.audience.includes(audience)), [audience]);
+
+  const launchGame = (game) => {
+    if (!game.standalone) {
+      onPlay(game);
+      return;
+    }
+    const nextProgress = recordGameStart(displayProgress, game);
+    setDisplayProgress(nextProgress);
+    setActiveStandalone(game.kind);
+  };
 
   return <div className="platform-shell">
     <div className="platform-orb platform-orb-one"/><div className="platform-orb platform-orb-two"/>
@@ -70,11 +82,12 @@ export default function PlatformHome({ lang, setLang, onPlay, onMultiplayer, sup
         </div>
         <div className="platform-grid">{filtered.map((g) => <article key={g.kind} className="platform-card" style={{"--card-gradient":g.grad}}>
           <div className="platform-card-art"><span>{g.emoji}</span><div className="platform-difficulty" title={copy.difficulty}>{Array.from({length:5},(_,i)=><i key={i} className={i<g.difficulty?"on":""}>●</i>)}</div></div>
-          <div className="platform-card-body"><h3>{g[lang]}</h3><p>{lang === "es" ? g.descEs : g.descEn}</p><div className="platform-card-meta"><span>+{g.reward} 🪙</span><span>{displayProgress.games[g.kind]?.plays || 0} 🎮</span></div><button onClick={() => onPlay(g)}>{copy.play} <span>→</span></button></div>
+          <div className="platform-card-body"><h3>{g[lang]}</h3><p>{lang === "es" ? g.descEs : g.descEn}</p><div className="platform-card-meta"><span>+{g.reward} 🪙</span><span>{displayProgress.games[g.kind]?.plays || 0} 🎮</span></div><button onClick={() => launchGame(g)}>{copy.play} <span>→</span></button></div>
         </article>)}</div>
         {supabaseReady && <button className="platform-multiplayer" onClick={onMultiplayer}>👥 {copy.multiplayer}</button>}
       </section>
     </main>
     <footer className="platform-footer">{copy.title} · {new Date().getFullYear()}</footer>
+    {activeStandalone && <ArcadeGames kind={activeStandalone} lang={lang} onClose={() => setActiveStandalone(null)}/>} 
   </div>;
 }
