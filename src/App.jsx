@@ -35,9 +35,9 @@ const FAIL_MSG = { es: ["¡Casi! 😅","Uff, por poquito","Ya casi","La próxima
 
 const T = {
   es: { sub:"Pícale. No vas a poder parar.", subJump:"¡Atrápalo si puedes!", vibe:"Buena Vibra", next:"Siguiente nivel", max:"NIVEL MÁXIMO", combo:"COMBO", share:"Presumir mi buena vibra", copied:"¡Copiado! Pégalo donde quieras ✨", best:"Mejor combo", streak:"Retos ✓", frenzy:"¡FRENESÍ!", win:"¡LO LOGRASTE!", caught:"¡ATRAPADO!", escaped:"Se escapó 💨", challenge:"RETO", cSpeed:(n)=>`¡Toca ${n} veces!`, cCombo:(k)=>`¡Llega a combo x${k}!`, cHold:"¡No sueltes el combo!", rank:"Ranking mundial", you:"TÚ", yourPos:"Tu posición", name:"Tu nombre", save:"Guardar", noRank:"Ranking no disponible aquí", anon:"Anónimo", empty:"¡Sé el primero del ranking!", bMode:"Globos", bSub:"¡Explota todos los que puedas!", bGoalLbl:(n)=>`Meta: ${n} globos`, bWin:"¡GANASTE! 🎉", bLose:"¡Se acabó el tiempo! 😅", bPopped:"Reventados", bAgain:"Otra vez", bExit:"Salir", bMsgWin:"¡Reventón total!", bMsgLose:"¡Casi! Inténtalo de nuevo", bLevel:"Nivel", bReached:"Llegaste al nivel", bLevelUp:(n)=>`¡NIVEL ${n}!`, nNotes:"Notas", gMenu:"Juegos", gChoose:"Elige un juego", nameNudge:"Ponte un nombre y compite en el ranking", nameCta:"Guardar y competir", namePh:"Tu nombre o alias", nameSaved:(n)=>`¡Listo, ${n}! Ya apareces en el ranking 🏆`, claimScore:"¡Guarda tu nombre para este puntaje!", mpPlay:"Multijugador", mpTitle:"Jugar con amigos", mpCreate:"Crear sala", mpJoin:"Unirse a sala", mpEnterCode:"Código de 4 letras", mpShareCode:"Comparte este código:", mpInRoom:"En la sala", mpWaiting:"Esperando jugadores…", mpNeed:"Se necesitan 2+ jugadores", mpStartBtn:"¡Empezar partida!", mpHostStarts:"El anfitrión inicia la partida", mpPickGame:"Juego:", mpReady:"¡Prepárate!", mpResults:"Resultados", mpWins:(n)=>`🏆 ${n} gana`, mpTie:"¡Empate!", mpScore:"pts", mpAgain:"Otra ronda", mpUnavail:"Multijugador no disponible aquí", mpLeave:"Salir de la sala", mpBadCode:"Código inválido", mpWaitHost:"⏳ Esperando a que el anfitrión empiece…", mpWaitRematch:"Esperando al anfitrión para otra ronda…",
-    dOver:"¡Fin del juego!", dScore:"Puntos", dLevel:"Nivel alcanzado", dAgain:"Otra vez" },
+    dOver:"¡EXTINCIÓN!", dScore:"Puntos", dLevel:"Era alcanzada", dAgain:"Revivir", dHp:"Vida", dTapRoar:"Toca para rugir y morder 🦖", dEaten:"¡ÑAM!" },
   en: { sub:"Tap it. You won't be able to stop.", subJump:"Catch it if you can!", vibe:"Good Vibes", next:"Next level", max:"MAX LEVEL", combo:"COMBO", share:"Brag about my good vibes", copied:"Copied! Paste it anywhere ✨", best:"Best combo", streak:"Challenges ✓", frenzy:"FRENZY!", win:"YOU DID IT!", caught:"CAUGHT!", escaped:"It escaped 💨", challenge:"CHALLENGE", cSpeed:(n)=>`Tap ${n} times!`, cCombo:(k)=>`Reach combo x${k}!`, cHold:"Don't drop the combo!", rank:"World ranking", you:"YOU", yourPos:"Your spot", name:"Your name", save:"Save", noRank:"Ranking unavailable here", anon:"Anonymous", empty:"Be the first on the board!", bMode:"Balloons", bSub:"Pop as many as you can!", bGoalLbl:(n)=>`Goal: ${n} balloons`, bWin:"YOU WON! 🎉", bLose:"Time's up! 😅", bPopped:"Popped", bAgain:"Again", bExit:"Exit", bMsgWin:"Total pop fest!", bMsgLose:"So close! Try again", bLevel:"Level", bReached:"You reached level", bLevelUp:(n)=>`LEVEL ${n}!`, nNotes:"Notes", gMenu:"Games", gChoose:"Choose a game", nameNudge:"Add a name and join the ranking", nameCta:"Save & compete", namePh:"Your name or alias", nameSaved:(n)=>`Done, ${n}! You're on the ranking now 🏆`, claimScore:"Save your name for this score!", mpPlay:"Multiplayer", mpTitle:"Play with friends", mpCreate:"Create room", mpJoin:"Join room", mpEnterCode:"4-letter code", mpShareCode:"Share this code:", mpInRoom:"In the room", mpWaiting:"Waiting for players…", mpNeed:"Need 2+ players", mpStartBtn:"Start match!", mpHostStarts:"Host starts the match", mpPickGame:"Game:", mpReady:"Get ready!", mpResults:"Results", mpWins:(n)=>`🏆 ${n} wins`, mpTie:"It's a tie!", mpScore:"pts", mpAgain:"Another round", mpUnavail:"Multiplayer unavailable here", mpLeave:"Leave room", mpBadCode:"Invalid code", mpWaitHost:"⏳ Waiting for the host to start…", mpWaitRematch:"Waiting for the host for another round…",
-    dOver:"Game Over!", dScore:"Score", dLevel:"Level reached", dAgain:"Again" },
+    dOver:"EXTINCTION!", dScore:"Score", dLevel:"Era reached", dAgain:"Revive", dHp:"Health", dTapRoar:"Tap to roar & bite 🦖", dEaten:"NOM!" },
 };
 
 const GOLD = ["#FFD24D","#FFE89A","#FFC53D","#FFFFFF","#FFB13D"];
@@ -87,7 +87,7 @@ const MELODIES = [
 const GAMES = [
   { kind: "balloons", emoji: "🎈", es: "Globos",   en: "Balloons", grad: "linear-gradient(135deg, #FF6B81, #7C5CFF)", mpOk: true },
   { kind: "notes",    emoji: "🎹", es: "Melodías", en: "Melodies", grad: "linear-gradient(135deg, #34E89E, #1E9BFF)", mpOk: true },
-  { kind: "dodge",    emoji: "🚀", es: "Esquiva",  en: "Dodge",    grad: "linear-gradient(135deg, #FF416C, #FF4B2B)", mpOk: false },
+  { kind: "dodge",    emoji: "🦖", es: "Dino",     en: "Dino",     grad: "linear-gradient(135deg, #8a3b12, #c2410c)", mpOk: false },
 ];
 // Multijugador en vivo (Supabase Realtime)
 const MP_DUR = 30, MP_COUNTDOWN = 3;
@@ -168,23 +168,161 @@ function Note({ c, glyph, size }) {
   );
 }
 
-/* ── Juego Esquiva (canvas, RAF loop) ── */
-function DodgeGame({ lang, accent, bgFrom, bgTo, onVibeAdd, onExit, onRestart }) {
+/* ── Dibujo del dinosaurio (T-Rex vectorial, mandíbulas animadas) ── */
+function drawDino(ctx, cx, gy, u, jaw, hurt, blinkT) {
+  const top = hurt ? "#ff6a4d" : "#6FB23E", bot = hurt ? "#d83a28" : "#3F7E22";
+  const belly = hurt ? "#ffd0a0" : "#C8E89A";
+  const bodyCX = cx, bodyCY = gy - u * 1.05, bodyRX = u * 1.15, bodyRY = u * 0.95;
+  ctx.save();
+  ctx.shadowColor = "rgba(0,0,0,.35)"; ctx.shadowBlur = u * 0.3; ctx.shadowOffsetY = u * 0.15;
+
+  // cola
+  ctx.fillStyle = bot;
+  ctx.beginPath();
+  ctx.moveTo(cx - u * 0.6, gy - u * 1.2);
+  ctx.quadraticCurveTo(cx - u * 2.6, gy - u * 1.1, cx - u * 2.9, gy - u * 0.15);
+  ctx.quadraticCurveTo(cx - u * 2.2, gy - u * 0.55, cx - u * 0.5, gy - u * 0.6);
+  ctx.closePath(); ctx.fill();
+
+  // patas
+  ctx.fillStyle = bot;
+  [[cx - u * 0.45, 0.55], [cx + u * 0.5, 0.55]].forEach(([lx]) => {
+    ctx.beginPath();
+    ctx.moveTo(lx - u * 0.34, gy - u * 0.95);
+    ctx.quadraticCurveTo(lx - u * 0.42, gy - u * 0.1, lx - u * 0.2, gy);
+    ctx.lineTo(lx + u * 0.5, gy);
+    ctx.quadraticCurveTo(lx + u * 0.4, gy - u * 0.2, lx + u * 0.34, gy - u * 0.95);
+    ctx.closePath(); ctx.fill();
+  });
+  ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+
+  // cuerpo
+  const bg = ctx.createLinearGradient(0, bodyCY - bodyRY, 0, bodyCY + bodyRY);
+  bg.addColorStop(0, top); bg.addColorStop(1, bot);
+  ctx.fillStyle = bg;
+  ctx.beginPath(); ctx.ellipse(bodyCX, bodyCY, bodyRX, bodyRY, 0, 0, Math.PI * 2); ctx.fill();
+  // panza
+  ctx.fillStyle = belly;
+  ctx.beginPath(); ctx.ellipse(bodyCX + u * 0.15, bodyCY + u * 0.28, bodyRX * 0.62, bodyRY * 0.6, 0, 0, Math.PI * 2); ctx.fill();
+
+  // púas en el lomo
+  ctx.fillStyle = hurt ? "#ffcaa0" : "#2E6018";
+  for (let i = 0; i < 5; i++) {
+    const a = -Math.PI * 0.78 + i * 0.26, sx = bodyCX + Math.cos(a) * bodyRX * 0.96, sy = bodyCY + Math.sin(a) * bodyRY * 0.96, sp = u * 0.26;
+    ctx.beginPath(); ctx.moveTo(sx - sp, sy); ctx.lineTo(sx, sy - sp * 1.5); ctx.lineTo(sx + sp, sy); ctx.closePath(); ctx.fill();
+  }
+
+  // bracito
+  ctx.strokeStyle = bot; ctx.lineWidth = u * 0.16; ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(cx + u * 0.55, gy - u * 1.1); ctx.lineTo(cx + u * 0.95, gy - u * 0.8); ctx.stroke();
+
+  // cabeza
+  const hx = cx + u * 0.75, hy = gy - u * 2.05, hr = u * 0.82;
+  const hg = ctx.createLinearGradient(0, hy - hr, 0, hy + hr);
+  hg.addColorStop(0, top); hg.addColorStop(1, bot);
+  ctx.fillStyle = hg;
+  ctx.beginPath(); ctx.ellipse(hx, hy, hr, hr * 0.92, 0, 0, Math.PI * 2); ctx.fill();
+  // cuello
+  ctx.beginPath(); ctx.moveTo(hx - u * 0.5, hy + u * 0.3); ctx.quadraticCurveTo(cx, gy - u * 1.6, bodyCX - u * 0.2, bodyCY - u * 0.5); ctx.lineTo(bodyCX + u * 0.5, bodyCY - u * 0.6); ctx.quadraticCurveTo(hx + u * 0.1, gy - u * 1.7, hx + u * 0.4, hy + u * 0.3); ctx.closePath(); ctx.fill();
+
+  const hinge = { x: hx + hr * 0.55, y: hy + u * 0.05 }, snoutLen = u * 1.15;
+  const open = jaw * 0.55; // ángulo de apertura (rad)
+
+  // boca interior
+  ctx.fillStyle = hurt ? "#5a0d0d" : "#7a1d2b";
+  ctx.beginPath();
+  ctx.moveTo(hinge.x, hinge.y - u * 0.4);
+  ctx.lineTo(hinge.x + Math.cos(-open) * snoutLen, hinge.y + Math.sin(-open) * snoutLen - u * 0.1);
+  ctx.lineTo(hinge.x + Math.cos(open) * snoutLen, hinge.y + Math.sin(open) * snoutLen + u * 0.1);
+  ctx.closePath(); ctx.fill();
+
+  // mandíbula superior (hocico)
+  ctx.save(); ctx.translate(hinge.x, hinge.y); ctx.rotate(-open);
+  ctx.fillStyle = top;
+  ctx.beginPath();
+  ctx.moveTo(-hr * 0.4, -u * 0.55); ctx.lineTo(snoutLen, -u * 0.5);
+  ctx.quadraticCurveTo(snoutLen + u * 0.18, -u * 0.18, snoutLen - u * 0.05, u * 0.02);
+  ctx.lineTo(-hr * 0.4, u * 0.05); ctx.closePath(); ctx.fill();
+  // nariz
+  ctx.fillStyle = bot; ctx.beginPath(); ctx.arc(snoutLen - u * 0.18, -u * 0.28, u * 0.07, 0, Math.PI * 2); ctx.fill();
+  // dientes superiores
+  ctx.fillStyle = "#fff";
+  for (let i = 0; i < 4; i++) { const tx = u * 0.18 + i * (snoutLen - u * 0.3) / 4; ctx.beginPath(); ctx.moveTo(tx, u * 0.02); ctx.lineTo(tx + u * 0.1, u * 0.02); ctx.lineTo(tx + u * 0.05, u * 0.22); ctx.closePath(); ctx.fill(); }
+  ctx.restore();
+
+  // mandíbula inferior
+  ctx.save(); ctx.translate(hinge.x, hinge.y); ctx.rotate(open);
+  ctx.fillStyle = bot;
+  ctx.beginPath();
+  ctx.moveTo(-hr * 0.4, u * 0.5); ctx.lineTo(snoutLen - u * 0.1, u * 0.45);
+  ctx.quadraticCurveTo(snoutLen - u * 0.02, u * 0.2, snoutLen - u * 0.2, u * 0.06);
+  ctx.lineTo(-hr * 0.4, u * 0.05); ctx.closePath(); ctx.fill();
+  // dientes inferiores
+  ctx.fillStyle = "#fff";
+  for (let i = 0; i < 4; i++) { const tx = u * 0.18 + i * (snoutLen - u * 0.45) / 4; ctx.beginPath(); ctx.moveTo(tx, u * 0.1); ctx.lineTo(tx + u * 0.1, u * 0.1); ctx.lineTo(tx + u * 0.05, -u * 0.1); ctx.closePath(); ctx.fill(); }
+  ctx.restore();
+
+  // ojo
+  const blink = blinkT > 0.92;
+  ctx.fillStyle = "#fff";
+  if (!blink) {
+    ctx.beginPath(); ctx.ellipse(hx + u * 0.05, hy - u * 0.3, u * 0.2, u * 0.24, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = hurt ? "#d83a28" : "#1a1a1a";
+    ctx.beginPath(); ctx.arc(hx + u * 0.12, hy - u * 0.27, u * 0.1, 0, Math.PI * 2); ctx.fill();
+    if (hurt) { // cejas de enojo
+      ctx.strokeStyle = "#7a1d0d"; ctx.lineWidth = u * 0.09; ctx.lineCap = "round";
+      ctx.beginPath(); ctx.moveTo(hx - u * 0.18, hy - u * 0.6); ctx.lineTo(hx + u * 0.28, hy - u * 0.45); ctx.stroke();
+    }
+  } else { ctx.strokeStyle = "#1a1a1a"; ctx.lineWidth = u * 0.07; ctx.beginPath(); ctx.moveTo(hx - u * 0.1, hy - u * 0.28); ctx.lineTo(hx + u * 0.25, hy - u * 0.28); ctx.stroke(); }
+
+  ctx.restore();
+  return { mouthX: hinge.x + Math.cos(0) * snoutLen * 0.7, mouthY: hinge.y - u * 0.1, mouthR: snoutLen * 0.85, bodyCX, bodyCY, bodyRX, bodyRY, hx, hy, hr };
+}
+
+/* ── Meteorito en llamas ── */
+function drawMeteor(ctx, X, Y, r, rot) {
+  ctx.save(); ctx.translate(X, Y);
+  // estela de fuego (hacia arriba, opuesto a la caída)
+  const tail = ctx.createLinearGradient(0, -r * 5, 0, 0);
+  tail.addColorStop(0, "rgba(255,180,40,0)"); tail.addColorStop(0.5, "rgba(255,120,20,.45)"); tail.addColorStop(1, "rgba(255,80,10,.85)");
+  ctx.fillStyle = tail;
+  ctx.beginPath(); ctx.moveTo(-r * 0.7, 0); ctx.quadraticCurveTo(-r * 0.3, -r * 4, 0, -r * 5); ctx.quadraticCurveTo(r * 0.3, -r * 4, r * 0.7, 0); ctx.closePath(); ctx.fill();
+  // halo caliente
+  ctx.shadowColor = "#ff7a18"; ctx.shadowBlur = r * 1.2;
+  ctx.rotate(rot);
+  const rock = ctx.createRadialGradient(-r * 0.3, -r * 0.3, r * 0.2, 0, 0, r);
+  rock.addColorStop(0, "#6b5048"); rock.addColorStop(0.6, "#3a2622"); rock.addColorStop(1, "#1c1110");
+  ctx.fillStyle = rock;
+  ctx.beginPath();
+  for (let i = 0; i < 9; i++) { const a = (i / 9) * Math.PI * 2, rr = r * (0.82 + ((i * 7) % 5) * 0.045); const xx = Math.cos(a) * rr, yy = Math.sin(a) * rr; i ? ctx.lineTo(xx, yy) : ctx.moveTo(xx, yy); }
+  ctx.closePath(); ctx.fill();
+  // borde incandescente
+  ctx.shadowBlur = 0; ctx.strokeStyle = "rgba(255,140,40,.7)"; ctx.lineWidth = r * 0.12; ctx.stroke();
+  // cráteres
+  ctx.fillStyle = "rgba(0,0,0,.3)";
+  ctx.beginPath(); ctx.arc(r * 0.2, -r * 0.1, r * 0.18, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(-r * 0.25, r * 0.25, r * 0.12, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
+/* ── Juego Dino · esquiva meteoritos (canvas, RAF loop) ── */
+function DodgeGame({ lang, accent, onVibeAdd, onExit, onRestart, muted, haptics }) {
   const canvasRef = useRef(null);
   const gRef = useRef(null);
   const rafRef = useRef(null);
   const pausedRef = useRef(false);
   const langRef = useRef(lang);
   const accentRef = useRef(accent);
-  const bgRef = useRef({ from: bgFrom, to: bgTo });
   const onVibeRef = useRef(onVibeAdd);
+  const mutedRef = useRef(muted);
+  const acRef = useRef(null);
 
   useEffect(() => { langRef.current = lang; }, [lang]);
   useEffect(() => { accentRef.current = accent; }, [accent]);
-  useEffect(() => { bgRef.current = { from: bgFrom, to: bgTo }; }, [bgFrom, bgTo]);
   useEffect(() => { onVibeRef.current = onVibeAdd; }, [onVibeAdd]);
+  useEffect(() => { mutedRef.current = muted; }, [muted]);
 
-  const [hud, setHud] = useState({ lives: 3, score: 0, lvl: 1, over: false, paused: false, msg: null });
+  const [hud, setHud] = useState({ hp: 100, score: 0, lvl: 1, over: false, paused: false, msg: null, eaten: 0 });
 
   useEffect(() => {
     const c = canvasRef.current; if (!c) return;
@@ -192,161 +330,263 @@ function DodgeGame({ lang, accent, bgFrom, bgTo, onVibeAdd, onExit, onRestart })
     resize();
     window.addEventListener("resize", resize);
 
-    const g = { px: 0.5, obs: [], lives: 3, score: 0, lvl: 1, spawnIn: 900, elapsed: 0, levelUpAt: 15000, inv: 0, prevTs: null, running: true };
+    /* audio local */
+    const ac = () => { try { if (!acRef.current) acRef.current = new (window.AudioContext || window.webkitAudioContext)(); return acRef.current; } catch (e) { return null; } };
+    const noise = (dur, vol, freq, type, q) => {
+      if (mutedRef.current) return; const ctx = ac(); if (!ctx) return;
+      try { const n = Math.max(1, Math.floor(ctx.sampleRate * dur)), buf = ctx.createBuffer(1, n, ctx.sampleRate), d = buf.getChannelData(0);
+        for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 2);
+        const s = ctx.createBufferSource(); s.buffer = buf; const g = ctx.createGain(); g.gain.value = vol;
+        const f = ctx.createBiquadFilter(); f.type = type || "highpass"; f.frequency.value = freq; try { f.Q.value = q || 1; } catch (e) {}
+        s.connect(f); f.connect(g); g.connect(ctx.destination); s.start(); } catch (e) {}
+    };
+    const sweep = (f1, f2, dur, vol, type, vibHz, vibAmt) => {
+      if (mutedRef.current) return; const ctx = ac(); if (!ctx) return;
+      try { const s = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain(); o.type = type || "sawtooth";
+        o.frequency.setValueAtTime(f1, s); o.frequency.exponentialRampToValueAtTime(Math.max(20, f2), s + dur);
+        if (vibHz) { const lfo = ctx.createOscillator(), lg = ctx.createGain(); lfo.frequency.value = vibHz; lg.gain.value = vibAmt || 40; lfo.connect(lg); lg.connect(o.frequency); lfo.start(s); lfo.stop(s + dur); }
+        g.gain.setValueAtTime(0.0001, s); g.gain.exponentialRampToValueAtTime(vol, s + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, s + dur);
+        o.connect(g); g.connect(ctx.destination); o.start(s); o.stop(s + dur + 0.03); } catch (e) {}
+    };
+    const sndScreech = () => { sweep(1100, 240, 0.4, 0.2, "sawtooth", 30, 70); noise(0.25, 0.18, 2600, "highpass", 0.7); };
+    const sndBoom = () => { sweep(140, 45, 0.35, 0.32, "sine"); noise(0.18, 0.4, 500, "lowpass", 0.8); };
+    const sndRoar = () => { sweep(180, 70, 0.5, 0.26, "sawtooth", 18, 30); sweep(90, 50, 0.5, 0.18, "square"); };
+    const sndCrunch = () => { noise(0.07, 0.45, 1400, "bandpass", 1.2); noise(0.05, 0.4, 600, "lowpass", 1); sweep(420, 120, 0.12, 0.2, "square"); };
+    const buzz = (p) => { if (!haptics) return; try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
+
+    const g = { px: 0.5, obs: [], embers: [], sparks: [], hp: 100, score: 0, lvl: 1, spawnIn: 700, elapsed: 0, levelUpAt: 14000,
+      inv: 0, hurtUntil: 0, jaw: 0, chompUntil: 0, blink: 0, prevTs: null, running: true };
+    for (let i = 0; i < 22; i++) g.embers.push({ x: Math.random(), y: Math.random(), sp: 0.2 + Math.random() * 0.5, r: 0.6 + Math.random() * 1.8, ph: Math.random() * 6.28 });
     gRef.current = g;
+
+    const addSparks = (x, y, col, n) => { for (let i = 0; i < n; i++) { const a = Math.random() * 6.28, sp = 0.05 + Math.random() * 0.22; g.sparks.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 0.06, life: 1, col }); } };
 
     const drawFrame = () => {
       const ctx = c.getContext("2d");
-      const W = c.width, H = c.height;
-      const acc = accentRef.current;
-      const pr = Math.max(20, Math.min(34, W * 0.07));
-      const px = g.px * W, py = H * 0.8;
+      const W = c.width, H = c.height, now = Date.now();
+      const hurt = now < g.hurtUntil;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-      const bg = ctx.createLinearGradient(0, 0, 0, H);
-      bg.addColorStop(0, bgRef.current.to); bg.addColorStop(1, bgRef.current.from);
-      ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+      // cielo prehistórico
+      const sky = ctx.createLinearGradient(0, 0, 0, H);
+      sky.addColorStop(0, "#1c0a1e"); sky.addColorStop(0.4, "#5a1410"); sky.addColorStop(0.72, "#a83410"); sky.addColorStop(1, "#d9651a");
+      ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
 
-      ctx.fillStyle = "rgba(255,255,255,0.25)";
-      for (let i = 0; i < 28; i++) {
-        ctx.beginPath();
-        ctx.arc((i * 137 + 17) % W, (i * 89 + 31) % (H * 0.72), 0.8 + (i % 3) * 0.5, 0, Math.PI * 2);
-        ctx.fill();
-      }
+      // shake
+      if (hurt) { const m = (g.hurtUntil - now) / 220 * 9; ctx.translate((Math.random() - 0.5) * m, (Math.random() - 0.5) * m); }
 
-      ctx.strokeStyle = acc + "55"; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.moveTo(0, py + pr + 4); ctx.lineTo(W, py + pr + 4); ctx.stroke();
+      const gy = H * 0.9;
+      // sol/calina
+      const sun = ctx.createRadialGradient(W * 0.5, gy, 0, W * 0.5, gy, H * 0.55);
+      sun.addColorStop(0, "rgba(255,200,90,.55)"); sun.addColorStop(0.4, "rgba(255,120,30,.22)"); sun.addColorStop(1, "rgba(255,120,30,0)");
+      ctx.fillStyle = sun; ctx.fillRect(-20, 0, W + 40, H);
 
-      ctx.textBaseline = "middle"; ctx.textAlign = "center";
-      for (const o of g.obs) { ctx.font = `${o.size}px serif`; ctx.fillText(o.emoji, o.x * W, o.y * H); }
+      // embers flotantes
+      g.embers.forEach((e) => { const ey = (e.y - (g.elapsed * 0.00004 * e.sp)) % 1, yy = (ey < 0 ? ey + 1 : ey) * H; ctx.fillStyle = `rgba(255,${140 + ((e.r * 40) | 0)},60,${0.35 + 0.3 * Math.sin(g.elapsed * 0.003 + e.ph)})`; ctx.beginPath(); ctx.arc(e.x * W, yy, e.r, 0, Math.PI * 2); ctx.fill(); });
 
-      const now = Date.now(), inv = now < g.inv;
-      if (!inv || Math.floor(now / 110) % 2 === 0) {
-        ctx.save(); ctx.shadowColor = acc; ctx.shadowBlur = 20;
-        ctx.beginPath(); ctx.arc(px, py, pr, 0, Math.PI * 2); ctx.fillStyle = acc; ctx.fill(); ctx.restore();
-        const fc = "rgba(20,14,40,0.8)", er = pr * 0.16, ey = py - pr * 0.14;
-        ctx.fillStyle = fc;
-        ctx.beginPath(); ctx.arc(px - pr * 0.3, ey, er, 0, Math.PI * 2); ctx.fill();
-        ctx.beginPath(); ctx.arc(px + pr * 0.3, ey, er, 0, Math.PI * 2); ctx.fill();
-        ctx.beginPath(); ctx.arc(px, py + pr * 0.12, pr * 0.37, 0.12 * Math.PI, 0.88 * Math.PI);
-        ctx.strokeStyle = fc; ctx.lineWidth = Math.max(2, pr * 0.09); ctx.lineCap = "round"; ctx.stroke();
-      }
+      // volcán + montañas silueta
+      ctx.fillStyle = "#1a0a10";
+      ctx.beginPath(); ctx.moveTo(-20, gy); ctx.lineTo(W * 0.2, gy - H * 0.16); ctx.lineTo(W * 0.36, gy); ctx.closePath(); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(W * 0.62, gy); ctx.lineTo(W * 0.82, gy - H * 0.22); ctx.lineTo(W * 1.04, gy); ctx.closePath(); ctx.fill();
+      // volcán central con lava
+      ctx.fillStyle = "#241015";
+      ctx.beginPath(); ctx.moveTo(W * 0.34, gy); ctx.lineTo(W * 0.5, gy - H * 0.28); ctx.lineTo(W * 0.66, gy); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "rgba(255,90,20,.8)"; ctx.shadowColor = "#ff5a14"; ctx.shadowBlur = 18;
+      ctx.beginPath(); ctx.moveTo(W * 0.46, gy - H * 0.255); ctx.lineTo(W * 0.5, gy - H * 0.285); ctx.lineTo(W * 0.54, gy - H * 0.255); ctx.lineTo(W * 0.52, gy - H * 0.18); ctx.lineTo(W * 0.48, gy - H * 0.18); ctx.closePath(); ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // suelo
+      const ground = ctx.createLinearGradient(0, gy, 0, H);
+      ground.addColorStop(0, "#3a1d10"); ground.addColorStop(1, "#1c0d08");
+      ctx.fillStyle = ground; ctx.fillRect(-20, gy, W + 40, H - gy);
+      ctx.strokeStyle = "rgba(255,90,20,.25)"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(W * 0.1, H); ctx.lineTo(W * 0.22, gy + 6); ctx.moveTo(W * 0.7, H); ctx.lineTo(W * 0.58, gy + 6); ctx.stroke();
+
+      // meteoritos
+      for (const o of g.obs) drawMeteor(ctx, o.x * W, o.y * H, o.r * W, o.rot);
+
+      // sparks
+      g.sparks.forEach((s) => { ctx.fillStyle = s.col.replace("ALPHA", s.life.toFixed(2)); ctx.beginPath(); ctx.arc(s.x * W, s.y * H, 3 * s.life + 1, 0, Math.PI * 2); ctx.fill(); });
+
+      // dino
+      const u = Math.max(26, Math.min(54, W * 0.11));
+      const flicker = g.inv && now < g.inv && Math.floor(now / 90) % 2 === 0;
+      if (!flicker) g.dino = drawDino(ctx, g.px * W, gy + u * 0.05, u, g.jaw, hurt, (g.blink % 4));
+
+      // viñeta roja al recibir golpe
+      if (hurt) { const a = (g.hurtUntil - now) / 220 * 0.5; ctx.setTransform(1, 0, 0, 1, 0, 0); const v = ctx.createRadialGradient(W / 2, H / 2, H * 0.2, W / 2, H / 2, H * 0.7); v.addColorStop(0, "rgba(255,0,0,0)"); v.addColorStop(1, `rgba(255,0,0,${Math.max(0, a)})`); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H); }
     };
 
     const loop = (ts) => {
       if (!g.running) return;
       if (pausedRef.current) { drawFrame(); rafRef.current = requestAnimationFrame(loop); return; }
-      const W = c.width, H = c.height;
+      const W = c.width, H = c.height, now = Date.now();
       const dt = g.prevTs !== null ? Math.min(50, ts - g.prevTs) : 16;
-      g.prevTs = ts; g.elapsed += dt;
+      g.prevTs = ts; g.elapsed += dt; g.blink += dt * 0.0009;
 
+      // mandíbula → objetivo según mordida
+      const jawTarget = now < g.chompUntil ? 1 : 0;
+      g.jaw += (jawTarget - g.jaw) * 0.35;
+
+      // aparición de meteoritos (más rápido y agresivo por nivel)
       g.spawnIn -= dt;
       if (g.spawnIn <= 0) {
-        const interval = Math.max(330, 1100 - g.lvl * 75);
-        g.spawnIn = interval * (0.6 + Math.random() * 0.75);
-        g.obs.push({ id: ++pid, x: 0.05 + Math.random() * 0.9, y: -0.06,
-          size: 30 + Math.floor(Math.random() * 18),
-          vy: (0.00028 + g.lvl * 0.00024) * (0.8 + Math.random() * 0.5),
-          vx: (Math.random() - 0.5) * 0.00013,
-          emoji: DODGE_EMOJIS[Math.floor(Math.random() * DODGE_EMOJIS.length)] });
+        const interval = Math.max(280, 950 - g.lvl * 70);
+        g.spawnIn = interval * (0.55 + Math.random() * 0.7);
+        const big = Math.random() < 0.22;
+        g.obs.push({ id: ++pid, x: 0.06 + Math.random() * 0.88, y: -0.08,
+          r: (big ? 0.05 : 0.032) + Math.random() * 0.018,
+          dmg: big ? 26 : 16,
+          vy: (0.00036 + g.lvl * 0.00003) * (0.85 + Math.random() * 0.5) + g.lvl * 0.00002,
+          vx: (Math.random() - 0.5) * 0.00016, rot: Math.random() * 6.28, vr: (Math.random() - 0.5) * 0.01 });
       }
 
+      // subir de era
       if (g.elapsed >= g.levelUpAt) {
-        g.lvl++; g.levelUpAt += Math.max(8000, 14000 - g.lvl * 500);
-        const lvl = g.lvl, msg = langRef.current === "es" ? `¡NIVEL ${lvl}!` : `LEVEL ${lvl}!`;
-        setHud(h => ({ ...h, lvl, msg }));
-        setTimeout(() => setHud(h => ({ ...h, msg: null })), 1500);
+        g.lvl++; g.levelUpAt += Math.max(7000, 13000 - g.lvl * 600);
+        const lvl = g.lvl, msg = langRef.current === "es" ? `¡ERA ${lvl}!` : `ERA ${lvl}!`;
+        setHud(h => ({ ...h, lvl, msg })); setTimeout(() => setHud(h => ({ ...h, msg: null })), 1400);
       }
 
-      const pr = Math.max(20, Math.min(34, W * 0.07));
-      const px = g.px * W, py = H * 0.8;
-      const now = Date.now(), inv = now < g.inv;
-      const next = []; let hit = false;
+      const u = Math.max(26, Math.min(54, W * 0.11)), gy = H * 0.9;
+      const px = g.px * W, bodyCY = gy - u * 1.05, hx = px + u * 0.75, hy = gy - u * 2.05;
+      const mouthX = hx + u * 0.6, mouthY = hy + u * 0.05;
+      const inv = now < g.inv, chomping = now < g.chompUntil;
+      const next = []; let hitDmg = 0;
 
       for (const o of g.obs) {
-        o.y += o.vy * dt; o.x = Math.max(0.02, Math.min(0.98, o.x + o.vx * dt));
-        if (o.y > 1.1) continue;
-        if (!inv && !hit) {
-          const dx = o.x * W - px, dy = o.y * H - py, hr = pr * 0.7 + o.size * 0.3;
-          if (dx * dx + dy * dy < hr * hr) {
-            hit = true; g.lives--; g.inv = now + 1400;
-            if (g.lives <= 0) {
-              g.running = false; drawFrame();
-              const sc = g.score;
-              setHud(h => ({ ...h, lives: 0, score: sc, over: true }));
-              onVibeRef.current(sc * 2);
-              return;
-            }
-            setHud(h => ({ ...h, lives: g.lives })); continue;
+        o.y += o.vy * dt; o.x = Math.max(0.03, Math.min(0.97, o.x + o.vx * dt)); o.rot += o.vr * dt;
+        if (o.y > 1.12) continue;
+        const ox = o.x * W, oy = o.y * H, orad = o.r * W;
+        // ¿el dino lo muerde?
+        if (chomping) {
+          const mdx = ox - mouthX, mdy = oy - mouthY;
+          if (mdx * mdx + mdy * mdy < (u * 1.0 + orad) * (u * 1.0 + orad)) {
+            g.score += 25; addSparks(o.x, o.y, "rgba(255,200,80,ALPHA)", 14); sndCrunch(); buzz(18);
+            setHud(h => ({ ...h, score: g.score, eaten: (h.eaten || 0) + 1 })); continue;
           }
+        }
+        // ¿golpea al dino?
+        if (!inv) {
+          const bdx = ox - px, bdy = oy - bodyCY, hdx = ox - hx, hdy = oy - hy;
+          const bodyHit = bdx * bdx + (bdy * 1.1) * (bdy * 1.1) < (u * 1.15 + orad) * (u * 1.15 + orad);
+          const headHit = hdx * hdx + hdy * hdy < (u * 0.82 + orad) * (u * 0.82 + orad);
+          if (bodyHit || headHit) { hitDmg = Math.max(hitDmg, o.dmg); addSparks(o.x, o.y, "rgba(255,90,30,ALPHA)", 16); continue; }
         }
         next.push(o);
       }
       g.obs = next;
 
-      const sc = Math.floor(g.elapsed / 150) + (g.lvl - 1) * 5;
-      if (sc !== g.score) { g.score = sc; setHud(h => ({ ...h, score: sc })); }
+      // sparks update
+      g.sparks = g.sparks.filter((s) => { s.x += s.vx * dt * 0.06; s.y += s.vy * dt * 0.06; s.vy += dt * 0.0006; s.life -= dt * 0.0018; return s.life > 0; });
+
+      // aplicar daño
+      if (hitDmg > 0) {
+        g.hp = Math.max(0, g.hp - hitDmg); g.inv = now + 800; g.hurtUntil = now + 230;
+        sndBoom(); sndScreech(); buzz([0, 50, 30, 60]);
+        if (g.hp <= 0) {
+          g.running = false; drawFrame();
+          const sc = g.score; setHud(h => ({ ...h, hp: 0, score: sc, over: true }));
+          onVibeRef.current(sc); return;
+        }
+        setHud(h => ({ ...h, hp: g.hp }));
+      }
+
+      // puntaje por supervivencia
+      const sc = Math.floor(g.elapsed / 200) + g.score;
+      const showScore = sc;
+      if (showScore !== g._lastShown) { g._lastShown = showScore; setHud(h => (h.score === showScore ? h : { ...h, score: showScore })); }
 
       drawFrame(); rafRef.current = requestAnimationFrame(loop);
     };
+
+    // mordida desde fuera
+    g.chomp = () => { if (!g.running || pausedRef.current) return; g.chompUntil = Date.now() + 280; sndRoar(); buzz(12); };
 
     rafRef.current = requestAnimationFrame(loop);
     return () => {
       g.running = false;
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       window.removeEventListener("resize", resize);
+      try { acRef.current && acRef.current.close(); } catch (e) {}
     };
   }, []);
 
-  const onPtr = (clientX) => {
-    const cv = canvasRef.current;
-    if (!cv || !gRef.current || gRef.current.over) return;
-    const r = cv.getBoundingClientRect();
-    if (!r.width) return;
-    gRef.current.px = Math.max(0.05, Math.min(0.95, (clientX - r.left) / r.width));
+  const movePtr = (clientX) => {
+    const cv = canvasRef.current, g = gRef.current;
+    if (!cv || !g || g.over) return;
+    const r = cv.getBoundingClientRect(); if (!r.width) return;
+    g.px = Math.max(0.06, Math.min(0.94, (clientX - r.left) / r.width));
+  };
+  const dragging = useRef(false);
+  const downAt = useRef({ x: 0, t: 0 });
+  const startDrag = (clientX) => { dragging.current = true; downAt.current = { x: clientX, t: Date.now() }; movePtr(clientX); };
+  const endDrag = (clientX) => {
+    if (!dragging.current) return; dragging.current = false;
+    const dx = Math.abs((clientX ?? downAt.current.x) - downAt.current.x), dtm = Date.now() - downAt.current.t;
+    if (dx < 14 && dtm < 350 && gRef.current && !gRef.current.over) gRef.current.chomp && gRef.current.chomp();
   };
 
-  const togglePause = () => { pausedRef.current = !pausedRef.current; setHud(h => ({ ...h, paused: pausedRef.current })); };
+  const togglePause = () => { pausedRef.current = !pausedRef.current; if (pausedRef.current) gRef.current && (gRef.current.prevTs = null); setHud(h => ({ ...h, paused: pausedRef.current })); };
   const t = T[lang];
-  const lives = Math.max(0, hud.lives);
+  const hp = Math.max(0, Math.round(hud.hp));
+  const hpCol = hp > 55 ? "#5fd35f" : hp > 25 ? "#ffce3a" : "#ff4d4d";
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 40, userSelect: "none", WebkitUserSelect: "none", touchAction: "none" }}
-         onMouseMove={(e) => onPtr(e.clientX)}
-         onTouchMove={(e) => { e.preventDefault(); onPtr(e.touches[0]?.clientX); }}
-         onTouchStart={(e) => { e.preventDefault(); onPtr(e.touches[0]?.clientX); }}>
+         onMouseDown={(e) => startDrag(e.clientX)}
+         onMouseMove={(e) => { if (dragging.current) movePtr(e.clientX); }}
+         onMouseUp={(e) => endDrag(e.clientX)}
+         onMouseLeave={() => endDrag()}
+         onTouchStart={(e) => { e.preventDefault(); startDrag(e.touches[0]?.clientX); }}
+         onTouchMove={(e) => { e.preventDefault(); movePtr(e.touches[0]?.clientX); }}
+         onTouchEnd={(e) => { e.preventDefault(); endDrag(e.changedTouches[0]?.clientX); }}>
       <canvas ref={canvasRef} style={{ display: "block", position: "absolute", inset: 0 }} />
 
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", pointerEvents: "none", zIndex: 2, fontFamily: "'Fredoka', sans-serif", fontWeight: 700 }}>
-        <div style={{ fontSize: 20 }}>{"❤️".repeat(lives)}{lives === 0 ? "💔" : ""}</div>
-        <div style={{ fontSize: 17, color: accent }}>⭐ {hud.score}</div>
-        <div style={{ fontSize: 15, color: "rgba(255,255,255,.8)" }}>{lang === "es" ? "Nv" : "Lv"} {hud.lvl}</div>
+      {/* HUD superior: barra de vida + puntaje + era */}
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", pointerEvents: "none", zIndex: 2, fontFamily: "'Fredoka', sans-serif", fontWeight: 700, gap: 12 }}>
+        <div style={{ flex: 1, maxWidth: 220 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "rgba(255,255,255,.85)", marginBottom: 3 }}>🦖 {t.dHp} <span style={{ color: hpCol }}>{hp}</span></div>
+          <div style={{ height: 12, borderRadius: 999, background: "rgba(0,0,0,.45)", overflow: "hidden", border: "1px solid rgba(255,255,255,.18)" }}>
+            <div style={{ height: "100%", width: `${hp}%`, background: `linear-gradient(90deg, ${hpCol}, ${hpCol}cc)`, borderRadius: 999, transition: "width .18s ease, background .3s ease", boxShadow: `0 0 10px ${hpCol}` }} />
+          </div>
+        </div>
+        <div style={{ textAlign: "right" }}>
+          <div style={{ fontSize: 18, color: accent }}>⭐ {hud.score}</div>
+          <div style={{ fontSize: 13, color: "rgba(255,255,255,.8)" }}>{lang === "es" ? "Era" : "Era"} {hud.lvl}{hud.eaten ? ` · 🦴 ${hud.eaten}` : ""}</div>
+        </div>
       </div>
 
       {!hud.over && (
-        <div style={{ position: "absolute", top: 10, right: 14, display: "flex", gap: 6, zIndex: 3 }}>
-          <button onClick={togglePause} style={{ border: "none", background: "rgba(0,0,0,.35)", color: "#fff", borderRadius: 999, width: 34, height: 34, cursor: "pointer", fontSize: 16 }}>{hud.paused ? "▶️" : "⏸️"}</button>
-          <button onClick={onExit} style={{ border: "none", background: "rgba(0,0,0,.35)", color: "#fff", borderRadius: 999, width: 34, height: 34, cursor: "pointer", fontSize: 15 }}>✕</button>
+        <div style={{ position: "absolute", top: 52, right: 14, display: "flex", gap: 6, zIndex: 3 }}>
+          <button onClick={togglePause} style={{ border: "none", background: "rgba(0,0,0,.4)", color: "#fff", borderRadius: 999, width: 34, height: 34, cursor: "pointer", fontSize: 16 }}>{hud.paused ? "▶️" : "⏸️"}</button>
+          <button onClick={onExit} style={{ border: "none", background: "rgba(0,0,0,.4)", color: "#fff", borderRadius: 999, width: 34, height: 34, cursor: "pointer", fontSize: 15 }}>✕</button>
         </div>
       )}
 
+      {!hud.over && !hud.paused && g_showHint(hud) && (
+        <div style={{ position: "absolute", left: "50%", bottom: 26, transform: "translateX(-50%)", zIndex: 3, pointerEvents: "none", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 14, color: "rgba(255,255,255,.85)", background: "rgba(0,0,0,.35)", padding: "8px 16px", borderRadius: 999, whiteSpace: "nowrap", textAlign: "center" }}>{t.dTapRoar}</div>
+      )}
+
       {hud.paused && !hud.over && (
-        <div onClick={togglePause} style={{ position: "absolute", inset: 0, zIndex: 4, background: "rgba(10,8,26,.75)", backdropFilter: "blur(4px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 20, cursor: "pointer" }}>
+        <div onClick={togglePause} style={{ position: "absolute", inset: 0, zIndex: 4, background: "rgba(20,8,8,.78)", backdropFilter: "blur(4px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 20, cursor: "pointer" }}>
           <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 38, color: "#fff" }}>⏸️ {lang === "es" ? "En pausa" : "Paused"}</div>
           <button onClick={(e) => { e.stopPropagation(); togglePause(); }} style={{ border: "none", cursor: "pointer", borderRadius: 16, padding: "14px 40px", background: accent, color: "#1a1a2e", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 20 }}>▶️ {lang === "es" ? "Reanudar" : "Resume"}</button>
         </div>
       )}
 
       {hud.msg && (
-        <div style={{ position: "absolute", left: "50%", top: "28%", transform: "translateX(-50%)", zIndex: 6, pointerEvents: "none", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: "clamp(32px,10vw,48px)", color: accent, textShadow: `0 0 30px ${accent}`, animation: "eb-bigMsg 1.5s ease forwards", textAlign: "center", whiteSpace: "nowrap" }}>{hud.msg}</div>
+        <div style={{ position: "absolute", left: "50%", top: "26%", transform: "translateX(-50%)", zIndex: 6, pointerEvents: "none", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: "clamp(32px,10vw,48px)", color: "#FFB13D", textShadow: "0 0 30px #FF6A2C", animation: "eb-bigMsg 1.4s ease forwards", textAlign: "center", whiteSpace: "nowrap" }}>{hud.msg}</div>
       )}
 
       {hud.over && (
-        <div style={{ position: "absolute", inset: 0, zIndex: 5, background: "rgba(10,8,26,.86)", backdropFilter: "blur(6px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, textAlign: "center", padding: 24 }}>
-          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: "clamp(36px,12vw,52px)", color: "#fff" }}>{t.dOver}</div>
-          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 26, color: accent }}>🚀 {t.dScore}: {hud.score}</div>
-          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18, color: "rgba(255,255,255,.75)" }}>{t.dLevel}: {hud.lvl}</div>
+        <div style={{ position: "absolute", inset: 0, zIndex: 5, background: "rgba(20,6,6,.88)", backdropFilter: "blur(6px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, textAlign: "center", padding: 24 }}>
+          <div style={{ fontSize: 66 }}>☄️</div>
+          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: "clamp(34px,11vw,50px)", color: "#FF5A3C", textShadow: "0 0 30px #FF5A3C" }}>{t.dOver}</div>
+          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 26, color: accent }}>🦖 {t.dScore}: {hud.score}</div>
+          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 17, color: "rgba(255,255,255,.75)" }}>{t.dLevel}: {hud.lvl}{hud.eaten ? ` · 🦴 ${hud.eaten}` : ""}</div>
           <div style={{ display: "flex", gap: 12, marginTop: 10, flexWrap: "wrap", justifyContent: "center" }}>
-            <button onClick={onRestart} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: accent, color: "#1a1a2e", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18 }}>🚀 {t.dAgain}</button>
+            <button onClick={onRestart} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: accent, color: "#1a1a2e", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18 }}>🦖 {t.dAgain}</button>
             <button onClick={onExit} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: "rgba(255,255,255,.12)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 16 }}>{t.gMenu}</button>
           </div>
         </div>
@@ -354,6 +594,8 @@ function DodgeGame({ lang, accent, bgFrom, bgTo, onVibeAdd, onExit, onRestart })
     </div>
   );
 }
+// pista visible solo los primeros segundos (hasta interactuar)
+function g_showHint(hud) { return hud.score < 6 && !hud.eaten; }
 
 export default function App() {
   const [lang, setLang] = useState("es");
@@ -1319,8 +1561,8 @@ export default function App() {
           key={dodgeKey}
           lang={lang}
           accent={accent}
-          bgFrom={level.bg[0]}
-          bgTo={level.bg[1]}
+          muted={muted}
+          haptics={haptics}
           onVibeAdd={(pts) => { setVibe((v) => v + pts); dirty.current = true; saveScore(); }}
           onExit={() => setDodgeActive(false)}
           onRestart={() => setDodgeKey((k) => k + 1)}
