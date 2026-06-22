@@ -34,8 +34,10 @@ const ACHIEVEMENTS = [
 const FAIL_MSG = { es: ["¡Casi! 😅","Uff, por poquito","Ya casi","La próxima es tuya 💪"], en: ["So close! 😅","Almost!","Nearly had it","Next one's yours 💪"] };
 
 const T = {
-  es: { sub:"Pícale. No vas a poder parar.", subJump:"¡Atrápalo si puedes!", vibe:"Buena Vibra", next:"Siguiente nivel", max:"NIVEL MÁXIMO", combo:"COMBO", share:"Presumir mi buena vibra", copied:"¡Copiado! Pégalo donde quieras ✨", best:"Mejor combo", streak:"Retos ✓", frenzy:"¡FRENESÍ!", win:"¡LO LOGRASTE!", caught:"¡ATRAPADO!", escaped:"Se escapó 💨", challenge:"RETO", cSpeed:(n)=>`¡Toca ${n} veces!`, cCombo:(k)=>`¡Llega a combo x${k}!`, cHold:"¡No sueltes el combo!", rank:"Ranking mundial", you:"TÚ", yourPos:"Tu posición", name:"Tu nombre", save:"Guardar", noRank:"Ranking no disponible aquí", anon:"Anónimo", empty:"¡Sé el primero del ranking!", bMode:"Globos", bSub:"¡Explota todos los que puedas!", bGoalLbl:(n)=>`Meta: ${n} globos`, bWin:"¡GANASTE! 🎉", bLose:"¡Se acabó el tiempo! 😅", bPopped:"Reventados", bAgain:"Otra vez", bExit:"Salir", bMsgWin:"¡Reventón total!", bMsgLose:"¡Casi! Inténtalo de nuevo", bLevel:"Nivel", bReached:"Llegaste al nivel", bLevelUp:(n)=>`¡NIVEL ${n}!`, nNotes:"Notas", gMenu:"Juegos", gChoose:"Elige un juego", nameNudge:"Ponte un nombre y compite en el ranking", nameCta:"Guardar y competir", namePh:"Tu nombre o alias", nameSaved:(n)=>`¡Listo, ${n}! Ya apareces en el ranking 🏆`, claimScore:"¡Guarda tu nombre para este puntaje!", mpPlay:"Multijugador", mpTitle:"Jugar con amigos", mpCreate:"Crear sala", mpJoin:"Unirse a sala", mpEnterCode:"Código de 4 letras", mpShareCode:"Comparte este código:", mpInRoom:"En la sala", mpWaiting:"Esperando jugadores…", mpNeed:"Se necesitan 2+ jugadores", mpStartBtn:"¡Empezar partida!", mpHostStarts:"El anfitrión inicia la partida", mpPickGame:"Juego:", mpReady:"¡Prepárate!", mpResults:"Resultados", mpWins:(n)=>`🏆 ${n} gana`, mpTie:"¡Empate!", mpScore:"pts", mpAgain:"Otra ronda", mpUnavail:"Multijugador no disponible aquí", mpLeave:"Salir de la sala", mpBadCode:"Código inválido", mpWaitHost:"⏳ Esperando a que el anfitrión empiece…", mpWaitRematch:"Esperando al anfitrión para otra ronda…" },
-  en: { sub:"Tap it. You won't be able to stop.", subJump:"Catch it if you can!", vibe:"Good Vibes", next:"Next level", max:"MAX LEVEL", combo:"COMBO", share:"Brag about my good vibes", copied:"Copied! Paste it anywhere ✨", best:"Best combo", streak:"Challenges ✓", frenzy:"FRENZY!", win:"YOU DID IT!", caught:"CAUGHT!", escaped:"It escaped 💨", challenge:"CHALLENGE", cSpeed:(n)=>`Tap ${n} times!`, cCombo:(k)=>`Reach combo x${k}!`, cHold:"Don't drop the combo!", rank:"World ranking", you:"YOU", yourPos:"Your spot", name:"Your name", save:"Save", noRank:"Ranking unavailable here", anon:"Anonymous", empty:"Be the first on the board!", bMode:"Balloons", bSub:"Pop as many as you can!", bGoalLbl:(n)=>`Goal: ${n} balloons`, bWin:"YOU WON! 🎉", bLose:"Time's up! 😅", bPopped:"Popped", bAgain:"Again", bExit:"Exit", bMsgWin:"Total pop fest!", bMsgLose:"So close! Try again", bLevel:"Level", bReached:"You reached level", bLevelUp:(n)=>`LEVEL ${n}!`, nNotes:"Notes", gMenu:"Games", gChoose:"Choose a game", nameNudge:"Add a name and join the ranking", nameCta:"Save & compete", namePh:"Your name or alias", nameSaved:(n)=>`Done, ${n}! You're on the ranking now 🏆`, claimScore:"Save your name for this score!", mpPlay:"Multiplayer", mpTitle:"Play with friends", mpCreate:"Create room", mpJoin:"Join room", mpEnterCode:"4-letter code", mpShareCode:"Share this code:", mpInRoom:"In the room", mpWaiting:"Waiting for players…", mpNeed:"Need 2+ players", mpStartBtn:"Start match!", mpHostStarts:"Host starts the match", mpPickGame:"Game:", mpReady:"Get ready!", mpResults:"Results", mpWins:(n)=>`🏆 ${n} wins`, mpTie:"It's a tie!", mpScore:"pts", mpAgain:"Another round", mpUnavail:"Multiplayer unavailable here", mpLeave:"Leave room", mpBadCode:"Invalid code", mpWaitHost:"⏳ Waiting for the host to start…", mpWaitRematch:"Waiting for the host for another round…" },
+  es: { sub:"Pícale. No vas a poder parar.", subJump:"¡Atrápalo si puedes!", vibe:"Buena Vibra", next:"Siguiente nivel", max:"NIVEL MÁXIMO", combo:"COMBO", share:"Presumir mi buena vibra", copied:"¡Copiado! Pégalo donde quieras ✨", best:"Mejor combo", streak:"Retos ✓", frenzy:"¡FRENESÍ!", win:"¡LO LOGRASTE!", caught:"¡ATRAPADO!", escaped:"Se escapó 💨", challenge:"RETO", cSpeed:(n)=>`¡Toca ${n} veces!`, cCombo:(k)=>`¡Llega a combo x${k}!`, cHold:"¡No sueltes el combo!", rank:"Ranking mundial", you:"TÚ", yourPos:"Tu posición", name:"Tu nombre", save:"Guardar", noRank:"Ranking no disponible aquí", anon:"Anónimo", empty:"¡Sé el primero del ranking!", bMode:"Globos", bSub:"¡Explota todos los que puedas!", bGoalLbl:(n)=>`Meta: ${n} globos`, bWin:"¡GANASTE! 🎉", bLose:"¡Se acabó el tiempo! 😅", bPopped:"Reventados", bAgain:"Otra vez", bExit:"Salir", bMsgWin:"¡Reventón total!", bMsgLose:"¡Casi! Inténtalo de nuevo", bLevel:"Nivel", bReached:"Llegaste al nivel", bLevelUp:(n)=>`¡NIVEL ${n}!`, nNotes:"Notas", gMenu:"Juegos", gChoose:"Elige un juego", nameNudge:"Ponte un nombre y compite en el ranking", nameCta:"Guardar y competir", namePh:"Tu nombre o alias", nameSaved:(n)=>`¡Listo, ${n}! Ya apareces en el ranking 🏆`, claimScore:"¡Guarda tu nombre para este puntaje!", mpPlay:"Multijugador", mpTitle:"Jugar con amigos", mpCreate:"Crear sala", mpJoin:"Unirse a sala", mpEnterCode:"Código de 4 letras", mpShareCode:"Comparte este código:", mpInRoom:"En la sala", mpWaiting:"Esperando jugadores…", mpNeed:"Se necesitan 2+ jugadores", mpStartBtn:"¡Empezar partida!", mpHostStarts:"El anfitrión inicia la partida", mpPickGame:"Juego:", mpReady:"¡Prepárate!", mpResults:"Resultados", mpWins:(n)=>`🏆 ${n} gana`, mpTie:"¡Empate!", mpScore:"pts", mpAgain:"Otra ronda", mpUnavail:"Multijugador no disponible aquí", mpLeave:"Salir de la sala", mpBadCode:"Código inválido", mpWaitHost:"⏳ Esperando a que el anfitrión empiece…", mpWaitRematch:"Esperando al anfitrión para otra ronda…",
+    dOver:"¡Fin del juego!", dScore:"Puntos", dLevel:"Nivel alcanzado", dAgain:"Otra vez" },
+  en: { sub:"Tap it. You won't be able to stop.", subJump:"Catch it if you can!", vibe:"Good Vibes", next:"Next level", max:"MAX LEVEL", combo:"COMBO", share:"Brag about my good vibes", copied:"Copied! Paste it anywhere ✨", best:"Best combo", streak:"Challenges ✓", frenzy:"FRENZY!", win:"YOU DID IT!", caught:"CAUGHT!", escaped:"It escaped 💨", challenge:"CHALLENGE", cSpeed:(n)=>`Tap ${n} times!`, cCombo:(k)=>`Reach combo x${k}!`, cHold:"Don't drop the combo!", rank:"World ranking", you:"YOU", yourPos:"Your spot", name:"Your name", save:"Save", noRank:"Ranking unavailable here", anon:"Anonymous", empty:"Be the first on the board!", bMode:"Balloons", bSub:"Pop as many as you can!", bGoalLbl:(n)=>`Goal: ${n} balloons`, bWin:"YOU WON! 🎉", bLose:"Time's up! 😅", bPopped:"Popped", bAgain:"Again", bExit:"Exit", bMsgWin:"Total pop fest!", bMsgLose:"So close! Try again", bLevel:"Level", bReached:"You reached level", bLevelUp:(n)=>`LEVEL ${n}!`, nNotes:"Notes", gMenu:"Games", gChoose:"Choose a game", nameNudge:"Add a name and join the ranking", nameCta:"Save & compete", namePh:"Your name or alias", nameSaved:(n)=>`Done, ${n}! You're on the ranking now 🏆`, claimScore:"Save your name for this score!", mpPlay:"Multiplayer", mpTitle:"Play with friends", mpCreate:"Create room", mpJoin:"Join room", mpEnterCode:"4-letter code", mpShareCode:"Share this code:", mpInRoom:"In the room", mpWaiting:"Waiting for players…", mpNeed:"Need 2+ players", mpStartBtn:"Start match!", mpHostStarts:"Host starts the match", mpPickGame:"Game:", mpReady:"Get ready!", mpResults:"Results", mpWins:(n)=>`🏆 ${n} wins`, mpTie:"It's a tie!", mpScore:"pts", mpAgain:"Another round", mpUnavail:"Multiplayer unavailable here", mpLeave:"Leave room", mpBadCode:"Invalid code", mpWaitHost:"⏳ Waiting for the host to start…", mpWaitRematch:"Waiting for the host for another round…",
+    dOver:"Game Over!", dScore:"Score", dLevel:"Level reached", dAgain:"Again" },
 };
 
 const GOLD = ["#FFD24D","#FFE89A","#FFC53D","#FFFFFF","#FFB13D"];
@@ -43,6 +45,7 @@ const BALLOON_COLORS = [
   ["#FF8FA3","#FF3B5C"], ["#FFC36B","#FF8A1E"], ["#FFE27A","#FFC107"], ["#9DEBA0","#34C759"],
   ["#7ED4FF","#1E9BFF"], ["#B79CFF","#7C5CFF"], ["#FF9CE6","#FF4DC4"], ["#86F0E0","#19C7B0"],
 ];
+const DODGE_EMOJIS = ["⭐","🌙","💫","🌸","🎯","💎","🪐","☄️","🔮","🧊"];
 // Dificultad por nivel y por juego: más meta, menos tiempo, aparición y subida más rápidas
 function gameLevel(kind, L) {
   if (kind === "notes") return {
@@ -82,8 +85,9 @@ const MELODIES = [
 ];
 // Catálogo de juegos (fácil de extender: agrega una entrada aquí)
 const GAMES = [
-  { kind: "balloons", emoji: "🎈", es: "Globos",   en: "Balloons", grad: "linear-gradient(135deg, #FF6B81, #7C5CFF)" },
-  { kind: "notes",    emoji: "🎹", es: "Melodías", en: "Melodies", grad: "linear-gradient(135deg, #34E89E, #1E9BFF)" },
+  { kind: "balloons", emoji: "🎈", es: "Globos",   en: "Balloons", grad: "linear-gradient(135deg, #FF6B81, #7C5CFF)", mpOk: true },
+  { kind: "notes",    emoji: "🎹", es: "Melodías", en: "Melodies", grad: "linear-gradient(135deg, #34E89E, #1E9BFF)", mpOk: true },
+  { kind: "dodge",    emoji: "🚀", es: "Esquiva",  en: "Dodge",    grad: "linear-gradient(135deg, #FF416C, #FF4B2B)", mpOk: false },
 ];
 // Multijugador en vivo (Supabase Realtime)
 const MP_DUR = 30, MP_COUNTDOWN = 3;
@@ -164,6 +168,193 @@ function Note({ c, glyph, size }) {
   );
 }
 
+/* ── Juego Esquiva (canvas, RAF loop) ── */
+function DodgeGame({ lang, accent, bgFrom, bgTo, onVibeAdd, onExit, onRestart }) {
+  const canvasRef = useRef(null);
+  const gRef = useRef(null);
+  const rafRef = useRef(null);
+  const pausedRef = useRef(false);
+  const langRef = useRef(lang);
+  const accentRef = useRef(accent);
+  const bgRef = useRef({ from: bgFrom, to: bgTo });
+  const onVibeRef = useRef(onVibeAdd);
+
+  useEffect(() => { langRef.current = lang; }, [lang]);
+  useEffect(() => { accentRef.current = accent; }, [accent]);
+  useEffect(() => { bgRef.current = { from: bgFrom, to: bgTo }; }, [bgFrom, bgTo]);
+  useEffect(() => { onVibeRef.current = onVibeAdd; }, [onVibeAdd]);
+
+  const [hud, setHud] = useState({ lives: 3, score: 0, lvl: 1, over: false, paused: false, msg: null });
+
+  useEffect(() => {
+    const c = canvasRef.current; if (!c) return;
+    const resize = () => { c.width = window.innerWidth; c.height = window.innerHeight; };
+    resize();
+    window.addEventListener("resize", resize);
+
+    const g = { px: 0.5, obs: [], lives: 3, score: 0, lvl: 1, spawnIn: 900, elapsed: 0, levelUpAt: 15000, inv: 0, prevTs: null, running: true };
+    gRef.current = g;
+
+    const drawFrame = () => {
+      const ctx = c.getContext("2d");
+      const W = c.width, H = c.height;
+      const acc = accentRef.current;
+      const pr = Math.max(20, Math.min(34, W * 0.07));
+      const px = g.px * W, py = H * 0.8;
+
+      const bg = ctx.createLinearGradient(0, 0, 0, H);
+      bg.addColorStop(0, bgRef.current.to); bg.addColorStop(1, bgRef.current.from);
+      ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+      ctx.fillStyle = "rgba(255,255,255,0.25)";
+      for (let i = 0; i < 28; i++) {
+        ctx.beginPath();
+        ctx.arc((i * 137 + 17) % W, (i * 89 + 31) % (H * 0.72), 0.8 + (i % 3) * 0.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.strokeStyle = acc + "55"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(0, py + pr + 4); ctx.lineTo(W, py + pr + 4); ctx.stroke();
+
+      ctx.textBaseline = "middle"; ctx.textAlign = "center";
+      for (const o of g.obs) { ctx.font = `${o.size}px serif`; ctx.fillText(o.emoji, o.x * W, o.y * H); }
+
+      const now = Date.now(), inv = now < g.inv;
+      if (!inv || Math.floor(now / 110) % 2 === 0) {
+        ctx.save(); ctx.shadowColor = acc; ctx.shadowBlur = 20;
+        ctx.beginPath(); ctx.arc(px, py, pr, 0, Math.PI * 2); ctx.fillStyle = acc; ctx.fill(); ctx.restore();
+        const fc = "rgba(20,14,40,0.8)", er = pr * 0.16, ey = py - pr * 0.14;
+        ctx.fillStyle = fc;
+        ctx.beginPath(); ctx.arc(px - pr * 0.3, ey, er, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(px + pr * 0.3, ey, er, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(px, py + pr * 0.12, pr * 0.37, 0.12 * Math.PI, 0.88 * Math.PI);
+        ctx.strokeStyle = fc; ctx.lineWidth = Math.max(2, pr * 0.09); ctx.lineCap = "round"; ctx.stroke();
+      }
+    };
+
+    const loop = (ts) => {
+      if (!g.running) return;
+      if (pausedRef.current) { drawFrame(); rafRef.current = requestAnimationFrame(loop); return; }
+      const W = c.width, H = c.height;
+      const dt = g.prevTs !== null ? Math.min(50, ts - g.prevTs) : 16;
+      g.prevTs = ts; g.elapsed += dt;
+
+      g.spawnIn -= dt;
+      if (g.spawnIn <= 0) {
+        const interval = Math.max(330, 1100 - g.lvl * 75);
+        g.spawnIn = interval * (0.6 + Math.random() * 0.75);
+        g.obs.push({ id: ++pid, x: 0.05 + Math.random() * 0.9, y: -0.06,
+          size: 30 + Math.floor(Math.random() * 18),
+          vy: (0.00028 + g.lvl * 0.00024) * (0.8 + Math.random() * 0.5),
+          vx: (Math.random() - 0.5) * 0.00013,
+          emoji: DODGE_EMOJIS[Math.floor(Math.random() * DODGE_EMOJIS.length)] });
+      }
+
+      if (g.elapsed >= g.levelUpAt) {
+        g.lvl++; g.levelUpAt += Math.max(8000, 14000 - g.lvl * 500);
+        const lvl = g.lvl, msg = langRef.current === "es" ? `¡NIVEL ${lvl}!` : `LEVEL ${lvl}!`;
+        setHud(h => ({ ...h, lvl, msg }));
+        setTimeout(() => setHud(h => ({ ...h, msg: null })), 1500);
+      }
+
+      const pr = Math.max(20, Math.min(34, W * 0.07));
+      const px = g.px * W, py = H * 0.8;
+      const now = Date.now(), inv = now < g.inv;
+      const next = []; let hit = false;
+
+      for (const o of g.obs) {
+        o.y += o.vy * dt; o.x = Math.max(0.02, Math.min(0.98, o.x + o.vx * dt));
+        if (o.y > 1.1) continue;
+        if (!inv && !hit) {
+          const dx = o.x * W - px, dy = o.y * H - py, hr = pr * 0.7 + o.size * 0.3;
+          if (dx * dx + dy * dy < hr * hr) {
+            hit = true; g.lives--; g.inv = now + 1400;
+            if (g.lives <= 0) {
+              g.running = false; drawFrame();
+              const sc = g.score;
+              setHud(h => ({ ...h, lives: 0, score: sc, over: true }));
+              onVibeRef.current(sc * 2);
+              return;
+            }
+            setHud(h => ({ ...h, lives: g.lives })); continue;
+          }
+        }
+        next.push(o);
+      }
+      g.obs = next;
+
+      const sc = Math.floor(g.elapsed / 150) + (g.lvl - 1) * 5;
+      if (sc !== g.score) { g.score = sc; setHud(h => ({ ...h, score: sc })); }
+
+      drawFrame(); rafRef.current = requestAnimationFrame(loop);
+    };
+
+    rafRef.current = requestAnimationFrame(loop);
+    return () => {
+      g.running = false;
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  const onPtr = (clientX) => {
+    const cv = canvasRef.current;
+    if (!cv || !gRef.current || gRef.current.over) return;
+    const r = cv.getBoundingClientRect();
+    if (!r.width) return;
+    gRef.current.px = Math.max(0.05, Math.min(0.95, (clientX - r.left) / r.width));
+  };
+
+  const togglePause = () => { pausedRef.current = !pausedRef.current; setHud(h => ({ ...h, paused: pausedRef.current })); };
+  const t = T[lang];
+  const lives = Math.max(0, hud.lives);
+
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 40, userSelect: "none", WebkitUserSelect: "none", touchAction: "none" }}
+         onMouseMove={(e) => onPtr(e.clientX)}
+         onTouchMove={(e) => { e.preventDefault(); onPtr(e.touches[0]?.clientX); }}
+         onTouchStart={(e) => { e.preventDefault(); onPtr(e.touches[0]?.clientX); }}>
+      <canvas ref={canvasRef} style={{ display: "block", position: "absolute", inset: 0 }} />
+
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", pointerEvents: "none", zIndex: 2, fontFamily: "'Fredoka', sans-serif", fontWeight: 700 }}>
+        <div style={{ fontSize: 20 }}>{"❤️".repeat(lives)}{lives === 0 ? "💔" : ""}</div>
+        <div style={{ fontSize: 17, color: accent }}>⭐ {hud.score}</div>
+        <div style={{ fontSize: 15, color: "rgba(255,255,255,.8)" }}>{lang === "es" ? "Nv" : "Lv"} {hud.lvl}</div>
+      </div>
+
+      {!hud.over && (
+        <div style={{ position: "absolute", top: 10, right: 14, display: "flex", gap: 6, zIndex: 3 }}>
+          <button onClick={togglePause} style={{ border: "none", background: "rgba(0,0,0,.35)", color: "#fff", borderRadius: 999, width: 34, height: 34, cursor: "pointer", fontSize: 16 }}>{hud.paused ? "▶️" : "⏸️"}</button>
+          <button onClick={onExit} style={{ border: "none", background: "rgba(0,0,0,.35)", color: "#fff", borderRadius: 999, width: 34, height: 34, cursor: "pointer", fontSize: 15 }}>✕</button>
+        </div>
+      )}
+
+      {hud.paused && !hud.over && (
+        <div onClick={togglePause} style={{ position: "absolute", inset: 0, zIndex: 4, background: "rgba(10,8,26,.75)", backdropFilter: "blur(4px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 20, cursor: "pointer" }}>
+          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 38, color: "#fff" }}>⏸️ {lang === "es" ? "En pausa" : "Paused"}</div>
+          <button onClick={(e) => { e.stopPropagation(); togglePause(); }} style={{ border: "none", cursor: "pointer", borderRadius: 16, padding: "14px 40px", background: accent, color: "#1a1a2e", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 20 }}>▶️ {lang === "es" ? "Reanudar" : "Resume"}</button>
+        </div>
+      )}
+
+      {hud.msg && (
+        <div style={{ position: "absolute", left: "50%", top: "28%", transform: "translateX(-50%)", zIndex: 6, pointerEvents: "none", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: "clamp(32px,10vw,48px)", color: accent, textShadow: `0 0 30px ${accent}`, animation: "eb-bigMsg 1.5s ease forwards", textAlign: "center", whiteSpace: "nowrap" }}>{hud.msg}</div>
+      )}
+
+      {hud.over && (
+        <div style={{ position: "absolute", inset: 0, zIndex: 5, background: "rgba(10,8,26,.86)", backdropFilter: "blur(6px)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, textAlign: "center", padding: 24 }}>
+          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: "clamp(36px,12vw,52px)", color: "#fff" }}>{t.dOver}</div>
+          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 26, color: accent }}>🚀 {t.dScore}: {hud.score}</div>
+          <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18, color: "rgba(255,255,255,.75)" }}>{t.dLevel}: {hud.lvl}</div>
+          <div style={{ display: "flex", gap: 12, marginTop: 10, flexWrap: "wrap", justifyContent: "center" }}>
+            <button onClick={onRestart} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: accent, color: "#1a1a2e", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18 }}>🚀 {t.dAgain}</button>
+            <button onClick={onExit} style={{ border: "none", cursor: "pointer", borderRadius: 14, padding: "14px 28px", background: "rgba(255,255,255,.12)", color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 600, fontSize: 16 }}>{t.gMenu}</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function App() {
   const [lang, setLang] = useState("es");
   const [vibe, setVibe] = useState(0);
@@ -211,6 +402,8 @@ export default function App() {
   const [entered, setEntered] = useState(false);
   const [paused, setPaused] = useState(false);
   const [bigMsg, setBigMsg] = useState(null);
+  const [dodgeActive, setDodgeActive] = useState(false);
+  const [dodgeKey, setDodgeKey] = useState(0);
 
   const lastTap = useRef(0), comboTimer = useRef(null), audioCtx = useRef(null), reduce = useRef(false);
   const tapsRef = useRef(0), comboRef = useRef(0), challengeRef = useRef(null), frenzyRef = useRef(false);
@@ -720,8 +913,8 @@ export default function App() {
 
   const urgent = challenge && challenge.timeLeft <= 3;
   const bUrgent = balloonGame.active && balloonGame.status === "playing" && balloonGame.timeLeft <= 5;
-  const enterGame = (kind) => { if (nameDraft.trim()) saveName(); setEntered(true); if (kind !== "classic") actions.current.startBalloonGame(kind); };
-  const pickGame = (kind) => { setShowGames(false); actions.current.startBalloonGame(kind); };
+  const enterGame = (kind) => { if (nameDraft.trim()) saveName(); setEntered(true); if (kind === "dodge") { setDodgeActive(true); return; } if (kind !== "classic") actions.current.startBalloonGame(kind); };
+  const pickGame = (kind) => { setShowGames(false); if (kind === "dodge") { setDodgeActive(true); return; } actions.current.startBalloonGame(kind); };
   const gameEmoji = balloonGame.kind === "notes" ? "🎹" : "🎈";
   const inMp = mp.status === "playing" || mp.status === "over" || mp.status === "countdown";
   const mpRanking = [...mp.players].sort((a, b) => b.score - a.score);
@@ -862,7 +1055,7 @@ export default function App() {
             <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18, color: "rgba(255,255,255,.85)" }}>{lang === "es" ? "Elige tu juego" : "Choose your game"}</div>
             <div style={{ display: "flex", gap: 14, width: "100%", maxWidth: 360 }}>
               {GAMES.map((g) => (
-                <button key={g.kind} onClick={(e) => { e.stopPropagation(); actions.current.startBalloonGame(g.kind); }} style={{ flex: 1, border: "none", cursor: "pointer", borderRadius: 22, padding: "30px 8px",
+                <button key={g.kind} onClick={(e) => { e.stopPropagation(); if (g.kind === "dodge") { setDodgeActive(true); } else { actions.current.startBalloonGame(g.kind); } }} style={{ flex: 1, border: "none", cursor: "pointer", borderRadius: 22, padding: "30px 8px",
                   background: g.grad, color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18, display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
                   boxShadow: "0 12px 30px rgba(0,0,0,.35)" }}>
                   <span style={{ fontSize: 44 }}>{g.emoji}</span>{g[lang]}
@@ -1089,7 +1282,7 @@ export default function App() {
                     <div>
                       <div style={{ fontSize: 13, color: "rgba(255,255,255,.7)", fontWeight: 700, marginBottom: 8, textAlign: "center" }}>🎮 {t.gChoose}</div>
                       <div style={{ display: "flex", gap: 10 }}>
-                        {GAMES.map((g) => {
+                        {GAMES.filter((g) => g.mpOk !== false).map((g) => {
                           const sel = mp.kind === g.kind;
                           return (
                             <button key={g.kind} onClick={() => mpSetKind(g.kind)} style={{ flex: 1, border: "none", cursor: "pointer", borderRadius: 16, padding: "14px 6px", background: g.grad, color: "#fff",
@@ -1119,6 +1312,19 @@ export default function App() {
             )}
           </div>
         </div>
+      )}
+
+      {dodgeActive && (
+        <DodgeGame
+          key={dodgeKey}
+          lang={lang}
+          accent={accent}
+          bgFrom={level.bg[0]}
+          bgTo={level.bg[1]}
+          onVibeAdd={(pts) => { setVibe((v) => v + pts); dirty.current = true; saveScore(); }}
+          onExit={() => setDodgeActive(false)}
+          onRestart={() => setDodgeKey((k) => k + 1)}
+        />
       )}
 
       {showGames && (
