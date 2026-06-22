@@ -220,15 +220,21 @@ function drawDino(ctx, cx, gy, u, jaw, hurt, blinkT, run) {
   ctx.strokeStyle = bot; ctx.lineWidth = u * 0.16; ctx.lineCap = "round";
   ctx.beginPath(); ctx.moveTo(cx + u * 0.55, gy - u * 1.1); ctx.lineTo(cx + u * 0.95, gy - u * 0.8); ctx.stroke();
 
-  // cabeza (se levanta al abrir la boca para atrapar meteoritos)
-  const lift = jaw * u * 0.6;
+  // cabeza: se levanta (lift) e inclina hacia arriba (tilt) al abrir la boca para atrapar
+  const lift = jaw * u * 0.6, tilt = jaw * 0.42;
   const hx = cx + u * 0.75, hy = gy - u * 2.05 - lift, hr = u * 0.82;
+  // cuello (se dibuja primero; no rota con la cabeza)
+  ctx.fillStyle = bot;
+  ctx.beginPath(); ctx.moveTo(hx - u * 0.5, hy + u * 0.3); ctx.quadraticCurveTo(cx, gy - u * 1.6, bodyCX - u * 0.2, bodyCY - u * 0.5); ctx.lineTo(bodyCX + u * 0.5, bodyCY - u * 0.6); ctx.quadraticCurveTo(hx + u * 0.1, gy - u * 1.7, hx + u * 0.4, hy + u * 0.3); ctx.closePath(); ctx.fill();
+
+  // cabeza + mandíbulas + ojo giran juntos e inclinan hacia arriba al atrapar
+  ctx.save();
+  const pvx = hx - hr * 0.5, pvy = hy + hr * 0.5;
+  ctx.translate(pvx, pvy); ctx.rotate(-tilt); ctx.translate(-pvx, -pvy);
   const hg = ctx.createLinearGradient(0, hy - hr, 0, hy + hr);
   hg.addColorStop(0, top); hg.addColorStop(1, bot);
   ctx.fillStyle = hg;
   ctx.beginPath(); ctx.ellipse(hx, hy, hr, hr * 0.92, 0, 0, Math.PI * 2); ctx.fill();
-  // cuello
-  ctx.beginPath(); ctx.moveTo(hx - u * 0.5, hy + u * 0.3); ctx.quadraticCurveTo(cx, gy - u * 1.6, bodyCX - u * 0.2, bodyCY - u * 0.5); ctx.lineTo(bodyCX + u * 0.5, bodyCY - u * 0.6); ctx.quadraticCurveTo(hx + u * 0.1, gy - u * 1.7, hx + u * 0.4, hy + u * 0.3); ctx.closePath(); ctx.fill();
 
   const hinge = { x: hx + hr * 0.55, y: hy + u * 0.05 }, snoutLen = u * 1.15;
   const open = jaw * 0.55; // ángulo de apertura (rad)
@@ -280,7 +286,8 @@ function drawDino(ctx, cx, gy, u, jaw, hurt, blinkT, run) {
     }
   } else { ctx.strokeStyle = "#1a1a1a"; ctx.lineWidth = u * 0.07; ctx.beginPath(); ctx.moveTo(hx - u * 0.1, hy - u * 0.28); ctx.lineTo(hx + u * 0.25, hy - u * 0.28); ctx.stroke(); }
 
-  ctx.restore();
+  ctx.restore(); // cierra la rotación de la cabeza
+  ctx.restore(); // cierra el dino completo
   return { mouthX: hinge.x + Math.cos(0) * snoutLen * 0.7, mouthY: hinge.y - u * 0.1, mouthR: snoutLen * 0.85, bodyCX, bodyCY, bodyRX, bodyRY, hx, hy, hr };
 }
 
@@ -356,10 +363,12 @@ function DodgeGame({ lang, accent, onVibeAdd, onExit, onRestart, muted, haptics 
     const sndScreech = () => { sweep(1100, 240, 0.4, 0.2, "sawtooth", 30, 70); noise(0.25, 0.18, 2600, "highpass", 0.7); };
     const sndBoom = () => { sweep(140, 45, 0.35, 0.32, "sine"); noise(0.18, 0.4, 500, "lowpass", 0.8); };
     const sndRoar = () => { sweep(180, 70, 0.5, 0.26, "sawtooth", 18, 30); sweep(90, 50, 0.5, 0.18, "square"); };
+    // rugido de depredador (más grave, largo y gutural) — suena de vez en cuando
+    const sndPredator = () => { sweep(150, 55, 0.85, 0.3, "sawtooth", 11, 24); sweep(70, 42, 0.9, 0.22, "square", 7, 12); noise(0.4, 0.1, 320, "lowpass", 0.7); };
     const sndCrunch = () => { noise(0.07, 0.45, 1400, "bandpass", 1.2); noise(0.05, 0.4, 600, "lowpass", 1); sweep(420, 120, 0.12, 0.2, "square"); };
     const buzz = (p) => { if (!haptics) return; try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
 
-    const g = { px: 0.5, obs: [], embers: [], sparks: [], hp: 100, score: 0, lvl: 1, spawnIn: 700, elapsed: 0, levelUpAt: 14000, scroll: 0,
+    const g = { px: 0.5, prevPx: 0.5, face: 1, faceTarget: 1, nextRoar: 4500, obs: [], embers: [], sparks: [], hp: 100, score: 0, lvl: 1, spawnIn: 700, elapsed: 0, levelUpAt: 14000, scroll: 0,
       inv: 0, hurtUntil: 0, jaw: 0, chompUntil: 0, blink: 0, prevTs: null, running: true };
     for (let i = 0; i < 22; i++) g.embers.push({ x: Math.random(), y: Math.random(), sp: 0.2 + Math.random() * 0.5, r: 0.6 + Math.random() * 1.8, ph: Math.random() * 6.28 });
     gRef.current = g;
@@ -433,10 +442,15 @@ function DodgeGame({ lang, accent, onVibeAdd, onExit, onRestart, muted, haptics 
       // sparks
       g.sparks.forEach((s) => { ctx.fillStyle = s.col.replace("ALPHA", s.life.toFixed(2)); ctx.beginPath(); ctx.arc(s.x * W, s.y * H, 3 * s.life + 1, 0, Math.PI * 2); ctx.fill(); });
 
-      // dino
+      // dino (gira el cuerpo al cambiar de dirección: g.face va de 1 a -1 pasando por 0)
       const u = Math.max(13, Math.min(27, W * 0.055));
       const flicker = g.inv && now < g.inv && Math.floor(now / 90) % 2 === 0;
-      if (!flicker) g.dino = drawDino(ctx, g.px * W, gy + u * 0.05, u, g.jaw, hurt, (g.blink % 4), g.scroll * 0.05);
+      if (!flicker) {
+        const dcx = g.px * W, sx = Math.abs(g.face) < 0.06 ? (g.face < 0 ? -0.06 : 0.06) : g.face;
+        ctx.save(); ctx.translate(dcx, 0); ctx.scale(sx, 1); ctx.translate(-dcx, 0);
+        g.dino = drawDino(ctx, dcx, gy + u * 0.05, u, g.jaw, hurt, (g.blink % 4), g.scroll * 0.05);
+        ctx.restore();
+      }
 
       // viñeta roja al recibir golpe
       if (hurt) { const a = (g.hurtUntil - now) / 220 * 0.5; ctx.setTransform(1, 0, 0, 1, 0, 0); const v = ctx.createRadialGradient(W / 2, H / 2, H * 0.2, W / 2, H / 2, H * 0.7); v.addColorStop(0, "rgba(255,0,0,0)"); v.addColorStop(1, `rgba(255,0,0,${Math.max(0, a)})`); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H); }
@@ -449,6 +463,15 @@ function DodgeGame({ lang, accent, onVibeAdd, onExit, onRestart, muted, haptics 
       const dt = g.prevTs !== null ? Math.min(50, ts - g.prevTs) : 16;
       g.prevTs = ts; g.elapsed += dt; g.blink += dt * 0.0009;
       g.scroll += dt * 0.22 * (1 + g.lvl * 0.07); // el mundo corre más rápido por era
+
+      // dirección: si va hacia un lado, el dino encara ese lado (gira el cuerpo, no retrocede)
+      const dpx = g.px - g.prevPx; g.prevPx = g.px;
+      if (dpx > 0.0008) g.faceTarget = 1; else if (dpx < -0.0008) g.faceTarget = -1;
+      g.face += (g.faceTarget - g.face) * 0.18; // giro suave
+
+      // rugido de depredador de vez en cuando
+      if (!g.roarInit) { g.roarInit = true; g.nextRoar = now + 4500; }
+      if (now >= g.nextRoar) { g.nextRoar = now + 6000 + Math.random() * 9000; if (g.jaw < 0.2) sndPredator(); }
 
       // mandíbula → objetivo según mordida
       const jawTarget = now < g.chompUntil ? 1 : 0;
@@ -475,9 +498,9 @@ function DodgeGame({ lang, accent, onVibeAdd, onExit, onRestart, muted, haptics 
       }
 
       const u = Math.max(13, Math.min(27, W * 0.055)), gy = H * 0.9;
-      const lift = g.jaw * u * 0.6;
-      const px = g.px * W, bodyCY = gy - u * 1.05, hx = px + u * 0.75, hy = gy - u * 2.05 - lift;
-      const mouthX = hx + u * 0.6, mouthY = hy + u * 0.05;
+      const lift = g.jaw * u * 0.6, fd = g.faceTarget; // lado al que mira la cabeza
+      const px = g.px * W, bodyCY = gy - u * 1.05, hx = px + fd * u * 0.75, hy = gy - u * 2.05 - lift;
+      const mouthX = hx + fd * u * 0.6, mouthY = hy + u * 0.05;
       const inv = now < g.inv, chomping = now < g.chompUntil;
       const next = []; let hitDmg = 0;
 
@@ -539,15 +562,24 @@ function DodgeGame({ lang, accent, onVibeAdd, onExit, onRestart, muted, haptics 
     };
   }, []);
 
-  const movePtr = (clientX) => {
-    const cv = canvasRef.current, g = gRef.current;
-    if (!cv || !g || g.over) return;
-    const r = cv.getBoundingClientRect(); if (!r.width) return;
-    g.px = Math.max(0.06, Math.min(0.94, (clientX - r.left) / r.width));
-  };
   const dragging = useRef(false);
   const downAt = useRef({ x: 0, t: 0 });
-  const startDrag = (clientX) => { dragging.current = true; downAt.current = { x: clientX, t: Date.now() }; movePtr(clientX); };
+  const grab = useRef({ x: 0, px: 0.5 });
+  // arrastre RELATIVO: el dino se siente "agarrado" por el dedo, no se teletransporta
+  const movePtr = (clientX) => {
+    const cv = canvasRef.current, g = gRef.current;
+    if (!cv || !g || g.over || clientX == null) return;
+    const r = cv.getBoundingClientRect(); if (!r.width) return;
+    let np = grab.current.px + (clientX - grab.current.x) / r.width;
+    if (np < 0.06) { np = 0.06; grab.current = { x: clientX, px: 0.06 }; }       // re-ancla en el borde
+    else if (np > 0.94) { np = 0.94; grab.current = { x: clientX, px: 0.94 }; }   // para responder al instante al volver
+    g.px = np;
+  };
+  const startDrag = (clientX) => {
+    const g = gRef.current; if (!g || g.over || clientX == null) return;
+    dragging.current = true; downAt.current = { x: clientX, t: Date.now() };
+    grab.current = { x: clientX, px: g.px }; // ancla: a partir de aquí el dino sigue el desplazamiento del dedo
+  };
   const endDrag = (clientX) => {
     if (!dragging.current) return; dragging.current = false;
     const dx = Math.abs((clientX ?? downAt.current.x) - downAt.current.x), dtm = Date.now() - downAt.current.t;
