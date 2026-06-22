@@ -7,6 +7,21 @@ export const AUDIENCES = [
 
 export const GAME_CATALOG = [
   {
+    kind: "neon-escape",
+    emoji: "🚀",
+    es: "Neon Escape",
+    en: "Neon Escape",
+    descEs: "Corre por una autopista de neón, esquiva drones y láseres, y sobrevive el mayor tiempo posible.",
+    descEn: "Race through a neon highway, dodge drones and lasers, and survive as long as possible.",
+    audience: ["teens", "adults"],
+    categories: ["action", "survival", "competitive"],
+    difficulty: 5,
+    reward: 30,
+    grad: "linear-gradient(135deg,#0891b2,#4338ca 55%,#be185d)",
+    standalone: true,
+    featured: true,
+  },
+  {
     kind: "classic",
     emoji: "🔴",
     es: "El Botón",
