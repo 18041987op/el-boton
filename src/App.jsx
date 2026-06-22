@@ -1,5 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect, useLayoutEffect } from "react";
 import supabase from "./supabaseClient";
+import PlatformHome from "./components/PlatformHome";
+import { claimDailyReward, loadProgress, recordGameStart } from "./services/playerProgress";
 
 /* ──────────────────────────────────────────────────────────────
    EL BOTÓN · THE BUTTON
@@ -658,49 +660,10 @@ function DodgeGame({ lang, accent, onVibeAdd, onExit, onRestart, muted, haptics 
 function g_showHint(hud) { return hud.score < 6 && !hud.eaten; }
 
 
-function PlatformHome({ lang, setLang, onPlay, onMultiplayer, supabaseReady }) {
-  const [audience, setAudience] = useState("all");
-  const copy = {
-    es: { title: "EL BOTÓN", eyebrow: "MINI-JUEGOS PARA TODOS", subtitle: "Partidas rápidas, dificultad creciente y recompensas que te hacen querer intentarlo otra vez.", play: "Jugar", all: "Todos", kids: "Niños", teens: "Adolescentes", adults: "Adultos", featured: "Juegos disponibles", soon: "Próximamente", multiplayer: "Jugar con amigos", install: "Instalable en tu móvil", rewards: "Niveles, rachas y recompensas", quick: "Partidas cortas, diversión inmediata" },
-    en: { title: "THE BUTTON", eyebrow: "MINI GAMES FOR EVERYONE", subtitle: "Quick sessions, rising difficulty and rewards that make you want one more try.", play: "Play", all: "All", kids: "Kids", teens: "Teens", adults: "Adults", featured: "Available games", soon: "Coming soon", multiplayer: "Play with friends", install: "Installable on mobile", rewards: "Levels, streaks and rewards", quick: "Short rounds, instant fun" },
-  }[lang];
-  const cards = [
-    { kind: "classic", emoji: "🔴", es: "El Botón", en: "The Button", descEs: "Reflejos, combos, retos y botón dorado.", descEn: "Reflexes, combos, challenges and golden button.", audience: ["kids","teens","adults"], grad: "linear-gradient(135deg,#7c3aed,#ec4899)" },
-    { kind: "balloons", emoji: "🎈", es: "Globos", en: "Balloons", descEs: "Explota la meta antes de que termine el tiempo.", descEn: "Hit the target before time runs out.", audience: ["kids","teens","adults"], grad: "linear-gradient(135deg,#fb7185,#8b5cf6)" },
-    { kind: "notes", emoji: "🎹", es: "Melodías", en: "Melodies", descEs: "Atrapa notas y completa melodías famosas.", descEn: "Catch notes and complete famous melodies.", audience: ["kids","teens","adults"], grad: "linear-gradient(135deg,#10b981,#0ea5e9)" },
-    { kind: "dodge", emoji: "🦖", es: "Dino", en: "Dino", descEs: "Sobrevive, muerde y avanza por nuevas eras.", descEn: "Survive, bite and advance through new eras.", audience: ["teens","adults"], grad: "linear-gradient(135deg,#92400e,#ea580c)" },
-  ];
-  const filtered = audience === "all" ? cards : cards.filter((g) => g.audience.includes(audience));
-  return <div className="platform-shell">
-    <div className="platform-orb platform-orb-one"/><div className="platform-orb platform-orb-two"/>
-    <header className="platform-nav">
-      <div className="platform-logo"><span>●</span>{copy.title}</div>
-      <div className="platform-lang">{["es","en"].map(l => <button key={l} className={lang===l?"active":""} onClick={()=>setLang(l)}>{l.toUpperCase()}</button>)}</div>
-    </header>
-    <main className="platform-main">
-      <section className="platform-hero">
-        <div className="platform-kicker">{copy.eyebrow}</div>
-        <h1>{lang === "es" ? <>Un juego más.<br/><span>Y luego otro.</span></> : <>One more game.<br/><span>Then another.</span></>}</h1>
-        <p>{copy.subtitle}</p>
-        <div className="platform-benefits"><span>⚡ {copy.quick}</span><span>🏆 {copy.rewards}</span><span>📲 {copy.install}</span></div>
-      </section>
-      <section className="platform-library">
-        <div className="platform-section-head"><div><small>{copy.featured}</small><h2>{lang === "es" ? "Elige tu próxima obsesión" : "Choose your next obsession"}</h2></div>
-          <div className="platform-filters">{[["all",copy.all],["kids",copy.kids],["teens",copy.teens],["adults",copy.adults]].map(([id,label])=><button key={id} className={audience===id?"active":""} onClick={()=>setAudience(id)}>{label}</button>)}</div>
-        </div>
-        <div className="platform-grid">{filtered.map(g=><article key={g.kind} className="platform-card" style={{"--card-gradient":g.grad}}>
-          <div className="platform-card-art"><span>{g.emoji}</span><div className="platform-difficulty">● ● ●</div></div>
-          <div className="platform-card-body"><h3>{g[lang]}</h3><p>{lang === "es" ? g.descEs : g.descEn}</p><button onClick={()=>onPlay(g.kind)}>{copy.play} <span>→</span></button></div>
-        </article>)}</div>
-        {supabaseReady && <button className="platform-multiplayer" onClick={onMultiplayer}>👥 {copy.multiplayer}</button>}
-      </section>
-    </main>
-    <footer className="platform-footer">{copy.title} · {new Date().getFullYear()}</footer>
-  </div>;
-}
 
 export default function App() {
   const [lang, setLang] = useState("es");
+  const [playerProgress, setPlayerProgress] = useState(() => loadProgress());
   const [showPlatform, setShowPlatform] = useState(true);
   const [vibe, setVibe] = useState(0);
   const [taps, setTaps] = useState(0);
@@ -1274,7 +1237,14 @@ export default function App() {
       lang={lang}
       setLang={setLang}
       supabaseReady={!!supabase}
-      onPlay={(kind) => {
+      progress={playerProgress}
+      onClaimDaily={() => {
+        const result = claimDailyReward(playerProgress);
+        setPlayerProgress(result.progress);
+      }}
+      onPlay={(game) => {
+        setPlayerProgress((current) => recordGameStart(current, game));
+        const kind = game.kind;
         setShowPlatform(false);
         setEntered(true);
         if (kind === "dodge") setTimeout(() => setDodgeActive(true), 0);
