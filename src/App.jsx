@@ -84,11 +84,19 @@ const MELODIES = [
   [NF.G4,NF.E4,NF.E4,NF.F4,NF.D4,NF.D4,NF.C4,NF.D4,NF.E4,NF.F4,NF.G4,NF.G4,NF.G4],              // London Bridge
 ];
 // Catálogo de juegos (fácil de extender: agrega una entrada aquí)
-const GAMES = [
-  { kind: "balloons", emoji: "🎈", es: "Globos",   en: "Balloons", grad: "linear-gradient(135deg, #FF6B81, #7C5CFF)", mpOk: true },
-  { kind: "notes",    emoji: "🎹", es: "Melodías", en: "Melodies", grad: "linear-gradient(135deg, #34E89E, #1E9BFF)", mpOk: true },
-  { kind: "dodge",    emoji: "🦖", es: "Dino",     en: "Dino",     grad: "linear-gradient(135deg, #8a3b12, #c2410c)", mpOk: false },
+const GAME_CATEGORIES = [
+  { id: "kids", emoji: "🧒", es: "Niños", en: "Kids", descEs: "Rondas cortas, colores claros y recompensas rápidas.", descEn: "Short rounds, bright colors and quick rewards.", gameKinds: ["balloons", "notes"] },
+  { id: "teens", emoji: "⚡", es: "Adolescentes", en: "Teens", descEs: "Retos de reflejos, combos y dificultad creciente.", descEn: "Reflex challenges, combos and rising difficulty.", gameKinds: ["notes", "dodge"] },
+  { id: "adults", emoji: "🏆", es: "Adultos", en: "Adults", descEs: "Supervivencia, ranking y partidas competitivas.", descEn: "Survival, ranking and competitive sessions.", gameKinds: ["dodge", "balloons"] },
 ];
+
+// Catálogo de juegos (fácil de extender: agrega una entrada aquí)
+const GAMES = [
+  { kind: "balloons", emoji: "🎈", es: "Globos",   en: "Balloons", blurbEs: "Explota objetivos antes de que escapen.", blurbEn: "Pop targets before they escape.", rewardEs: "+ nivel al cumplir la meta", rewardEn: "+ level when you hit the goal", grad: "linear-gradient(135deg, #FF6B81, #7C5CFF)", mpOk: true },
+  { kind: "notes",    emoji: "🎹", es: "Melodías", en: "Melodies", blurbEs: "Toca notas con sonidos reales y patrones más rápidos.", blurbEn: "Tap real-sounding notes and faster patterns.", rewardEs: "melodías + combos", rewardEn: "melodies + combos", grad: "linear-gradient(135deg, #34E89E, #1E9BFF)", mpOk: true },
+  { kind: "dodge",    emoji: "🦖", es: "Dino",     en: "Dino", blurbEs: "Sobrevive, muerde recompensas y evita meteoritos.", blurbEn: "Survive, bite rewards and dodge meteors.", rewardEs: "puntos por era", rewardEn: "points by era", grad: "linear-gradient(135deg, #8a3b12, #c2410c)", mpOk: false },
+];
+const gameByKind = (kind) => GAMES.find((g) => g.kind === kind);
 // Multijugador en vivo (Supabase Realtime)
 const MP_DUR = 30, MP_COUNTDOWN = 3;
 const roomCode = () => { const a = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; return Array.from({ length: 4 }, () => a[Math.floor(Math.random() * a.length)]).join(""); };
@@ -1215,6 +1223,16 @@ export default function App() {
 
   const urgent = challenge && challenge.timeLeft <= 3;
   const bUrgent = balloonGame.active && balloonGame.status === "playing" && balloonGame.timeLeft <= 5;
+  const gameCard = (g, onPick, compact = false) => (
+    <button key={g.kind} onClick={onPick} style={{ border: "none", cursor: "pointer", borderRadius: compact ? 16 : 20, padding: compact ? "14px 10px" : "16px", background: g.grad, color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, textAlign: "left", display: "flex", alignItems: "center", gap: 12, boxShadow: "0 12px 30px rgba(0,0,0,.28)" }}>
+      <span style={{ fontSize: compact ? 30 : 38 }}>{g.emoji}</span>
+      <span style={{ flex: 1, minWidth: 0 }}>
+        <span style={{ display: "block", fontSize: compact ? 16 : 18 }}>{g[lang]}</span>
+        <span style={{ display: "block", marginTop: 3, fontFamily: "'Nunito', sans-serif", fontSize: 12, lineHeight: 1.25, color: "rgba(255,255,255,.82)" }}>{lang === "es" ? g.blurbEs : g.blurbEn}</span>
+      </span>
+      <span style={{ fontSize: 11, background: "rgba(255,255,255,.18)", padding: "5px 7px", borderRadius: 999, whiteSpace: "nowrap" }}>🎁 {lang === "es" ? g.rewardEs : g.rewardEn}</span>
+    </button>
+  );
   const enterGame = (kind) => { if (nameDraft.trim()) saveName(); setEntered(true); if (kind === "dodge") { setDodgeActive(true); return; } if (kind !== "classic") actions.current.startBalloonGame(kind); };
   const pickGame = (kind) => { setShowGames(false); if (kind === "dodge") { setDodgeActive(true); return; } actions.current.startBalloonGame(kind); };
   const gameEmoji = balloonGame.kind === "notes" ? "🎹" : "🎈";
@@ -1354,14 +1372,18 @@ export default function App() {
 
         {entered && !balloonGame.active && (
           <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 18, zIndex: 6, padding: "0 8px" }}>
-            <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18, color: "rgba(255,255,255,.85)" }}>{lang === "es" ? "Elige tu juego" : "Choose your game"}</div>
-            <div style={{ display: "flex", gap: 14, width: "100%", maxWidth: 360 }}>
-              {GAMES.map((g) => (
-                <button key={g.kind} onClick={(e) => { e.stopPropagation(); if (g.kind === "dodge") { setDodgeActive(true); } else { actions.current.startBalloonGame(g.kind); } }} style={{ flex: 1, border: "none", cursor: "pointer", borderRadius: 22, padding: "30px 8px",
-                  background: g.grad, color: "#fff", fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18, display: "flex", flexDirection: "column", alignItems: "center", gap: 8,
-                  boxShadow: "0 12px 30px rgba(0,0,0,.35)" }}>
-                  <span style={{ fontSize: 44 }}>{g.emoji}</span>{g[lang]}
-                </button>
+            <div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 18, color: "rgba(255,255,255,.85)" }}>{lang === "es" ? "Categorías para todos" : "Categories for everyone"}</div>
+            <div style={{ width: "100%", maxWidth: 390, display: "flex", flexDirection: "column", gap: 10, maxHeight: "58vh", overflowY: "auto", padding: "2px 4px" }}>
+              {GAME_CATEGORIES.map((cat) => (
+                <section key={cat.id} style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.12)", borderRadius: 20, padding: 12 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 9 }}>
+                    <span style={{ fontSize: 24 }}>{cat.emoji}</span>
+                    <div style={{ flex: 1, textAlign: "left" }}><div style={{ fontFamily: "'Fredoka', sans-serif", fontWeight: 700 }}>{cat[lang]}</div><div style={{ fontSize: 12, color: "rgba(255,255,255,.7)", fontWeight: 700 }}>{lang === "es" ? cat.descEs : cat.descEn}</div></div>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                    {cat.gameKinds.map((kind) => { const g = gameByKind(kind); return g && gameCard(g, (e) => { e.stopPropagation(); if (g.kind === "dodge") { setDodgeActive(true); } else { actions.current.startBalloonGame(g.kind); } }, true); })}
+                  </div>
+                </section>
               ))}
             </div>
             {supabase && (
@@ -1483,14 +1505,15 @@ export default function App() {
           <div style={{ width: "100%", maxWidth: 340, display: "flex", flexDirection: "column", gap: 12 }}>
             <input value={nameDraft} onChange={(e) => setNameDraft(e.target.value)} placeholder={lang === "es" ? "Tu nombre" : "Your name"} maxLength={16}
               style={{ border: "none", borderRadius: 14, padding: "15px 18px", fontFamily: "'Nunito', sans-serif", fontWeight: 700, fontSize: 16, background: "rgba(255,255,255,.12)", color: "#fff", outline: "none", textAlign: "center" }} />
-            <div style={{ fontSize: 13, color: "rgba(255,255,255,.65)", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginTop: 2 }}>{lang === "es" ? "Elige tu juego" : "Choose your game"}</div>
-            <div style={{ display: "flex", gap: 10 }}>
-              {GAMES.map((g) => (
-                <button key={g.kind} onClick={() => enterGame(g.kind)} style={{ flex: 1, border: "none", cursor: "pointer", borderRadius: 16, padding: "16px 4px",
-                  background: g.grad || accent, color: g.grad ? "#fff" : level.bg[0], fontFamily: "'Fredoka', sans-serif", fontWeight: 700, fontSize: 15,
-                  display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                  <span style={{ fontSize: 24 }}>{g.emoji}</span>{g[lang]}
-                </button>
+            <div style={{ fontSize: 13, color: "rgba(255,255,255,.65)", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", marginTop: 2 }}>{lang === "es" ? "Elige una categoría" : "Choose a category"}</div>
+            <div style={{ maxHeight: "42vh", overflowY: "auto", display: "flex", flexDirection: "column", gap: 10, paddingRight: 2 }}>
+              {GAME_CATEGORIES.map((cat) => (
+                <section key={cat.id} style={{ background: "rgba(255,255,255,.08)", borderRadius: 18, padding: 10 }}>
+                  <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8, textAlign: "left" }}><span style={{ fontSize: 22 }}>{cat.emoji}</span><strong>{cat[lang]}</strong><span style={{ fontSize: 11, color: "rgba(255,255,255,.65)" }}>{lang === "es" ? cat.descEs : cat.descEn}</span></div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                    {cat.gameKinds.map((kind) => { const g = gameByKind(kind); return g && gameCard(g, () => enterGame(g.kind), true); })}
+                  </div>
+                </section>
               ))}
             </div>
             {supabase && (

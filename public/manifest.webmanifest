@@ -1,0 +1,14 @@
+{
+  "name": "EL BOTÓN · Mini juegos",
+  "short_name": "El Botón",
+  "description": "Plataforma de mini juegos con categorías por edad, dificultad creciente, recompensas, sonidos y ranking.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#16183a",
+  "theme_color": "#16183a",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
