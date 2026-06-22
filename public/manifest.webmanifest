@@ -1,0 +1,13 @@
+{
+  "name": "El Botón — Mini Juegos",
+  "short_name": "El Botón",
+  "description": "Mini-juegos rápidos con dificultad creciente, recompensas y ranking.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#090914",
+  "theme_color": "#6d28d9",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
