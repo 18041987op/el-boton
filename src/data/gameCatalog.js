@@ -33,6 +33,7 @@ export const GAME_CATALOG = [
     difficulty: 2,
     reward: 8,
     grad: "linear-gradient(135deg,#7c3aed,#ec4899)",
+    standalone: true,
   },
   {
     kind: "balloons",
@@ -46,6 +47,7 @@ export const GAME_CATALOG = [
     difficulty: 2,
     reward: 10,
     grad: "linear-gradient(135deg,#fb7185,#8b5cf6)",
+    standalone: true,
   },
   {
     kind: "notes",
@@ -59,6 +61,7 @@ export const GAME_CATALOG = [
     difficulty: 3,
     reward: 12,
     grad: "linear-gradient(135deg,#10b981,#0ea5e9)",
+    standalone: true,
   },
   {
     kind: "dodge",
@@ -72,6 +75,7 @@ export const GAME_CATALOG = [
     difficulty: 4,
     reward: 15,
     grad: "linear-gradient(135deg,#92400e,#ea580c)",
+    standalone: true,
   },
   {
     kind: "reflex",
