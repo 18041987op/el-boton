@@ -169,9 +169,12 @@ function Note({ c, glyph, size }) {
 }
 
 /* ── Dibujo del dinosaurio (T-Rex vectorial, mandíbulas animadas) ── */
-function drawDino(ctx, cx, gy, u, jaw, hurt, blinkT) {
+function drawDino(ctx, cx, gy, u, jaw, hurt, blinkT, run) {
   const top = hurt ? "#ff6a4d" : "#6FB23E", bot = hurt ? "#d83a28" : "#3F7E22";
   const belly = hurt ? "#ffd0a0" : "#C8E89A";
+  // bamboleo de carrera: el cuerpo sube/baja un poco
+  const bob = Math.sin(run) * u * 0.06;
+  cx += 0; gy += bob;
   const bodyCX = cx, bodyCY = gy - u * 1.05, bodyRX = u * 1.15, bodyRY = u * 0.95;
   ctx.save();
   ctx.shadowColor = "rgba(0,0,0,.35)"; ctx.shadowBlur = u * 0.3; ctx.shadowOffsetY = u * 0.15;
@@ -184,14 +187,15 @@ function drawDino(ctx, cx, gy, u, jaw, hurt, blinkT) {
   ctx.quadraticCurveTo(cx - u * 2.2, gy - u * 0.55, cx - u * 0.5, gy - u * 0.6);
   ctx.closePath(); ctx.fill();
 
-  // patas
+  // patas (animadas: alternan adelante/atrás al correr)
   ctx.fillStyle = bot;
-  [[cx - u * 0.45, 0.55], [cx + u * 0.5, 0.55]].forEach(([lx]) => {
+  [[cx - u * 0.45, Math.sin(run)], [cx + u * 0.5, Math.sin(run + Math.PI)]].forEach(([lx, ph]) => {
+    const step = ph * u * 0.34, lift = Math.max(0, -ph) * u * 0.2; // alza el pie en su fase
     ctx.beginPath();
     ctx.moveTo(lx - u * 0.34, gy - u * 0.95);
-    ctx.quadraticCurveTo(lx - u * 0.42, gy - u * 0.1, lx - u * 0.2, gy);
-    ctx.lineTo(lx + u * 0.5, gy);
-    ctx.quadraticCurveTo(lx + u * 0.4, gy - u * 0.2, lx + u * 0.34, gy - u * 0.95);
+    ctx.quadraticCurveTo(lx - u * 0.42 + step, gy - u * 0.1 - lift, lx - u * 0.2 + step, gy - lift);
+    ctx.lineTo(lx + u * 0.5 + step, gy - lift);
+    ctx.quadraticCurveTo(lx + u * 0.4 + step, gy - u * 0.2 - lift, lx + u * 0.34, gy - u * 0.95);
     ctx.closePath(); ctx.fill();
   });
   ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
@@ -216,8 +220,9 @@ function drawDino(ctx, cx, gy, u, jaw, hurt, blinkT) {
   ctx.strokeStyle = bot; ctx.lineWidth = u * 0.16; ctx.lineCap = "round";
   ctx.beginPath(); ctx.moveTo(cx + u * 0.55, gy - u * 1.1); ctx.lineTo(cx + u * 0.95, gy - u * 0.8); ctx.stroke();
 
-  // cabeza
-  const hx = cx + u * 0.75, hy = gy - u * 2.05, hr = u * 0.82;
+  // cabeza (se levanta al abrir la boca para atrapar meteoritos)
+  const lift = jaw * u * 0.6;
+  const hx = cx + u * 0.75, hy = gy - u * 2.05 - lift, hr = u * 0.82;
   const hg = ctx.createLinearGradient(0, hy - hr, 0, hy + hr);
   hg.addColorStop(0, top); hg.addColorStop(1, bot);
   ctx.fillStyle = hg;
@@ -354,7 +359,7 @@ function DodgeGame({ lang, accent, onVibeAdd, onExit, onRestart, muted, haptics 
     const sndCrunch = () => { noise(0.07, 0.45, 1400, "bandpass", 1.2); noise(0.05, 0.4, 600, "lowpass", 1); sweep(420, 120, 0.12, 0.2, "square"); };
     const buzz = (p) => { if (!haptics) return; try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
 
-    const g = { px: 0.5, obs: [], embers: [], sparks: [], hp: 100, score: 0, lvl: 1, spawnIn: 700, elapsed: 0, levelUpAt: 14000,
+    const g = { px: 0.5, obs: [], embers: [], sparks: [], hp: 100, score: 0, lvl: 1, spawnIn: 700, elapsed: 0, levelUpAt: 14000, scroll: 0,
       inv: 0, hurtUntil: 0, jaw: 0, chompUntil: 0, blink: 0, prevTs: null, running: true };
     for (let i = 0; i < 22; i++) g.embers.push({ x: Math.random(), y: Math.random(), sp: 0.2 + Math.random() * 0.5, r: 0.6 + Math.random() * 1.8, ph: Math.random() * 6.28 });
     gRef.current = g;
@@ -384,23 +389,43 @@ function DodgeGame({ lang, accent, onVibeAdd, onExit, onRestart, muted, haptics 
       // embers flotantes
       g.embers.forEach((e) => { const ey = (e.y - (g.elapsed * 0.00004 * e.sp)) % 1, yy = (ey < 0 ? ey + 1 : ey) * H; ctx.fillStyle = `rgba(255,${140 + ((e.r * 40) | 0)},60,${0.35 + 0.3 * Math.sin(g.elapsed * 0.003 + e.ph)})`; ctx.beginPath(); ctx.arc(e.x * W, yy, e.r, 0, Math.PI * 2); ctx.fill(); });
 
-      // volcán + montañas silueta
+      // helper: capa que hace scroll y se repite (parallax)
+      const wrap = (period, f) => -((((g.scroll * f) % period) + period) % period);
+
+      // capa lejana: montañas silueta (scroll lento)
       ctx.fillStyle = "#1a0a10";
-      ctx.beginPath(); ctx.moveTo(-20, gy); ctx.lineTo(W * 0.2, gy - H * 0.16); ctx.lineTo(W * 0.36, gy); ctx.closePath(); ctx.fill();
-      ctx.beginPath(); ctx.moveTo(W * 0.62, gy); ctx.lineTo(W * 0.82, gy - H * 0.22); ctx.lineTo(W * 1.04, gy); ctx.closePath(); ctx.fill();
-      // volcán central con lava
-      ctx.fillStyle = "#241015";
-      ctx.beginPath(); ctx.moveTo(W * 0.34, gy); ctx.lineTo(W * 0.5, gy - H * 0.28); ctx.lineTo(W * 0.66, gy); ctx.closePath(); ctx.fill();
-      ctx.fillStyle = "rgba(255,90,20,.8)"; ctx.shadowColor = "#ff5a14"; ctx.shadowBlur = 18;
-      ctx.beginPath(); ctx.moveTo(W * 0.46, gy - H * 0.255); ctx.lineTo(W * 0.5, gy - H * 0.285); ctx.lineTo(W * 0.54, gy - H * 0.255); ctx.lineTo(W * 0.52, gy - H * 0.18); ctx.lineTo(W * 0.48, gy - H * 0.18); ctx.closePath(); ctx.fill();
-      ctx.shadowBlur = 0;
+      { const period = W * 0.5, off = wrap(period, 0.12);
+        for (let x = off - period; x < W + period; x += period) {
+          ctx.beginPath(); ctx.moveTo(x, gy); ctx.lineTo(x + period * 0.5, gy - H * 0.17); ctx.lineTo(x + period, gy); ctx.closePath(); ctx.fill();
+        } }
+
+      // capa media: volcanes en erupción (scroll medio) → quedan atrás al huir
+      { const period = W * 1.15, off = wrap(period, 0.3);
+        for (let vx = off - period; vx < W + period; vx += period) {
+          const cxV = vx + period * 0.5;
+          ctx.fillStyle = "#241015";
+          ctx.beginPath(); ctx.moveTo(cxV - W * 0.16, gy); ctx.lineTo(cxV, gy - H * 0.28); ctx.lineTo(cxV + W * 0.16, gy); ctx.closePath(); ctx.fill();
+          ctx.fillStyle = "rgba(255,90,20,.85)"; ctx.shadowColor = "#ff5a14"; ctx.shadowBlur = 18;
+          ctx.beginPath(); ctx.moveTo(cxV - W * 0.04, gy - H * 0.255); ctx.lineTo(cxV, gy - H * 0.29); ctx.lineTo(cxV + W * 0.04, gy - H * 0.255); ctx.lineTo(cxV + W * 0.02, gy - H * 0.18); ctx.lineTo(cxV - W * 0.02, gy - H * 0.18); ctx.closePath(); ctx.fill();
+          ctx.shadowBlur = 0;
+        } }
 
       // suelo
       const ground = ctx.createLinearGradient(0, gy, 0, H);
       ground.addColorStop(0, "#3a1d10"); ground.addColorStop(1, "#1c0d08");
       ctx.fillStyle = ground; ctx.fillRect(-20, gy, W + 40, H - gy);
-      ctx.strokeStyle = "rgba(255,90,20,.25)"; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.moveTo(W * 0.1, H); ctx.lineTo(W * 0.22, gy + 6); ctx.moveTo(W * 0.7, H); ctx.lineTo(W * 0.58, gy + 6); ctx.stroke();
+      // rocas en primer plano (scroll rápido) → fuerte sensación de carrera
+      { const period = W * 0.32, off = wrap(period, 0.7);
+        ctx.fillStyle = "#241007";
+        for (let rx = off - period; rx < W + period; rx += period) {
+          ctx.beginPath(); ctx.ellipse(rx + period * 0.5, gy + (H - gy) * 0.55, W * 0.055, (H - gy) * 0.2, 0, 0, Math.PI * 2); ctx.fill();
+        } }
+      // grietas de lava que cruzan el suelo (scroll rápido)
+      { const period = W * 0.45, off = wrap(period, 0.7);
+        ctx.strokeStyle = "rgba(255,90,20,.3)"; ctx.lineWidth = 2;
+        for (let lx = off - period; lx < W + period; lx += period) {
+          ctx.beginPath(); ctx.moveTo(lx, H); ctx.lineTo(lx + period * 0.28, gy + 6); ctx.stroke();
+        } }
 
       // meteoritos
       for (const o of g.obs) drawMeteor(ctx, o.x * W, o.y * H, o.r * W, o.rot);
@@ -409,9 +434,9 @@ function DodgeGame({ lang, accent, onVibeAdd, onExit, onRestart, muted, haptics 
       g.sparks.forEach((s) => { ctx.fillStyle = s.col.replace("ALPHA", s.life.toFixed(2)); ctx.beginPath(); ctx.arc(s.x * W, s.y * H, 3 * s.life + 1, 0, Math.PI * 2); ctx.fill(); });
 
       // dino
-      const u = Math.max(26, Math.min(54, W * 0.11));
+      const u = Math.max(13, Math.min(27, W * 0.055));
       const flicker = g.inv && now < g.inv && Math.floor(now / 90) % 2 === 0;
-      if (!flicker) g.dino = drawDino(ctx, g.px * W, gy + u * 0.05, u, g.jaw, hurt, (g.blink % 4));
+      if (!flicker) g.dino = drawDino(ctx, g.px * W, gy + u * 0.05, u, g.jaw, hurt, (g.blink % 4), g.scroll * 0.05);
 
       // viñeta roja al recibir golpe
       if (hurt) { const a = (g.hurtUntil - now) / 220 * 0.5; ctx.setTransform(1, 0, 0, 1, 0, 0); const v = ctx.createRadialGradient(W / 2, H / 2, H * 0.2, W / 2, H / 2, H * 0.7); v.addColorStop(0, "rgba(255,0,0,0)"); v.addColorStop(1, `rgba(255,0,0,${Math.max(0, a)})`); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H); }
@@ -423,6 +448,7 @@ function DodgeGame({ lang, accent, onVibeAdd, onExit, onRestart, muted, haptics 
       const W = c.width, H = c.height, now = Date.now();
       const dt = g.prevTs !== null ? Math.min(50, ts - g.prevTs) : 16;
       g.prevTs = ts; g.elapsed += dt; g.blink += dt * 0.0009;
+      g.scroll += dt * 0.22 * (1 + g.lvl * 0.07); // el mundo corre más rápido por era
 
       // mandíbula → objetivo según mordida
       const jawTarget = now < g.chompUntil ? 1 : 0;
@@ -448,8 +474,9 @@ function DodgeGame({ lang, accent, onVibeAdd, onExit, onRestart, muted, haptics 
         setHud(h => ({ ...h, lvl, msg })); setTimeout(() => setHud(h => ({ ...h, msg: null })), 1400);
       }
 
-      const u = Math.max(26, Math.min(54, W * 0.11)), gy = H * 0.9;
-      const px = g.px * W, bodyCY = gy - u * 1.05, hx = px + u * 0.75, hy = gy - u * 2.05;
+      const u = Math.max(13, Math.min(27, W * 0.055)), gy = H * 0.9;
+      const lift = g.jaw * u * 0.6;
+      const px = g.px * W, bodyCY = gy - u * 1.05, hx = px + u * 0.75, hy = gy - u * 2.05 - lift;
       const mouthX = hx + u * 0.6, mouthY = hy + u * 0.05;
       const inv = now < g.inv, chomping = now < g.chompUntil;
       const next = []; let hitDmg = 0;
@@ -533,15 +560,16 @@ function DodgeGame({ lang, accent, onVibeAdd, onExit, onRestart, muted, haptics 
   const hpCol = hp > 55 ? "#5fd35f" : hp > 25 ? "#ffce3a" : "#ff4d4d";
 
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 40, userSelect: "none", WebkitUserSelect: "none", touchAction: "none" }}
+    <div style={{ position: "fixed", inset: 0, zIndex: 40, userSelect: "none", WebkitUserSelect: "none" }}>
+      {/* los controles van en el canvas: así los botones de los overlays (pausa/fin) nunca quedan bloqueados */}
+      <canvas ref={canvasRef} style={{ display: "block", position: "absolute", inset: 0, touchAction: "none" }}
          onMouseDown={(e) => startDrag(e.clientX)}
          onMouseMove={(e) => { if (dragging.current) movePtr(e.clientX); }}
          onMouseUp={(e) => endDrag(e.clientX)}
          onMouseLeave={() => endDrag()}
          onTouchStart={(e) => { e.preventDefault(); startDrag(e.touches[0]?.clientX); }}
          onTouchMove={(e) => { e.preventDefault(); movePtr(e.touches[0]?.clientX); }}
-         onTouchEnd={(e) => { e.preventDefault(); endDrag(e.changedTouches[0]?.clientX); }}>
-      <canvas ref={canvasRef} style={{ display: "block", position: "absolute", inset: 0 }} />
+         onTouchEnd={(e) => { e.preventDefault(); endDrag(e.changedTouches[0]?.clientX); }} />
 
       {/* HUD superior: barra de vida + puntaje + era */}
       <div style={{ position: "absolute", top: 0, left: 0, right: 0, padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", pointerEvents: "none", zIndex: 2, fontFamily: "'Fredoka', sans-serif", fontWeight: 700, gap: 12 }}>
