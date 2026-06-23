@@ -13,6 +13,7 @@ const COPY = {
     install: "Instalable en tu móvil", rewards: "Niveles, rachas y recompensas", quick: "Partidas cortas, diversión inmediata",
     choose: "Elige tu próxima obsesión", level: "Nivel", coins: "Monedas", streak: "Racha", plays: "Partidas",
     daily: "Recompensa diaria", claimed: "Ya reclamada", claim: "Reclamar", difficulty: "Dificultad",
+    featuredGame: "JUEGO DESTACADO", launch: "JUGAR AHORA",
   },
   en: {
     title: "THE BUTTON", eyebrow: "MINI GAMES FOR EVERYONE",
@@ -21,6 +22,7 @@ const COPY = {
     install: "Installable on mobile", rewards: "Levels, streaks and rewards", quick: "Short rounds, instant fun",
     choose: "Choose your next obsession", level: "Level", coins: "Coins", streak: "Streak", plays: "Games",
     daily: "Daily reward", claimed: "Already claimed", claim: "Claim", difficulty: "Difficulty",
+    featuredGame: "FEATURED GAME", launch: "PLAY NOW",
   },
 };
 
@@ -37,6 +39,7 @@ export default function PlatformHome({ lang, setLang, onPlay, onMultiplayer, sup
   const xpPct = Math.min(100, Math.max(0, ((displayProgress.xp - currentFloor) / Math.max(1, nextTarget - currentFloor)) * 100));
   const claimedToday = displayProgress.lastDailyReward === new Date().toISOString().slice(0, 10);
   const filtered = useMemo(() => audience === "all" ? GAME_CATALOG : GAME_CATALOG.filter((g) => g.audience.includes(audience)), [audience]);
+  const featuredGame = GAME_CATALOG.find((game) => game.featured);
 
   const launchGame = (game) => {
     if (!game.standalone) {
@@ -63,6 +66,33 @@ export default function PlatformHome({ lang, setLang, onPlay, onMultiplayer, sup
         <p>{copy.subtitle}</p>
         <div className="platform-benefits"><span>⚡ {copy.quick}</span><span>🏆 {copy.rewards}</span><span>📲 {copy.install}</span></div>
       </section>
+
+      {featuredGame && <section style={{
+        margin: "0 0 34px",
+        padding: "clamp(22px,4vw,38px)",
+        borderRadius: 28,
+        border: "1px solid rgba(255,255,255,.14)",
+        background: "linear-gradient(135deg,rgba(8,145,178,.34),rgba(67,56,202,.35) 52%,rgba(190,24,93,.32))",
+        boxShadow: "0 24px 70px rgba(30,27,75,.34)",
+        display: "grid",
+        gridTemplateColumns: "minmax(0,1.4fr) auto",
+        alignItems: "center",
+        gap: 22,
+        overflow: "hidden",
+        position: "relative",
+      }}>
+        <div>
+          <small style={{color:"#67e8f9",fontWeight:1000,letterSpacing:".16em"}}>{copy.featuredGame}</small>
+          <h2 style={{margin:"8px 0 10px",fontSize:"clamp(34px,6vw,64px)",letterSpacing:"-.05em"}}>{featuredGame[lang]}</h2>
+          <p style={{maxWidth:680,margin:"0 0 20px",color:"#d7d3e5",lineHeight:1.55}}>{lang === "es" ? featuredGame.descEs : featuredGame.descEn}</p>
+          <button onClick={() => launchGame(featuredGame)} style={{
+            border:0,borderRadius:16,padding:"14px 20px",cursor:"pointer",fontWeight:1000,
+            color:"#07111f",background:"linear-gradient(135deg,#67e8f9,#c4b5fd)",
+            boxShadow:"0 12px 32px rgba(34,211,238,.24)"
+          }}>{copy.launch} →</button>
+        </div>
+        <div style={{fontSize:"clamp(74px,12vw,130px)",filter:"drop-shadow(0 0 28px rgba(34,211,238,.5))"}}>{featuredGame.emoji}</div>
+      </section>}
 
       <section className="player-dashboard" aria-label="Player progress">
         <div className="player-level-ring"><strong>{level}</strong><span>{copy.level}</span></div>
