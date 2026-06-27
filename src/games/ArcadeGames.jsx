@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import NeonEscape from "./NeonEscape";
+import NeonRiftArena from "./NeonRiftArena";
 import { BalloonPopGame, ClassicButtonGame, DinoSurvivalGame, MelodyCatchGame } from "./LegacyArcadeGames";
 
 const ui = {
@@ -114,6 +115,7 @@ function PrecisionGame({ lang, onClose }) {
 }
 
 export default function ArcadeGames({ kind, lang, onClose }) {
+  if (kind === "neon-rift") return <NeonRiftArena lang={lang} onClose={onClose}/>;
   if (kind === "neon-escape") return <NeonEscape lang={lang} onClose={onClose}/>;
   if (kind === "classic") return <ClassicButtonGame lang={lang} onClose={onClose}/>;
   if (kind === "balloons") return <BalloonPopGame lang={lang} onClose={onClose}/>;
