@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { AUDIENCES, GAME_CATALOG } from "../data/gameCatalog";
 import { levelFromXp, recordGameStart, xpForNextLevel } from "../services/playerProgress";
-import { markLegacyPlatformLaunch } from "../services/platformLaunchBridge";
 import RetentionPanel from "./RetentionPanel";
 import ArcadeGames from "../games/ArcadeGames";
 
@@ -26,7 +25,7 @@ const COPY = {
   },
 };
 
-export default function PlatformHome({ lang, setLang, onPlay, onMultiplayer, supabaseReady, progress, onClaimDaily }) {
+export default function PlatformHome({ lang, setLang, progress, onClaimDaily }) {
   const [audience, setAudience] = useState("all");
   const [displayProgress, setDisplayProgress] = useState(progress);
   const [activeStandalone, setActiveStandalone] = useState(null);
@@ -42,11 +41,7 @@ export default function PlatformHome({ lang, setLang, onPlay, onMultiplayer, sup
   const featuredGame = GAME_CATALOG.find((game) => game.featured);
 
   const launchGame = (game) => {
-    if (!game.standalone) {
-      markLegacyPlatformLaunch(game.kind);
-      onPlay(game);
-      return;
-    }
+    // Todos los juegos del catálogo se abren como overlay dentro del hub.
     const nextProgress = recordGameStart(displayProgress, game);
     setDisplayProgress(nextProgress);
     setActiveStandalone(game.kind);
@@ -116,7 +111,6 @@ export default function PlatformHome({ lang, setLang, onPlay, onMultiplayer, sup
           <div className="platform-card-art"><span>{g.emoji}</span><div className="platform-difficulty" title={copy.difficulty}>{Array.from({length:5},(_,i)=><i key={i} className={i<g.difficulty?"on":""}>●</i>)}</div></div>
           <div className="platform-card-body"><h3>{g[lang]}</h3><p>{lang === "es" ? g.descEs : g.descEn}</p><div className="platform-card-meta"><span>+{g.reward} 🪙</span><span>{displayProgress.games[g.kind]?.plays || 0} 🎮</span></div><button onClick={() => launchGame(g)}>{copy.play} <span>→</span></button></div>
         </article>)}</div>
-        {supabaseReady && <button className="platform-multiplayer" onClick={onMultiplayer}>👥 {copy.multiplayer}</button>}
       </section>
     </main>
     <footer className="platform-footer">{copy.title} · {new Date().getFullYear()}</footer>
