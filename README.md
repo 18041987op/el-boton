@@ -11,6 +11,12 @@ Bilingüe (ES/EN), con **retos relámpago**, **modo frenesí x3**, **botón dora
 - **Supabase** (Postgres) para el ranking mundial
 - Cero dependencias de UI: todo va en código (SVG + CSS-in-JS)
 
+## Juegos
+- **🛸 Neon Rift Arena** (destacado) — arena shooter top-down 360° con multijugador
+  local (1-2), bots con IA (patrullar / perseguir / atacar), oleadas de dificultad
+  progresiva, jefe, power-ups y **ranking propio** por puntaje.
+- **🚀 Neon Escape** — corre por la autopista de neón, esquiva drones y láseres.
+
 ## Puesta en marcha
 
 ### 1. Supabase (ranking mundial)
@@ -54,8 +60,10 @@ npm run preview    # previsualiza el build
 - Agrega las mismas dos variables de entorno en el proyecto.
 
 ## Notas de seguridad
-- La tabla solo permite **lectura pública**. Toda escritura pasa por la función
-  `submit_score()` (SECURITY DEFINER), que guarda únicamente el puntaje **máximo** de cada jugador.
+- Las tablas solo permiten **lectura pública**. Toda escritura pasa por funciones
+  `SECURITY DEFINER` que guardan únicamente el puntaje **máximo** de cada jugador:
+  `submit_score()` para el ranking global y `submit_game_score()` para el ranking
+  por juego (tabla `game_scores`, p. ej. Neon Rift Arena).
 - La identidad del jugador es un id aleatorio guardado en `localStorage` (sin login).
   Es suficiente para un juego casual; si más adelante quieres anti-trampa fuerte,
   el siguiente paso sería añadir auth anónima de Supabase + rate limiting.
