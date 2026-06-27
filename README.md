@@ -1,15 +1,15 @@
 # EL BOTÓN · The Button 🎉
 
-Un juguete de dopamina pura: un solo botón irresistible que suelta buena vibra.
-Bilingüe (ES/EN), con **retos relámpago**, **modo frenesí x3**, **botón dorado huidizo**,
-**vibración**, **caras de caricatura** que reaccionan, y **ranking mundial en vivo**.
+Plataforma de mini-juegos en un único hub: un catálogo, niveles, rachas,
+recompensas y **ranking mundial por juego**. Bilingüe (ES/EN), instalable (PWA).
 
 > "Tres businesses. Un operador. Cero atajos." — by @osmanbuilds
 
 ## Stack
-- **Vite + React** (frontend, un solo componente)
-- **Supabase** (Postgres) para el ranking mundial
-- Cero dependencias de UI: todo va en código (SVG + CSS-in-JS)
+- **Vite + React** — un único hub (`PlatformHome`) que lista el catálogo;
+  cada juego se abre como overlay a pantalla completa.
+- **Supabase** (Postgres) para el ranking mundial por juego
+- Cero dependencias de UI: todo va en código (Canvas + CSS-in-JS)
 
 ## Juegos
 - **🛸 Neon Rift Arena** (destacado) — arena shooter top-down 360° con multijugador
@@ -60,10 +60,9 @@ npm run preview    # previsualiza el build
 - Agrega las mismas dos variables de entorno en el proyecto.
 
 ## Notas de seguridad
-- Las tablas solo permiten **lectura pública**. Toda escritura pasa por funciones
-  `SECURITY DEFINER` que guardan únicamente el puntaje **máximo** de cada jugador:
-  `submit_score()` para el ranking global y `submit_game_score()` para el ranking
-  por juego (tabla `game_scores`, p. ej. Neon Rift Arena).
+- La tabla `game_scores` solo permite **lectura pública**. Toda escritura pasa por la
+  función `submit_game_score()` (`SECURITY DEFINER`), que guarda únicamente el puntaje
+  **máximo** de cada jugador por juego.
 - La identidad del jugador es un id aleatorio guardado en `localStorage` (sin login).
   Es suficiente para un juego casual; si más adelante quieres anti-trampa fuerte,
   el siguiente paso sería añadir auth anónima de Supabase + rate limiting.
