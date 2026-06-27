@@ -30,10 +30,11 @@ const copy = {
     normal: "Normal",
     hard: "Difícil",
     start: "ENTRAR A LA ARENA",
-    controlsTitle: "Controles",
-    p1Controls: "J1 · WASD para moverse · ESPACIO para disparar",
-    p2Controls: "J2 · Flechas para moverse · ENTER / ⇧ para disparar",
-    autoaim: "La puntería es automática hacia el enemigo más cercano",
+    controlsTitle: "Cómo jugar",
+    touchControls: "📱 Táctil: arrastra el dedo para moverte",
+    p1Controls: "⌨️ Teclado: WASD o flechas para moverte",
+    p2Controls: "J2 (teclado): flechas para moverse",
+    autoaim: "🔫 Disparas SOLO al enemigo más cercano. Tú solo muévete y esquiva.",
     restart: "Reiniciar (R)",
     exit: "Salir",
     wave: "Oleada",
@@ -76,10 +77,11 @@ const copy = {
     normal: "Normal",
     hard: "Hard",
     start: "ENTER THE ARENA",
-    controlsTitle: "Controls",
-    p1Controls: "P1 · WASD to move · SPACE to shoot",
-    p2Controls: "P2 · Arrows to move · ENTER / ⇧ to shoot",
-    autoaim: "Aiming is automatic toward the nearest enemy",
+    controlsTitle: "How to play",
+    touchControls: "📱 Touch: drag your finger to move",
+    p1Controls: "⌨️ Keyboard: WASD or arrows to move",
+    p2Controls: "P2 (keyboard): arrows to move",
+    autoaim: "🔫 You auto-fire at the nearest enemy. Just move and dodge.",
     restart: "Restart (R)",
     exit: "Exit",
     wave: "Wave",
@@ -266,6 +268,8 @@ export default function NeonRiftArena({ lang = "es", onClose }) {
       score: 0, teamXp: 0,
       keys: new Set(), lastTime: 0, elapsed: 0, hudClock: 0,
       shake: 0, gridT: 0,
+      // Joystick táctil del J1: base (bx,by) y vector analógico (tvx,tvy ∈ -1..1)
+      touch: { active: false, bx: 0, by: 0, tvx: 0, tvy: 0 },
     };
     gRef.current = g;
     resize();
@@ -405,34 +409,42 @@ export default function NeonRiftArena({ lang = "es", onClose }) {
     for (const p of g.players) {
       if (!p.isHuman || p.dead) continue;
       const k = g.keys;
-      let mx = 0, my = 0;
-      if (p.pIndex === 0) {
-        if (k.has("KeyW")) my -= 1;
-        if (k.has("KeyS")) my += 1;
-        if (k.has("KeyA")) mx -= 1;
-        if (k.has("KeyD")) mx += 1;
-      } else {
-        if (k.has("ArrowUp")) my -= 1;
-        if (k.has("ArrowDown")) my += 1;
-        if (k.has("ArrowLeft")) mx -= 1;
-        if (k.has("ArrowRight")) mx += 1;
-      }
-      const mag = Math.hypot(mx, my) || 1;
       const speed = 240;
-      p.vx = (mx / mag) * speed;
-      p.vy = (my / mag) * speed;
+      let vx = 0, vy = 0, mx = 0, my = 0;
+      // El J1 puede moverse con el joystick táctil (analógico) o con teclado.
+      if (p.pIndex === 0 && g.touch.active && (g.touch.tvx || g.touch.tvy)) {
+        vx = g.touch.tvx * speed;
+        vy = g.touch.tvy * speed;
+        mx = g.touch.tvx; my = g.touch.tvy;
+      } else {
+        if (p.pIndex === 0) {
+          // En 1 jugador, J1 también acepta flechas; en 2 jugadores las flechas son del J2
+          const solo = g.players.length === 1;
+          if (k.has("KeyW") || (solo && k.has("ArrowUp"))) my -= 1;
+          if (k.has("KeyS") || (solo && k.has("ArrowDown"))) my += 1;
+          if (k.has("KeyA") || (solo && k.has("ArrowLeft"))) mx -= 1;
+          if (k.has("KeyD") || (solo && k.has("ArrowRight"))) mx += 1;
+        } else {
+          if (k.has("ArrowUp")) my -= 1;
+          if (k.has("ArrowDown")) my += 1;
+          if (k.has("ArrowLeft")) mx -= 1;
+          if (k.has("ArrowRight")) mx += 1;
+        }
+        const mag = Math.hypot(mx, my);
+        if (mag > 0) { vx = (mx / mag) * speed; vy = (my / mag) * speed; }
+      }
+      p.vx = vx; p.vy = vy;
       p.x = Math.max(p.r, Math.min(W - p.r, p.x + p.vx * dt));
       p.y = Math.max(p.r, Math.min(H - p.r, p.y + p.vy * dt));
 
-      // Auto-puntería hacia el enemigo más cercano (accesible con teclado)
+      // Auto-puntería hacia el enemigo más cercano
       const target = nearestEnemy(g, p.x, p.y);
       if (target) p.aim = Math.atan2(target.y - p.y, target.x - p.x);
       else if (mx || my) p.aim = Math.atan2(my, mx);
 
-      // Disparo
+      // Disparo AUTOMÁTICO: el jugador solo se concentra en moverse/esquivar
       p.fireCD -= dt;
-      const shooting = p.pIndex === 0 ? k.has("Space") : (k.has("Enter") || k.has("ShiftRight"));
-      if (shooting && p.fireCD <= 0 && target) {
+      if (p.fireCD <= 0 && target) {
         const baseCD = 0.34 / p.fireRate;
         p.fireCD = baseCD;
         const dmg = 1 * p.dmgMul;
@@ -808,6 +820,18 @@ export default function NeonRiftArena({ lang = "es", onClose }) {
     for (const p of g.players) if (p.isHuman) drawPlayer(ctx, p, g);
 
     ctx.restore();
+
+    // Joystick táctil (posición fija en pantalla, fuera de la sacudida)
+    if (g.touch && g.touch.active) {
+      const R = 56;
+      ctx.save();
+      ctx.globalAlpha = 0.55;
+      ctx.strokeStyle = "#67e8f9"; ctx.lineWidth = 2.5; ctx.shadowBlur = 12; ctx.shadowColor = "#22d3ee";
+      ctx.beginPath(); ctx.arc(g.touch.bx, g.touch.by, R, 0, 6.28); ctx.stroke();
+      ctx.fillStyle = "rgba(103,232,249,0.6)";
+      ctx.beginPath(); ctx.arc(g.touch.bx + g.touch.tvx * R, g.touch.by + g.touch.tvy * R, 24, 0, 6.28); ctx.fill();
+      ctx.restore();
+    }
   }
 
   function drawGrid(ctx, g) {
@@ -1007,6 +1031,32 @@ export default function NeonRiftArena({ lang = "es", onClose }) {
     submitScore(GAME_KEY, getLocalBest(GAME_KEY), clean).then(() => refreshBoard());
   };
 
+  /* ── Joystick táctil (y ratón): arrastra para mover al J1 ── */
+  const JOY_R = 56;
+  const onPointerDown = (e) => {
+    const g = gRef.current;
+    if (!g || !g.running || g.paused || phaseRef.current !== "playing") return;
+    g.touch.active = true;
+    g.touch.bx = e.clientX; g.touch.by = e.clientY;
+    g.touch.tvx = 0; g.touch.tvy = 0;
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch {}
+  };
+  const onPointerMove = (e) => {
+    const g = gRef.current;
+    if (!g || !g.touch.active) return;
+    const dx = e.clientX - g.touch.bx, dy = e.clientY - g.touch.by;
+    const mag = Math.hypot(dx, dy);
+    const k = mag > JOY_R ? JOY_R / mag : 1;
+    // Vector analógico -1..1; si se arrastra más allá del radio, la base sigue al dedo
+    g.touch.tvx = (dx * k) / JOY_R;
+    g.touch.tvy = (dy * k) / JOY_R;
+    if (mag > JOY_R) { g.touch.bx = e.clientX - (dx * JOY_R) / mag; g.touch.by = e.clientY - (dy * JOY_R) / mag; }
+  };
+  const onPointerUp = () => {
+    const g = gRef.current; if (!g) return;
+    g.touch.active = false; g.touch.tvx = 0; g.touch.tvy = 0;
+  };
+
   /* ════════════════════════════════════════════════════════════
      INTERFAZ (overlays con glassmorphism / neón sobre el canvas)
      ════════════════════════════════════════════════════════════ */
@@ -1036,7 +1086,14 @@ export default function NeonRiftArena({ lang = "es", onClose }) {
         @keyframes nra-pop { 0%{transform:scale(.7);opacity:0} 100%{transform:scale(1);opacity:1} }
       `}</style>
 
-      <canvas ref={canvasRef} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", touchAction: "none" }} />
+      <canvas
+        ref={canvasRef}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block", touchAction: "none" }}
+      />
 
       {/* Botones flotantes siempre disponibles */}
       <div style={{ position: "fixed", top: 14, right: 14, zIndex: 6, display: "flex", gap: 8 }}>
@@ -1131,9 +1188,10 @@ export default function NeonRiftArena({ lang = "es", onClose }) {
 
             <div style={{ marginTop: 22, fontSize: 12, color: "#94a3c8", lineHeight: 1.8 }}>
               <div style={{ fontWeight: 900, color: "#cbd5f5", letterSpacing: ".1em", marginBottom: 4 }}>{t.controlsTitle.toUpperCase()}</div>
+              <div>{t.touchControls}</div>
               <div>{t.p1Controls}</div>
               {numPlayers === 2 && <div>{t.p2Controls}</div>}
-              <div style={{ color: "#67e8f9" }}>{t.autoaim}</div>
+              <div style={{ color: "#67e8f9", marginTop: 4 }}>{t.autoaim}</div>
             </div>
             <div style={{ marginTop: 16, color: "#a5b4fc", fontSize: 12, fontWeight: 800 }}>🏆 {t.best}: {best.toLocaleString()}</div>
           </div>
